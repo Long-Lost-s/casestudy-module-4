@@ -7,26 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/foods")
+@CrossOrigin(origins = "*")
 public class FoodController {
     @Autowired
     private FoodService foodService;
-
-    @GetMapping
-    public ResponseEntity<List<Food>> getAllFoods() {
-        List<Food> foods = foodService.getAll();
-        return ResponseEntity.ok(foods);
-    }
 
     @PostMapping
     public ResponseEntity<Food> createFood(@RequestBody Food food) {
         Food createdFood = foodService.create(food);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdFood);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Food>> getAllFoods() {
+        List<Food> foods = foodService.getAll();
+        return ResponseEntity.ok(foods);
     }
 
     @GetMapping("/{id}")

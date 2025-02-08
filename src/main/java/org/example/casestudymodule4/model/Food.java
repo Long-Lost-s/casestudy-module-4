@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-
 @Entity
 @Table(name = "foods")
 public class Food {
@@ -13,30 +12,67 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
     private String imageUrl;
+
+    @Column(nullable = false)
     private Time openTime;
+
+    @Column(nullable = false)
     private Time closeTime;
+
+    @Column(nullable = true)
     private String notes;
+
+    @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false)
     private BigDecimal discountPrice;
+
+    @Column(nullable = true)
     private Integer serviceFeeId;
+
+    @Column(nullable = false)
     private Integer preparationTime;
+
+    @Column(nullable = true)
     private String discountCode;
-    private Integer discountUsageCount;
-    private Integer views;
-    private Integer orderCount;
-    private Boolean featured;
-    private Boolean specialoffer; // Đảm bảo trường này được định nghĩa
-    private String description;
+
+    @Column(nullable = true)
+    private Integer discountUsageCount = 0;
+
+    @Column(nullable = true)
+    private Integer views = 0;
+
+    @Column(nullable = true)
+    private Integer orderCount = 0;
+
+    @Column(nullable = true)
+    private Boolean featured = false;
+
+    @Column(nullable = true)
+    private Boolean specialOffer = false;
+
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp updatedAt;
+
+    @Column(nullable = true)
     private String restaurantName;
+
+    @Column(nullable = true)
     private Long categoryId;
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -165,20 +201,12 @@ public class Food {
         this.featured = featured;
     }
 
-    public Boolean getSpecialoffer() {
-        return specialoffer;
+    public Boolean getSpecialOffer() {
+        return specialOffer;
     }
 
-    public void setSpecialoffer(Boolean specialoffer) {
-        this.specialoffer = specialoffer;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSpecialOffer(Boolean specialOffer) {
+        this.specialOffer = specialOffer;
     }
 
     public Timestamp getCreatedAt() {
@@ -213,6 +241,10 @@ public class Food {
         this.categoryId = categoryId;
     }
 }
+
+
+
+
 
 
 
