@@ -47,5 +47,13 @@ Response should be:
 ### 6. **Logout:**
 - POST: `http://localhost:8080/api/auth/signout`
 
+### 7. **Add tag:**
+- POST: `http://localhost:8080/tags`
+```json
+{
+    "name": "bun bo hue"
+}
+```
+
 
 
