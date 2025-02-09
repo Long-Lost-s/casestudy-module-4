@@ -34,8 +34,6 @@ import org.example.casestudymodule4.repository.UserRepository;
 import org.example.casestudymodule4.security.jwt.JwtUtils;
 import org.example.casestudymodule4.security.services.UserDetailsImpl;
 
-//for Angular Client (withCredentials)
-//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials="true")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
