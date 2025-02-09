@@ -20,14 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
   private final AuthEntryPointJwt unauthorizedHandler;
+  private final AuthTokenFilter authTokenFilter;
 
-  public WebSecurityConfig(AuthEntryPointJwt unauthorizedHandler) {
+  public WebSecurityConfig(AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter authTokenFilter) {
     this.unauthorizedHandler = unauthorizedHandler;
-  }
-
-  @Bean
-  public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
+    this.authTokenFilter = authTokenFilter;
   }
 
   @Bean
@@ -48,12 +45,12 @@ public class WebSecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/tags/**").permitAll() //user search tags
+                    .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
                     .anyRequest().authenticated()
             );
 
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

@@ -21,4 +21,6 @@ public class Tag {
 
     private int addCount = 0;
     private int viewCount = 0;
+
+
 }

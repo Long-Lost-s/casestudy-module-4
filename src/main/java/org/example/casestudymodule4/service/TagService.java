@@ -19,8 +19,17 @@ public class TagService {
         if (tagRepository.existsByName(name)) {
             throw new RuntimeException("Tag already exists");
         }
+
         Tag tag = new Tag();
         tag.setName(name);
+        tag.setSlug(generateSlug(name)); // ✅ Ensure slug is set
+        tag.setAddCount(0);
+        tag.setViewCount(0);
+
         return tagRepository.save(tag);
+    }
+
+    private String generateSlug(String name) {
+        return name.toLowerCase().replaceAll("\\s+", "-");  // Converts "Italian Food" → "italian-food"
     }
 }
