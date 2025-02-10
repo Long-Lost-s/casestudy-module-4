@@ -37,4 +37,10 @@ public class FoodController {
     public void deleteFood(@PathVariable Long id) {
         foodService.deleteFood(id);
     }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
+    public List<Food> searchFoodsByName(@RequestParam String name) {
+        return foodService.searchFoodsByName(name);
+    }
 }

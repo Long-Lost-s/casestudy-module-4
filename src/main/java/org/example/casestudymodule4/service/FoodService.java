@@ -52,4 +52,8 @@ public class FoodService {
     public void deleteFood(Long id) {
         foodRepository.deleteById(id);
     }
+
+    public List<Food> searchFoodsByName(String name) {
+        return foodRepository.findByNameContaining(name);
+    }
 }
