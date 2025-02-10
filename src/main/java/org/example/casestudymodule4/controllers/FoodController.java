@@ -31,4 +31,10 @@ public class FoodController {
     public Food updateFood(@PathVariable Long id, @RequestBody Food foodDetails) {
         return foodService.updateFood(id, foodDetails);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
+    public void deleteFood(@PathVariable Long id) {
+        foodService.deleteFood(id);
+    }
 }

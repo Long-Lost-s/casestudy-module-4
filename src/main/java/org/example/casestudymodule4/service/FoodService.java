@@ -48,4 +48,8 @@ public class FoodService {
             throw new RuntimeException("Food not found with id " + id);
         }
     }
+
+    public void deleteFood(Long id) {
+        foodRepository.deleteById(id);
+    }
 }
