@@ -1,4 +1,4 @@
-package org.example.casestudymodule4.service;
+package org.example.casestudymodule4.service.foodtagservice;
 
 import org.example.casestudymodule4.model.FoodTag;
 import org.example.casestudymodule4.model.Tag;

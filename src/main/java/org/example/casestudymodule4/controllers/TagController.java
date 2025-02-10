@@ -1,8 +1,8 @@
 package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Tag;
-import org.example.casestudymodule4.service.TagService;
-import org.example.casestudymodule4.service.FoodTagService;
+import org.example.casestudymodule4.service.tagservice.TagService;
+import org.example.casestudymodule4.service.foodtagservice.FoodTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
