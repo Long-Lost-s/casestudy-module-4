@@ -1,10 +1,13 @@
 package org.example.casestudymodule4.service;
 
 import org.example.casestudymodule4.model.Food;
+import org.example.casestudymodule4.model.ServiceFee;
+import org.example.casestudymodule4.payload.request.FoodPriceUpdateRequest;
 import org.example.casestudymodule4.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +58,20 @@ public class FoodService {
 
     public List<Food> searchFoodsByName(String name) {
         return foodRepository.findByNameContaining(name);
+    }
+
+    public Food updateFoodPrices(Long id, FoodPriceUpdateRequest priceUpdateRequest) {
+        Optional<Food> optionalFood = foodRepository.findById(id);
+        if (optionalFood.isPresent()) {
+            Food food = optionalFood.get();
+            food.setDiscountPrice(BigDecimal.valueOf(priceUpdateRequest.getDiscountPrice()));
+            food.setPrice(BigDecimal.valueOf(priceUpdateRequest.getOriginalPrice()));
+            food.setServiceFee(new ServiceFee());
+            food.getServiceFee().setAmount(BigDecimal.valueOf(priceUpdateRequest.getServiceFee()));
+            food.setServiceFeeExplanation(priceUpdateRequest.getServiceFeeExplanation());
+            return foodRepository.save(food);
+        } else {
+            throw new RuntimeException("Food not found with id " + id);
+        }
     }
 }

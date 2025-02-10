@@ -44,6 +44,8 @@ public class Food {
     @JoinColumn(name = "service_fee_id")
     private ServiceFee serviceFee;
 
+    private String serviceFeeExplanation;
+
     @Column(nullable = false)
     private int preparationTime;
 
@@ -65,6 +67,8 @@ public class Food {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    // Getters and setters...
 
     public Long getId() {
         return id;
@@ -144,6 +148,14 @@ public class Food {
 
     public void setServiceFee(ServiceFee serviceFee) {
         this.serviceFee = serviceFee;
+    }
+
+    public String getServiceFeeExplanation() {
+        return serviceFeeExplanation;
+    }
+
+    public void setServiceFeeExplanation(String serviceFeeExplanation) {
+        this.serviceFeeExplanation = serviceFeeExplanation;
     }
 
     public int getPreparationTime() {

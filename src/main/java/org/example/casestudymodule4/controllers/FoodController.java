@@ -1,6 +1,7 @@
 package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Food;
+import org.example.casestudymodule4.payload.request.FoodPriceUpdateRequest;
 import org.example.casestudymodule4.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,5 +43,11 @@ public class FoodController {
     @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
     public List<Food> searchFoodsByName(@RequestParam String name) {
         return foodService.searchFoodsByName(name);
+    }
+
+    @PutMapping("/{id}/prices")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
+    public Food updateFoodPrices(@PathVariable Long id, @RequestBody FoodPriceUpdateRequest priceUpdateRequest) {
+        return foodService.updateFoodPrices(id, priceUpdateRequest);
     }
 }
