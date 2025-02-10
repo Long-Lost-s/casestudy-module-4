@@ -25,4 +25,10 @@ public class FoodController {
     public Food createFood(@RequestBody Food food) {
         return foodService.saveFood(food);
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
+    public Food updateFood(@PathVariable Long id, @RequestBody Food foodDetails) {
+        return foodService.updateFood(id, foodDetails);
+    }
 }
