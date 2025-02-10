@@ -35,7 +35,11 @@ public class JwtUtils {
   @Value("${sean.app.jwtCookieName}")
   private String jwtCookie;
 
-  private static final Set<String> invalidatedTokens = new HashSet<>(); // Token Blacklist
+  private static final Set<String> invalidatedTokens = new HashSet<>(); // ✅ In-Memory Blacklist
+
+  // ✅ (Optional) Database-Based Blacklist (Commented for Future Use)
+  // @Autowired
+  // private BlacklistedTokenRepository blacklistedTokenRepository;
 
   public String getJwtFromCookies(HttpServletRequest request) {
     Cookie cookie = WebUtils.getCookie(request, jwtCookie);
@@ -72,6 +76,13 @@ public class JwtUtils {
       logger.error("JWT token has been invalidated.");
       return false;
     }
+
+    // ✅ (Optional) Check Database for Blacklisted Tokens
+    // if (blacklistedTokenRepository.existsByToken(authToken)) {
+    //    logger.error("JWT token is blacklisted (Database).");
+    //    return false;
+    // }
+
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
       return true;
@@ -82,7 +93,11 @@ public class JwtUtils {
   }
 
   public void invalidateToken(String token) {
-    invalidatedTokens.add(token); //  Add token to blacklist on logout
+    invalidatedTokens.add(token); // ✅ In-Memory Blacklist
+
+    // ✅ (Optional) Save to Database
+    // BlacklistedToken blacklistedToken = new BlacklistedToken(token, new Date());
+    // blacklistedTokenRepository.save(blacklistedToken);
   }
 
   public String generateTokenFromUser(UserDetailsImpl userPrincipal) {
