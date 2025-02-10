@@ -41,10 +41,18 @@ public class WebSecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(request -> { // ✅ CORS FIX (Allows AJAX cookies)
+              org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+              config.setAllowCredentials(true);
+              config.addAllowedOriginPattern("*"); // Allow frontend requests (Replace with your frontend URL if needed)
+              config.addAllowedMethod("*");
+              config.addAllowedHeader("*");
+              return config;
+            }))
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                    .requestMatchers("/api/auth/**").permitAll() // ✅ Ensures login/signup are accessible
                     .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
                     .requestMatchers("/api/categories/**").hasAnyRole("ADMIN", "SELLER")
