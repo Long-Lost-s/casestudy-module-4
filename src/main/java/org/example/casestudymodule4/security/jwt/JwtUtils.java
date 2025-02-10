@@ -2,6 +2,8 @@ package org.example.casestudymodule4.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,31 +35,27 @@ public class JwtUtils {
   @Value("${sean.app.jwtCookieName}")
   private String jwtCookie;
 
+  private static final Set<String> invalidatedTokens = new HashSet<>(); // Token Blacklist
+
   public String getJwtFromCookies(HttpServletRequest request) {
     Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-    if (cookie != null) {
-      return cookie.getValue();
-    } else {
-      return null;
-    }
+    return (cookie != null) ? cookie.getValue() : null;
   }
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUser(userPrincipal);
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
+    return ResponseCookie.from(jwtCookie, jwt)
             .path("/api")
-            .maxAge(jwtExpirationMs / 1000) // ✅ Convert milliseconds to seconds
+            .maxAge(jwtExpirationMs / 1000)
             .httpOnly(true)
             .build();
-    return cookie;
   }
 
   public ResponseCookie getCleanJwtCookie() {
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null)
+    return ResponseCookie.from(jwtCookie, null)
             .path("/api")
-            .maxAge(0) // ✅ Immediately expire cookie
+            .maxAge(0)
             .build();
-    return cookie;
   }
 
   public String getUserNameFromJwtToken(String token) {
@@ -70,20 +68,21 @@ public class JwtUtils {
   }
 
   public boolean validateJwtToken(String authToken) {
+    if (invalidatedTokens.contains(authToken)) {
+      logger.error("JWT token has been invalidated.");
+      return false;
+    }
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
       return true;
-    } catch (MalformedJwtException e) {
+    } catch (JwtException e) {
       logger.error("Invalid JWT token: {}", e.getMessage());
-    } catch (ExpiredJwtException e) {
-      logger.error("JWT token is expired: {}", e.getMessage());
-    } catch (UnsupportedJwtException e) {
-      logger.error("JWT token is unsupported: {}", e.getMessage());
-    } catch (IllegalArgumentException e) {
-      logger.error("JWT claims string is empty: {}", e.getMessage());
     }
-
     return false;
+  }
+
+  public void invalidateToken(String token) {
+    invalidatedTokens.add(token); //  Add token to blacklist on logout
   }
 
   public String generateTokenFromUser(UserDetailsImpl userPrincipal) {
@@ -93,7 +92,7 @@ public class JwtUtils {
 
     return Jwts.builder()
             .setSubject(userPrincipal.getUsername())
-            .claim("roles", roles) // Ensure roles are included in JWT
+            .claim("roles", roles)
             .setIssuedAt(new Date())
             .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
             .signWith(key(), SignatureAlgorithm.HS256)

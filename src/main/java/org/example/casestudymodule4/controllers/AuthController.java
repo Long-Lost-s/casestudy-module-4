@@ -1,13 +1,9 @@
 package org.example.casestudymodule4.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import jakarta.validation.Valid;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -31,7 +27,12 @@ import org.example.casestudymodule4.repository.UserRepository;
 import org.example.casestudymodule4.security.jwt.JwtUtils;
 import org.example.casestudymodule4.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 604800)
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -82,7 +83,6 @@ public class AuthController {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
     }
 
-    // Create new user's account
     User user = new User(signUpRequest.getUsername(),
             signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()));
@@ -122,9 +122,15 @@ public class AuthController {
   }
 
   @PostMapping("/signout")
-  public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+  public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+    String jwt = jwtUtils.getJwtFromCookies(request);
+    if (jwt != null) {
+      jwtUtils.invalidateToken(jwt); //token to blacklist
+    }
+
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
     response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
     return ResponseEntity.ok(new MessageResponse("You've been signed out!"));
   }
 }
