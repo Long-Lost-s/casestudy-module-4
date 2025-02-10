@@ -18,7 +18,7 @@
 <div id="login-section">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Username">
-    <input type="" id="password" placeholder="Password">
+    <input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
 </div>
 
@@ -26,7 +26,7 @@
 <div id="user-section" style="display: none;">
     <h2>Welcome, <span id="user-name"></span>!</h2>
     <p>Your Role: <span id="user-role"></span></p>
-    <button id="logout-btn" onclick="logout()">Logout</button>
+    <button id="logout-btn" onclick="logout()" style="display: block;">Logout</button>
 </div>
 
 <script>
@@ -50,15 +50,16 @@
                 $("#user-role").text(response.roles.join(", "));
                 $("#login-section").hide();
                 $("#user-section").show();
+                $("#logout-btn").show(); // Ensure logout button is visible
             },
             error: function(xhr) {
                 console.log("Login failed:", xhr.responseJSON);
                 alert("Invalid username or password.");
             }
         });
+    }
 
-
-        // 🔹 Function: AJAX Logout
+    // 🔹 Function: AJAX Logout
     function logout() {
         $.ajax({
             url: "http://localhost:8080/api/auth/signout",
@@ -68,14 +69,13 @@
                 alert("You've been logged out.");
                 $("#user-section").hide();
                 $("#login-section").show();
+                $("#logout-btn").hide(); // Hide logout button on logout
             },
             error: function() {
                 alert("Logout failed.");
             }
         });
     }
-    }
-
 </script>
 
 </body>
