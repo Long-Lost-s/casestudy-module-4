@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
+                    .requestMatchers("/api/categories/**").hasAnyRole("ADMIN", "SELLER")
                     .anyRequest().authenticated()
             );
 

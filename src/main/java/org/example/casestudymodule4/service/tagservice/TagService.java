@@ -1,4 +1,4 @@
-package org.example.casestudymodule4.service;
+package org.example.casestudymodule4.service.tagservice;
 
 import org.example.casestudymodule4.model.Tag;
 import org.example.casestudymodule4.repository.TagRepository;
