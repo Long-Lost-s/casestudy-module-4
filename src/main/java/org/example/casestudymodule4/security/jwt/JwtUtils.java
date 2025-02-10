@@ -44,12 +44,19 @@ public class JwtUtils {
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUser(userPrincipal);
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
+    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
+            .path("/api")
+            .maxAge(jwtExpirationMs / 1000) // ✅ Convert milliseconds to seconds
+            .httpOnly(true)
+            .build();
     return cookie;
   }
 
   public ResponseCookie getCleanJwtCookie() {
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
+    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null)
+            .path("/api")
+            .maxAge(0) // ✅ Immediately expire cookie
+            .build();
     return cookie;
   }
 
