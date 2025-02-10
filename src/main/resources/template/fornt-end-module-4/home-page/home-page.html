@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .category-img {
+      height: 150px;
+      object-fit: cover;
+    }
+    .food-img {
+      height: 200px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+<header class="bg-light py-3">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <h1 class="mb-0">Ứng dụng bán hàng</h1>
+      </div>
+      <div class="col-md-8">
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-end">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="home-page.html">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../sign-in/sign-in.html">Đăng nhập</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../sign-up/sign-up.html">Đăng ký</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="py-4">
+  <div class="container">
+    <h2>Danh mục món ăn</h2>
+    <div class="row" id="category-list">
+    </div>
+
+    <h2>Món ăn nổi bật</h2>
+    <div class="row" id="food-list">
+    </div>
+  </div>
+</main>
+
+<footer class="bg-dark text-light py-3">
+  <div class="container">
+    <p class="mb-0 text-center">&copy; 2023 Ứng dụng bán hàng</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="home-page.js">
+</script>
+</body>
+</html>
