@@ -74,4 +74,8 @@ public class FoodService {
             throw new RuntimeException("Food not found with id " + id);
         }
     }
+
+    public Food getFoodById(Long id) {
+        return foodRepository.findById(id).orElseThrow(() -> new RuntimeException("Food not found with id " + id));
+    }
 }

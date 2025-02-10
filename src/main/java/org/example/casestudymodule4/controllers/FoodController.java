@@ -21,6 +21,12 @@ public class FoodController {
         return foodService.getAllFoods();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
+    public Food getFoodById(@PathVariable Long id) {
+        return foodService.getFoodById(id);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
     public Food createFood(@RequestBody Food food) {
