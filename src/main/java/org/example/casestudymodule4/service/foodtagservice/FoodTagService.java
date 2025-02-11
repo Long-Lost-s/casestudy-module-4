@@ -25,4 +25,5 @@ public class FoodTagService {
         Optional<Tag> tag = tagRepository.findByName(tagName);
         return tag.map(foodTagRepository::findByTag).orElse(List.of());
     }
+
 }

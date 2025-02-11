@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        /* ✅ CSS được nhúng - tương tự sign-up.html để đảm bảo giao diện đồng nhất */
+        body {
+            font-family: sans-serif;
+            background-color: #f8f9fa; /* Màu nền trắng nhạt */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 350px;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff; /* Màu xanh cho tiêu đề */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] { /* Thêm kiểu cho input type email */
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ced4da; /* Màu xám nhạt cho viền input */
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff; /* Màu xanh cho nút */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        }
+
+
+        .no-account { /* CSS cho phần "Chưa có tài khoản?" */
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .no-account a {
+            color: #007bff; /* Màu xanh cho link */
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Sign In</h2>
+    <form id="signin-form" action="#" method="post">
+        <input type="text" id="username" name="username" placeholder="Username or Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+
+        <button type="submit">Sign In</button>
+    </form>
+    <div class="no-account">  Don't have an account? <a href="../sign-up/sign-up.html">Sign up</a>
+    </div>
+</div>
+
+<script src="signin.js"></script>
+</body>
+</html>

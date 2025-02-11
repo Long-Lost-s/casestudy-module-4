@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        /* ✅ CSS được nhúng -  tương tự sign-in.html để đảm bảo giao diện đồng nhất */
+        body {
+            font-family: sans-serif;
+            background-color: #f8f9fa; /* Màu nền trắng nhạt */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 350px;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff; /* Màu xanh cho tiêu đề */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] { /* Thêm kiểu cho input type email */
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ced4da; /* Màu xám nhạt cho viền input */
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff; /* Màu xanh cho nút */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        }
+
+        .roles-group {
+            margin-bottom: 15px;
+        }
+
+        .roles-group label {
+            margin-right: 15px;
+            color: #6c757d; /* Màu xám cho text vai trò */
+        }
+
+        .roles-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .already-account {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .already-account a {
+            color: #007bff; /* Màu xanh cho link */
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Sign Up</h2>
+    <form id="signup-form" action="#" method="post">
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <input type="email" id="email" name="email" placeholder="Email Address" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+
+        <div class="roles-group">
+            <label for="roleUser">
+                <input type="checkbox" id="roleUser" name="role" value="ROLE_USER"> Người dùng
+            </label>
+            <label for="roleSeller">
+                <input type="checkbox" id="roleSeller" name="role" value="ROLE_SELLER"> Người bán
+            </label>
+        </div>
+
+        <button type="submit">Sign Up</button>
+    </form>
+    <div class="already-account">
+        Already have an account? <a href="../sign-in/sign-in.html">Sign in</a>
+    </div>
+</div>
+
+<script src="signup.js"></script>
+</body>
+</html>
