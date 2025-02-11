@@ -18,6 +18,22 @@ $(document).ready(function() {
                         var promo = $('<div class="offer-item-promo">').text(promoText);
                         var name = $('<div class="offer-item-name">').text(food.name); // ✅ Sử dụng food.name
 
+                        // ✅ Thêm phần hiển thị giá
+                        var priceContainer = $('<div class="offer-item-price">');
+                        var originalPrice = $('<span class="offer-item-original-price">');
+                        var discountPrice = $('<span class="offer-item-discount-price">');
+
+                        // Kiểm tra xem có giá khuyến mãi hay không
+                        if (food.discountPrice && food.discountPrice < food.price) {
+                            originalPrice.text(formatCurrency(food.price)); // Hiển thị giá gốc và gạch ngang
+                            originalPrice.css('text-decoration', 'line-through'); // Gạch ngang giá gốc
+                            discountPrice.text(formatCurrency(food.discountPrice)); // Hiển thị giá khuyến mãi
+                            priceContainer.append(discountPrice, originalPrice); // Giá khuyến mãi trước, giá gốc sau
+                        } else {
+                            discountPrice.text(formatCurrency(food.price)); // Chỉ hiển thị giá gốc nếu không có khuyến mãi
+                            priceContainer.append(discountPrice);
+                        }
+
                         content.append(promo, name);
                         offerItem.append(image, content);
                         offersList.append(offerItem);
@@ -32,5 +48,10 @@ $(document).ready(function() {
             $('.offers-list').html('<div class="offer-item">Lỗi tải ưu đãi. Vui lòng thử lại sau.</div>'); // Hiển thị lỗi nếu request thất bại
             console.error('Lỗi khi tải ưu đãi:', error);
         }
+
     });
+    // ✅ Hàm format tiền tệ (ví dụ: Việt Nam Đồng - VND)
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
 });
