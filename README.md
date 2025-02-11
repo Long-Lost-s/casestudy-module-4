@@ -11,6 +11,7 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
 Use Postman or whatever you like to test the API.
 ### 2. **Register a new account:**
+- POST : `http://localhost:8080/api/auth/signup`
 ```json
 {
     "username": "seller123",

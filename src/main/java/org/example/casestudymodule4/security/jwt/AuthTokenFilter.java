@@ -30,23 +30,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     try {
       String jwt = parseJwt(request);
-      System.out.println("JWT extracted from request: " + jwt);  // ✅ Debug Log
+      System.out.println("JWT extracted from request: " + jwt);
 
       if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
-        System.out.println("Extracted Username: " + username);  // ✅ Debug Log
+        System.out.println("Extracted Username: " + username);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        System.out.println("Loaded User Details: " + userDetails.getUsername() + " | Roles: " + userDetails.getAuthorities());  // ✅ Debug Log
+        System.out.println("Loaded User Details: " + userDetails.getUsername() + " | Roles: " + userDetails.getAuthorities());
 
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("Authentication Set in SecurityContext!");  // ✅ Debug Log
+        System.out.println("Authentication Set in SecurityContext!");
       } else {
-        System.out.println("JWT Validation Failed!");  // ✅ Debug Log
+        System.out.println("JWT Validation Failed!");
       }
     } catch (Exception e) {
       System.err.println("Error in authentication: " + e.getMessage());
@@ -58,14 +58,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
 
-    System.out.println("Headers in Request: " + request.getHeaderNames());  // ✅ Debugging
-    System.out.println("Authorization Header: " + headerAuth);  // ✅ Debugging
+    System.out.println("Headers in Request: " + request.getHeaderNames());
+    System.out.println("Authorization Header: " + headerAuth);
 
     if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
       return headerAuth.substring(7);
     }
 
-    System.out.println("No Bearer Token Found!");  // ✅ Debugging
+    System.out.println("No Bearer Token Found!");
     return null;
   }
 }

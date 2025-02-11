@@ -2,6 +2,8 @@ package org.example.casestudymodule4.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,24 +35,31 @@ public class JwtUtils {
   @Value("${sean.app.jwtCookieName}")
   private String jwtCookie;
 
+  private static final Set<String> invalidatedTokens = new HashSet<>(); // ✅ In-Memory Blacklist
+
+  // ✅ (Optional) Database-Based Blacklist (Commented for Future Use)
+  // @Autowired
+  // private BlacklistedTokenRepository blacklistedTokenRepository;
+
   public String getJwtFromCookies(HttpServletRequest request) {
     Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-    if (cookie != null) {
-      return cookie.getValue();
-    } else {
-      return null;
-    }
+    return (cookie != null) ? cookie.getValue() : null;
   }
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUser(userPrincipal);
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
-    return cookie;
+    return ResponseCookie.from(jwtCookie, jwt)
+            .path("/api")
+            .maxAge(jwtExpirationMs / 1000)
+            .httpOnly(true)
+            .build();
   }
 
   public ResponseCookie getCleanJwtCookie() {
-    ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
-    return cookie;
+    return ResponseCookie.from(jwtCookie, null)
+            .path("/api")
+            .maxAge(0)
+            .build();
   }
 
   public String getUserNameFromJwtToken(String token) {
@@ -63,20 +72,32 @@ public class JwtUtils {
   }
 
   public boolean validateJwtToken(String authToken) {
+    if (invalidatedTokens.contains(authToken)) {
+      logger.error("JWT token has been invalidated.");
+      return false;
+    }
+
+    // ✅ (Optional) Check Database for Blacklisted Tokens
+    // if (blacklistedTokenRepository.existsByToken(authToken)) {
+    //    logger.error("JWT token is blacklisted (Database).");
+    //    return false;
+    // }
+
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
       return true;
-    } catch (MalformedJwtException e) {
+    } catch (JwtException e) {
       logger.error("Invalid JWT token: {}", e.getMessage());
-    } catch (ExpiredJwtException e) {
-      logger.error("JWT token is expired: {}", e.getMessage());
-    } catch (UnsupportedJwtException e) {
-      logger.error("JWT token is unsupported: {}", e.getMessage());
-    } catch (IllegalArgumentException e) {
-      logger.error("JWT claims string is empty: {}", e.getMessage());
     }
-
     return false;
+  }
+
+  public void invalidateToken(String token) {
+    invalidatedTokens.add(token); // ✅ In-Memory Blacklist
+
+    // ✅ (Optional) Save to Database
+    // BlacklistedToken blacklistedToken = new BlacklistedToken(token, new Date());
+    // blacklistedTokenRepository.save(blacklistedToken);
   }
 
   public String generateTokenFromUser(UserDetailsImpl userPrincipal) {
@@ -86,7 +107,7 @@ public class JwtUtils {
 
     return Jwts.builder()
             .setSubject(userPrincipal.getUsername())
-            .claim("roles", roles) // Ensure roles are included in JWT
+            .claim("roles", roles)
             .setIssuedAt(new Date())
             .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
             .signWith(key(), SignatureAlgorithm.HS256)
