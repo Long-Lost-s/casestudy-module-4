@@ -8,7 +8,6 @@
     <!-- ✅ Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-100">
 
@@ -30,65 +29,35 @@
         Login
     </button>
 
-    <!-- Register Button (Shown if no user is logged in) -->
     <p class="text-center text-sm text-gray-500 mt-4">
-        Don't have an account? <a href="register.html" id="register-btn" class="text-green-500 hover:underline">Register here</a>
+        Don't have an account? <a href="register.html" class="text-green-500 hover:underline">Register here</a>
     </p>
 </div>
 
-<!-- User Section (Hidden by default) -->
-<div id="user-section" class="bg-white p-8 rounded-lg shadow-md w-96 hidden">
-    <h2 class="text-2xl font-bold text-center text-gray-700">Welcome, <span id="user-name"></span>!</h2>
-    <p class="text-center text-gray-600">Your Role: <span id="user-role" class="font-bold text-blue-500"></span></p>
-
-    <button id="logout-btn" onclick="logout()" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition duration-300">
-        Logout
-    </button>
-</div>
-
 <script>
-    function login() {
-        $.ajax({
-            url: "http://localhost:8080/api/auth/signin",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                username: $("#username").val().trim(),
-                password: $("#password").val().trim()
-            }),
-            xhrFields: { withCredentials: true },
-            success: function(response) {
-                console.log("Login successful:", response);
-                $("#user-name").text(response.username);
-                $("#user-role").text(response.roles.join(", "));
+    async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-                $("#login-section").addClass("hidden");
-                $("#user-section").removeClass("hidden");
-            },
-            error: function(xhr) {
-                console.log("Login failed:", xhr.responseJSON);
-                alert("Invalid username or password.");
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/signin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!response.ok) {
+                throw new Error("Login failed. Please check your credentials.");
             }
-        });
-    }
 
-    function logout() {
-        $.ajax({
-            url: "http://localhost:8080/api/auth/signout",
-            type: "POST",
-            xhrFields: { withCredentials: true },
-            success: function() {
-                alert("You've been logged out.");
-
-                $("#user-section").addClass("hidden");
-                $("#login-section").removeClass("hidden");
-            },
-            error: function() {
-                alert("Logout failed.");
-            }
-        });
+            const data = await response.json();
+            console.log("Received Token:", data.token); // Debug token
+            localStorage.setItem("authToken", data.token);
+            window.location.href = "category.html";
+        } catch (error) {
+            alert(error.message);
+        }
     }
 </script>
-
 </body>
 </html>
