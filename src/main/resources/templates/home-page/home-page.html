@@ -165,6 +165,21 @@
             text-overflow: ellipsis; /* Hiển thị dấu "..." nếu chữ quá dài */
             white-space: nowrap; /* Không xuống dòng */
         }
+        .offer-item-price {
+            margin-top: 5px; /* Khoảng cách từ tên sản phẩm tới giá */
+            text-align: left; /* Giá căn trái */
+        }
+
+        .offer-item-discount-price {
+            color: #dc3545; /* Màu đỏ cho giá khuyến mãi */
+            font-weight: bold;
+            margin-right: 5px; /* Khoảng cách giữa giá khuyến mãi và giá gốc */
+        }
+
+        .offer-item-original-price {
+            color: #777; /* Màu xám nhạt cho giá gốc */
+            font-size: 0.9em; /* Giá gốc nhỏ hơn một chút */
+        }
     </style>
 </head>
 <body>
@@ -187,7 +202,7 @@
 </div>
 
 <div class="offers-section">
-    <h2 class="offers-title">Ưu đãi SFFOOD tại Hà nội</h2>
+    <h2 class="offers-title">Món ăn ở gần bạn</h2>
     <div class="offers-list">
         <div class="offer-item">
             Loading offers...
