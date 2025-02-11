@@ -37,7 +37,7 @@ function login(event) {
             localStorage.setItem("token", response.accessToken);
 
             // Chuyển hướng người dùng đến trang chủ hoặc trang sản phẩm sau khi đăng nhập thành công
-            window.location.href = "../home-page/home-page.html"; // ➡️ Thay đổi đường dẫn trang đích nếu cần
+            window.location.href = "../home-page/home-page-user.html"; // ➡️ Thay đổi đường dẫn trang đích nếu cần
 
         },
         error: function (xhr, status, error) {
