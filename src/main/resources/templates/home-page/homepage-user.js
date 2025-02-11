@@ -1,5 +1,16 @@
 // ✅ File JavaScript tách rời cho trang chủ người dùng đã đăng nhập (homepage-user.js)
 $(document).ready(function() {
+    // ✅ Lấy tên người dùng từ localStorage (hoặc nguồn lưu trữ tên người dùng của bạn)
+    var userName = localStorage.getItem('userName'); // Giả sử bạn lưu tên vào 'userName' trong localStorage
+    if (userName) {
+        // ✅ Hiển thị lời chào có tên người dùng
+        $(".hero-greeting").text("Chào  " + userName); // Ví dụ: "Chào buổi sáng, [Tên người dùng]"
+    } else {
+        // ✅ Nếu không tìm thấy tên người dùng, hiển thị lời chào mặc định
+        $(".hero-greeting").text("Hôm nay ăn gì"); // Hoặc lời chào mặc định khác
+        console.warn("Không tìm thấy tên người dùng trong localStorage."); // Log cảnh báo nếu không có tên
+    }
+
     $("#logout-button").click(function() { // ✅ Xử lý sự kiện click cho nút Đăng xuất
         // Gọi API logout (hoặc thực hiện các hành động logout khác của bạn)
         // Sau khi logout thành công, có thể redirect về trang chủ hoặc trang đăng nhập

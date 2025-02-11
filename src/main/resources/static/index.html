@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with AJAX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #logout-btn { display: none; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>Food Ordering System</h1>
+
+<!-- Login Form -->
+<div id="login-section">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- Welcome Message & Logout -->
+<div id="user-section" style="display: none;">
+    <h2>Welcome, <span id="user-name"></span>!</h2>
+    <p>Your Role: <span id="user-role"></span></p>
+    <button id="logout-btn" onclick="logout()" style="display: block;">Logout</button>
+</div>
+
+<script>
+    // 🔹 Function: AJAX Login
+    function login() {
+        let username = $("#username").val();
+        let password = $("#password").val();
+
+        $.ajax({
+            url: "http://localhost:8080/api/auth/signin",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: $("#username").val().trim(),
+                password: $("#password").val().trim()
+            }),
+            xhrFields: { withCredentials: true }, // ✅ Ensure cookies are sent
+            success: function(response) {
+                console.log("Login successful:", response);
+                $("#user-name").text(response.username);
+                $("#user-role").text(response.roles.join(", "));
+                $("#login-section").hide();
+                $("#user-section").show();
+                $("#logout-btn").show(); // Ensure logout button is visible
+            },
+            error: function(xhr) {
+                console.log("Login failed:", xhr.responseJSON);
+                alert("Invalid username or password.");
+            }
+        });
+    }
+
+    // 🔹 Function: AJAX Logout
+    function logout() {
+        $.ajax({
+            url: "http://localhost:8080/api/auth/signout",
+            type: "POST",
+            xhrFields: { withCredentials: true }, // ✅ Allow cookies (JWT)
+            success: function() {
+                alert("You've been logged out.");
+                $("#user-section").hide();
+                $("#login-section").show();
+                $("#logout-btn").hide(); // Hide logout button on logout
+            },
+            error: function() {
+                alert("Logout failed.");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

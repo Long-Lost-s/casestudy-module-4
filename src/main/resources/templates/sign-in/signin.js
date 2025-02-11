@@ -35,6 +35,7 @@ function login(event) {
 
             // Lưu token vào localStorage để sử dụng cho các request sau (ví dụ: xác thực)
             localStorage.setItem("token", response.accessToken);
+            localStorage.setItem('userName', response.username); // Lưu tên người dùng vào localStorage
 
             // Chuyển hướng người dùng đến trang chủ hoặc trang sản phẩm sau khi đăng nhập thành công
             window.location.href = "../home-page/home-page-user.html"; // ➡️ Thay đổi đường dẫn trang đích nếu cần
