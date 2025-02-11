@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrabFood Home</title>
+    <title>SFFOOD Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         /* ✅ CSS cơ bản cho trang chủ - bạn có thể tùy chỉnh thêm trong file này hoặc tách ra file CSS riêng */
         body {
@@ -39,6 +40,7 @@
             cursor: pointer;
             text-decoration: none; /* Loại bỏ gạch chân mặc định của link */
         }
+
         .header-auth button:hover, .header-auth a:hover {
             background-color: #e0e0e0; /* Màu xám nhạt khi hover */
         }
@@ -171,15 +173,15 @@
     <div class="header-logo">SFFOOD</div>
     <div class="header-auth">
         <a href="../sign-in/sign-in.html">Đăng nhập</a>
-        <a href="../sign-up/sign-up.html">Đăng ký</a>  </div>
+        <a href="../sign-up/sign-up.html">Đăng ký</a>
+    </div>
 </div>
 
 <div class="hero-section">
     <div class="hero-content">
         <h1 class="hero-greeting">Chào mừng bạn đến với SFFOOD</h1>
         <p class="hero-question">Bạn muốn tìm địa điểm quán ăn ? </p>
-        <input type="text" class="hero-search-input" placeholder="Login to search location">
-<!--        <button class="hero-search-button">Tìm kiếm</button>-->
+        <input type="text" class="hero-search-input" placeholder="Nhập địa điểm muốn tìm">
         <a class="hero-search-button" href="../sign-in/sign-in.html">Tìm kiếm</a>
     </div>
 </div>
@@ -188,31 +190,11 @@
     <h2 class="offers-title">Ưu đãi SFFOOD tại Hà nội</h2>
     <div class="offers-list">
         <div class="offer-item">
-            <img src="path-to-veggie-food-image.jpg" alt="Chọn ăn chay">  <div class="offer-item-content">
-            <div class="offer-item-promo">Promo</div>
-            <div class="offer-item-name">CHON AN LANH</div>
-        </div>
-        </div>
-        <div class="offer-item">
-            <img src="path-to-food-image2.jpg" alt="Ưu đãi 2">  <div class="offer-item-content">
-            <div class="offer-item-promo">Promo</div>
-            <div class="offer-item-name">Tên ưu đãi 2</div>
-        </div>
-        </div>
-        <div class="offer-item">
-            <img src="path-to-food-image3.jpg" alt="Ưu đãi 3">  <div class="offer-item-content">
-            <div class="offer-item-promo">Khuyến mãi</div>
-            <div class="offer-item-name">Tên ưu đãi 3</div>
-        </div>
-        </div>
-        <div class="offer-item">
-            <img src="path-to-food-image4.jpg" alt="Ưu đãi 4">  <div class="offer-item-content">
-            <div class="offer-item-promo">Giảm giá</div>
-            <div class="offer-item-name">Tên ưu đãi 4</div>
-        </div>
+            Loading offers...
         </div>
     </div>
 </div>
+<script src="homepage.js"></script>
 
 </body>
 </html>
