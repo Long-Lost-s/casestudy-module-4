@@ -22,7 +22,7 @@ public class FoodController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('**')")
     public Food getFoodById(@PathVariable Long id) {
         return foodService.getFoodById(id);
     }

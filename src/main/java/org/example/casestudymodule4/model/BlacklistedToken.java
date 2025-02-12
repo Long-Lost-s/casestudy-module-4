@@ -10,10 +10,10 @@ public class BlacklistedToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = true, length = 512)
     private String token;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date expiration;
 
     public BlacklistedToken() {}

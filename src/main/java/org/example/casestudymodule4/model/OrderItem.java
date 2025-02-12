@@ -21,9 +21,9 @@ public class OrderItem {
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int quantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double price;
 }
