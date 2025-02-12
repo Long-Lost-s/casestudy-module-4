@@ -58,6 +58,71 @@ $(document).ready(function() {
 
     });
 
+    // --- PHẦN 2: HIỂN THỊ "MÓN ĂN ƯU ĐÃI (GIẢM GIÁ)" - SỬ DỤNG API "/api/foods" ---
+    $.ajax({
+        url: 'http://localhost:8080/api/foods', // ➡️ URL API "/api/foods" - **SỬ DỤNG LẠI API GỐC**
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response && response.length > 0) {
+                var offersCategoriesList = $('.offers-categories-list');
+                offersCategoriesList.empty();
+
+                // ✅ Lọc trực tiếp món ăn giảm giá từ response của API "/api/foods"
+                var discountedFoods = response.filter(function(food) {
+                    return food.discountPrice < food.price; // ✅ Điều kiện lọc: discountPrice < price
+                });
+
+                if (discountedFoods.length > 0) { // ✅ Chỉ hiển thị nếu có món ăn giảm giá
+                    $.each(discountedFoods, function(index, food) { // ✅ Duyệt qua danh sách món ăn giảm giá
+                        if (index < 7) { // Giới hạn số lượng món ăn hiển thị, ví dụ: 5
+                            var offerItem = $('<div class="offer-item offer-category-item">'); // Class cho item ưu đãi
+                            var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
+                            var content = $('<div class="offer-item-content">');
+                            var promoText = "Ưu đãi"; // Text promo cho mục này
+                            var promo = $('<div class="offer-item-promo">').text(promoText);
+                            var name = $('<div class="offer-item-name offer-category-name">').text(food.name); // Class cho tên món ưu đãi
+
+                            // ✅ Thêm phần hiển thị giá VÀ nút "Thêm vào giỏ hàng" (tái sử dụng code)
+                            var priceContainer = $('<div class="offer-item-price">');
+                            var originalPrice = $('<span class="offer-item-original-price">');
+                            var discountPrice = $('<span class="offer-item-discount-price">');
+                            var addToCartButton = $('<button class="offer-item-add-cart-button">').text("Thêm vào giỏ");
+                            addToCartButton.data('food-id', food.id); // Lưu data-food-id
+                            addToCartButton.data('food-name', food.name); // Lưu data-food-name
+                            addToCartButton.data('food-price', food.price); // Lưu data-food-price
+
+                            if (food.discountPrice && food.discountPrice < food.price) {
+                                originalPrice.text(formatCurrency(food.price));
+                                originalPrice.css('text-decoration', 'line-through');
+                                discountPrice.text(formatCurrency(food.discountPrice));
+                                priceContainer.append(discountPrice, originalPrice, addToCartButton);
+                            } else {
+                                discountPrice.text(formatCurrency(food.price));
+                                priceContainer.append(discountPrice, addToCartButton);
+                            }
+
+                            content.append(promo, name, priceContainer);
+                            offerItem.append(image, content);
+                            offersCategoriesList.append(offerItem);
+                        }
+                    });
+                } else {
+                    offersCategoriesList.html('<div class="offer-item">Không có món ăn ưu đãi nào.</div>');
+                    console.log('Không có món ăn ưu đãi nào.');
+                }
+
+            } else {
+                $('.offers-categories-list').html('<div class="offer-item">Không có món ăn ưu đãi nào.</div>');
+                console.log('Không có món ăn ưu đãi nào.');
+            }
+        },
+        error: function(xhr, status, error) {
+            $('.offers-categories-list').html('<div class="offer-item">Lỗi tải món ăn ưu đãi. Vui lòng thử lại sau.</div>');
+            console.error('Lỗi khi tải món ăn ưu đãi:', error);
+        }
+    });
+
     // ✅ Khởi tạo giỏ hàng từ localStorage hoặc mảng rỗng nếu chưa có
     var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
 
