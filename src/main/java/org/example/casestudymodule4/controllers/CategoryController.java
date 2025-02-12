@@ -1,6 +1,7 @@
 package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Category;
+import org.example.casestudymodule4.model.Food;
 import org.example.casestudymodule4.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,12 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping("/{categoryId}/foods")
+    public ResponseEntity<List<Food>> getFoodsByCategoryId(@PathVariable Long categoryId) {
+        List<Food> foods = categoryService.getFoodsByCategoryId(categoryId);
+        return ResponseEntity.ok(foods);
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping

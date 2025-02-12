@@ -3,61 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Food Ordering</title>
-
-    <!-- ✅ Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login with AJAX</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #logout-btn { display: none; margin-top: 10px; }
+    </style>
 </head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
+<body>
 
-<!-- Login Section -->
-<div id="login-section" class="bg-white p-8 rounded-lg shadow-md w-96">
-    <h2 class="text-2xl font-bold text-center text-gray-700">Login</h2>
+<h1>Food Ordering System</h1>
 
-    <div class="mt-4">
-        <label class="block text-gray-600 text-sm">Username</label>
-        <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-    </div>
+<!-- Login Form -->
+<div id="login-section">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
 
-    <div class="mt-4">
-        <label class="block text-gray-600 text-sm">Password</label>
-        <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-    </div>
-
-    <button onclick="login()" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300">
-        Login
-    </button>
-
-    <p class="text-center text-sm text-gray-500 mt-4">
-        Don't have an account? <a href="register.html" class="text-green-500 hover:underline">Register here</a>
-    </p>
+<!-- Welcome Message & Logout -->
+<div id="user-section" style="display: none;">
+    <h2>Welcome, <span id="user-name"></span>!</h2>
+    <p>Your Role: <span id="user-role"></span></p>
+    <button id="logout-btn" onclick="logout()" style="display: block;">Logout</button>
 </div>
 
 <script>
-    async function login() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+    // 🔹 Function: AJAX Login
+    function login() {
+        let username = $("#username").val();
+        let password = $("#password").val();
 
-        try {
-            const response = await fetch("http://localhost:8080/api/auth/signin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
-
-            if (!response.ok) {
-                throw new Error("Login failed. Please check your credentials.");
+        $.ajax({
+            url: "http://localhost:8080/api/auth/signin",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: $("#username").val().trim(),
+                password: $("#password").val().trim()
+            }),
+            xhrFields: { withCredentials: true }, // ✅ Ensure cookies are sent
+            success: function(response) {
+                console.log("Login successful:", response);
+                $("#user-name").text(response.username);
+                $("#user-role").text(response.roles.join(", "));
+                $("#login-section").hide();
+                $("#user-section").show();
+                $("#logout-btn").show(); // Ensure logout button is visible
+            },
+            error: function(xhr) {
+                console.log("Login failed:", xhr.responseJSON);
+                alert("Invalid username or password.");
             }
+        });
+    }
 
-            const data = await response.json();
-            console.log("Received Token:", data.token); // Debug token
-            localStorage.setItem("authToken", data.token);
-            window.location.href = "category.html";
-        } catch (error) {
-            alert(error.message);
-        }
+    // 🔹 Function: AJAX Logout
+    function logout() {
+        $.ajax({
+            url: "http://localhost:8080/api/auth/signout",
+            type: "POST",
+            xhrFields: { withCredentials: true }, // ✅ Allow cookies (JWT)
+            success: function() {
+                alert("You've been logged out.");
+                $("#user-section").hide();
+                $("#login-section").show();
+                $("#logout-btn").hide(); // Hide logout button on logout
+            },
+            error: function() {
+                alert("Logout failed.");
+            }
+        });
     }
 </script>
+
 </body>
 </html>

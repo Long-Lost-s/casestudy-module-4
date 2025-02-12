@@ -19,48 +19,49 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final AuthEntryPointJwt unauthorizedHandler;
-    private final AuthTokenFilter authTokenFilter;
+  private final AuthEntryPointJwt unauthorizedHandler;
+  private final AuthTokenFilter authTokenFilter;
 
-    public WebSecurityConfig(AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter authTokenFilter) {
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.authTokenFilter = authTokenFilter;
-    }
+  public WebSecurityConfig(AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter authTokenFilter) {
+    this.unauthorizedHandler = unauthorizedHandler;
+    this.authTokenFilter = authTokenFilter;
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    return authConfig.getAuthenticationManager();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(request -> {
-                    org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
-                    config.setAllowCredentials(true);
-                    config.addAllowedOriginPattern("*");
-                    config.addAllowedMethod("*");
-                    config.addAllowedHeader("*");
-                    return config;
-                }))
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
-                        .requestMatchers("/api/categories/**").permitAll()
-                        .anyRequest().authenticated()
-                );
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(request -> { // ✅ CORS FIX (Allows AJAX cookies)
+              org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+              config.setAllowCredentials(true);
+              config.addAllowedOriginPattern("*"); // Allow frontend requests (Replace with your frontend URL if needed)
+              config.addAllowedMethod("*");
+              config.addAllowedHeader("*");
+              return config;
+            }))
+            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll() // ✅ Ensures login/signup are accessible
+                    .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
+                    .requestMatchers("/api/categories/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/foods").permitAll()
+                    .anyRequest().authenticated()
+            );
 
-        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Food Ordering</title>
+    <style>
+        body { background-color: #f3f4f6; }
+        #categories-section, #foods-section { background-color: #ffffff; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 24rem; margin-bottom: 1rem; }
+        h2 { font-size: 1.5rem; font-weight: bold; text-align: center; color: #4b5563; }
+        ul { margin-top: 1rem; color: #4b5563; }
+        li { cursor: pointer; margin-bottom: 0.5rem; }
+        .food-item { margin-left: 1rem; }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+<div id="categories-section">
+    <h2>Categories</h2>
+    <ul id="categories-list">
+        <!-- Categories will be loaded here -->
+    </ul>
+</div>
+<div id="foods-section" style="display: none;">
+    <h2>Foods</h2>
+    <ul id="foods-list">
+        <!-- Foods will be loaded here -->
+    </ul>
+</div>
+<!-- Include jQuery before your custom script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="category.js"></script>
+</body>
+</html>
