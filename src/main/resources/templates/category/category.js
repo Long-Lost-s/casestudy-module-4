@@ -2,13 +2,34 @@ $(document).ready(function() {
     loadCategories();
 });
 
-function loadCategories() {
-    const token = localStorage.getItem('authToken');
+function getToken() {
+    // Try to get the token from localStorage
+    let token = localStorage.getItem("jwtToken");
+
+    // If not found in localStorage, try to get it from cookies
     if (!token) {
-        alert("No token found. Please log in again.");
-        window.location.href = "/signin.html";
+        const cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+            const [name, value] = cookie.split("=");
+            if (name === "jwtToken") {
+                token = value;
+                break;
+            }
+        }
+    }
+
+    return token;
+}
+
+function loadCategories() {
+    const token = getToken();
+
+    if (!token) {
+        alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+        window.location.href = "../sign-in/sign-in.html";
         return;
     }
+
     $.ajax({
         url: "http://localhost:8080/api/categories",
         method: "GET",
@@ -19,25 +40,41 @@ function loadCategories() {
         success: function(categories) {
             const categoriesList = $("#categories-list");
             categoriesList.empty();
+
+            if (categories.length === 0) {
+                categoriesList.append("<li>Không có danh mục nào.</li>");
+                return;
+            }
+
             categories.forEach(category => {
-                let li = $("<li>").text(category.name).click(() => loadFoods(category.id));
+                let li = $("<li>")
+                    .text(category.name)
+                    .css({ "cursor": "pointer", "padding": "10px", "border-radius": "5px" })
+                    .hover(function() {
+                        $(this).css("background-color", "#e0e0e0");
+                    }, function() {
+                        $(this).css("background-color", "transparent");
+                    })
+                    .click(() => loadFoods(category.id));
+
                 categoriesList.append(li);
             });
         },
         error: function(xhr) {
-            if (xhr.status === 401) {
-                alert("Session expired. Please log in again.");
-                window.location.href = "/signin.html";
-            } else {
-                console.error("Error fetching categories:", xhr);
-                alert("An error occurred while loading categories. Check console for details.");
-            }
+            handleApiError(xhr);
         }
     });
 }
 
 function loadFoods(categoryId) {
-    const token = localStorage.getItem('authToken');
+    const token = getToken();
+
+    if (!token) {
+        alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+        window.location.href = "../sign-in/sign-in.html";
+        return;
+    }
+
     $.ajax({
         url: `http://localhost:8080/api/categories/${categoryId}/foods`,
         method: "GET",
@@ -48,15 +85,39 @@ function loadFoods(categoryId) {
         success: function(foods) {
             const foodsList = $("#foods-list");
             foodsList.empty();
+
+            if (foods.length === 0) {
+                foodsList.append("<li>Không có món ăn nào trong danh mục này.</li>");
+                return;
+            }
+
             foods.forEach(food => {
-                let li = $("<li>").text(food.name).addClass("food-item");
+                let li = $("<li>")
+                    .text(food.name)
+                    .addClass("food-item")
+                    .css({ "margin-left": "1rem", "font-weight": "bold", "color": "#555" });
+
                 foodsList.append(li);
             });
+
             $("#foods-section").show();
         },
         error: function(xhr) {
-            console.error("Error fetching foods:", xhr);
-            alert("An error occurred while loading foods. Check console for details.");
+            handleApiError(xhr);
         }
     });
+}
+
+function handleApiError(xhr) {
+    if (xhr.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        localStorage.removeItem("jwtToken");
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "../sign-in/sign-in.html";
+    } else if (xhr.status === 403) {
+        alert("Bạn không có quyền truy cập vào tài nguyên này.");
+    } else {
+        console.error("Lỗi API:", xhr);
+        alert("Đã xảy ra lỗi khi tải dữ liệu. Kiểm tra console để biết thêm chi tiết.");
+    }
 }

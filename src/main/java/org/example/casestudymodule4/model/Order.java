@@ -18,14 +18,14 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int quantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double totalPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private OrderStatus orderStatus = OrderStatus.PENDING;
 
     @Column(name = "created_at", updatable = false)
