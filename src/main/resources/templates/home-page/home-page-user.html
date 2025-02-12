@@ -180,6 +180,29 @@
             color: #777; /* Màu xám nhạt cho giá gốc */
             font-size: 0.9em; /* Giá gốc nhỏ hơn một chút */
         }
+        .header-cart-link { /* Style cho link giỏ hàng */
+            display: flex; /* Để icon và text trên cùng một hàng */
+            align-items: center; /* Căn chỉnh dọc icon và text */
+            margin-left: 15px; /* Khoảng cách với các phần tử header khác */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none; /* Loại bỏ gạch chân mặc định của link */
+        }
+
+        .header-cart-link:hover { /* Hiệu ứng hover cho link giỏ hàng */
+            background-color: #e0e0e0;
+        }
+
+        .header-cart-icon { /* Style cho icon giỏ hàng */
+            width: 25px; /* Điều chỉnh kích thước icon */
+            height: 25px;
+            margin-right: 5px; /* Khoảng cách giữa icon và text "Giỏ hàng" */
+            vertical-align: middle; /* Căn chỉnh dọc icon với text */
+        }
     </style>
 </head>
 <body>
@@ -187,6 +210,10 @@
 <div class="header">
     <div class="header-logo">SFFOOD</div>
     <div class="header-auth">
+        <a href="../order/order-history.html">Xem đơn hàng</a>
+        <a href="../order/order.html" class="header-cart-link">  <img src="https://png.pngtree.com/png-clipart/20191120/original/pngtree-delete-product-cart-icon-png-image_5056154.jpg" alt="Giỏ hàng" class="header-cart-icon">
+            Giỏ hàng
+        </a>
         <button id="logout-button">Đăng xuất</button>  </div>
 </div>
 

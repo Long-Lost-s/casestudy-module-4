@@ -22,16 +22,23 @@ $(document).ready(function() {
                         var priceContainer = $('<div class="offer-item-price">');
                         var originalPrice = $('<span class="offer-item-original-price">');
                         var discountPrice = $('<span class="offer-item-discount-price">');
+                        // ✅ Thêm nút "Thêm vào giỏ hàng"
+                        var addToCartButton = $('<button class="offer-item-add-cart-button">').text("Thêm vào giỏ");
+                        // ✅ Thêm data attributes để lưu thông tin món ăn
+                        addToCartButton.data('food-id', food.id);
+                        addToCartButton.data('food-name', food.name);
+                        addToCartButton.data('food-price', food.price);
+
 
                         // Kiểm tra xem có giá khuyến mãi hay không
                         if (food.discountPrice && food.discountPrice < food.price) {
                             originalPrice.text(formatCurrency(food.price)); // Hiển thị giá gốc và gạch ngang
                             originalPrice.css('text-decoration', 'line-through'); // Gạch ngang giá gốc
                             discountPrice.text(formatCurrency(food.discountPrice)); // Hiển thị giá khuyến mãi
-                            priceContainer.append(discountPrice, originalPrice); // Giá khuyến mãi trước, giá gốc sau
+                            priceContainer.append(discountPrice, originalPrice, addToCartButton); // ✅ Thêm nút vào priceContainer
                         } else {
                             discountPrice.text(formatCurrency(food.price)); // Chỉ hiển thị giá gốc nếu không có khuyến mãi
-                            priceContainer.append(discountPrice);
+                            priceContainer.append(discountPrice, addToCartButton); // ✅ Thêm nút vào priceContainer
                         }
 
                         content.append(promo, name, priceContainer); // Thêm priceContainer vào content
@@ -50,6 +57,42 @@ $(document).ready(function() {
         }
 
     });
+
+    // ✅ Khởi tạo giỏ hàng từ localStorage hoặc mảng rỗng nếu chưa có
+    var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
+
+    // ✅ Event listener cho nút "Thêm vào giỏ hàng"
+    $(document).on('click', '.offer-item-add-cart-button', function() {
+        var foodId = $(this).data('food-id');
+        var foodName = $(this).data('food-name');
+        var foodPrice = $(this).data('food-price');
+
+        var quantity = 1; // Mặc định số lượng là 1 khi thêm từ trang chủ, bạn có thể tùy chỉnh sau
+
+        // ✅ Kiểm tra xem món ăn đã có trong giỏ hàng chưa
+        var existingItemIndex = cart.findIndex(item => item.id === foodId);
+
+        if (existingItemIndex > -1) {
+            // ✅ Nếu đã có, tăng số lượng
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            // ✅ Nếu chưa có, thêm mới vào giỏ hàng
+            cart.push({
+                id: foodId,
+                name: foodName,
+                price: foodPrice,
+                quantity: quantity
+            });
+        }
+
+        // ✅ Lưu giỏ hàng cập nhật vào localStorage
+        localStorage.setItem('sffood-cart', JSON.stringify(cart));
+
+        console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
+        alert("Đã thêm '" + foodName + "' vào giỏ hàng!"); // Thông báo cho người dùng
+    });
+
+
     // ✅ Hàm format tiền tệ (ví dụ: Việt Nam Đồng - VND)
     function formatCurrency(amount) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
