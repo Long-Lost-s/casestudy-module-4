@@ -29,13 +29,16 @@ function login(event) {
         headers: {
             'Accept': 'application/json' // Yêu cầu server trả về dữ liệu dạng JSON
         },
-        success: function(response) {
-            console.log("Đăng nhập thành công:", response);
-            localStorage.setItem('token', response.accessToken); // Lưu token
-            localStorage.setItem('userName', response.username);
+        success: function (response) {
+            // Xử lý khi đăng nhập thành công
+            console.log('Đăng nhập thành công:', response);
 
-            // ✅ Chuyển hướng đến trang redirect.html thay vì homepage-user.html
-            window.location.href = "../redirect/redirect.html"; // ➡️ Chuyển hướng đến trang redirect
+            // Lưu token vào localStorage để sử dụng cho các request sau (ví dụ: xác thực)
+            localStorage.setItem("token", response.accessToken);
+            localStorage.setItem('userName', response.username); // Lưu tên người dùng vào localStorage
+
+            // Chuyển hướng người dùng đến trang chủ hoặc trang sản phẩm sau khi đăng nhập thành công
+            window.location.href = "../home-page/home-page-user.html"; // ➡️ Thay đổi đường dẫn trang đích nếu cần
 
         },
         error: function (xhr, status, error) {
