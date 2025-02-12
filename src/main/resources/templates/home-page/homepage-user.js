@@ -1,36 +1,31 @@
-// ✅ File JavaScript tách rời cho trang chủ người dùng đã đăng nhập (homepage-user.js)
 $(document).ready(function() {
-    // ✅ Lấy tên người dùng từ localStorage (hoặc nguồn lưu trữ tên người dùng của bạn)
-    var userName = localStorage.getItem('userName'); // Giả sử bạn lưu tên vào 'userName' trong localStorage
+    var userName = localStorage.getItem('userName');
     if (userName) {
-        // ✅ Hiển thị lời chào có tên người dùng
-        $(".hero-greeting").text("Chào  " + userName); // Ví dụ: "Chào buổi sáng, [Tên người dùng]"
+
+        $(".hero-greeting").text("Chào  " + userName);
     } else {
-        // ✅ Nếu không tìm thấy tên người dùng, hiển thị lời chào mặc định
-        $(".hero-greeting").text("Hôm nay ăn gì"); // Hoặc lời chào mặc định khác
-        console.warn("Không tìm thấy tên người dùng trong localStorage."); // Log cảnh báo nếu không có tên
+
+        $(".hero-greeting").text("Hôm nay ăn gì");
+        console.warn("Không tìm thấy tên người dùng trong localStorage.");
     }
 
-    $("#logout-button").click(function() { // ✅ Xử lý sự kiện click cho nút Đăng xuất
-        // Gọi API logout (hoặc thực hiện các hành động logout khác của bạn)
-        // Sau khi logout thành công, có thể redirect về trang chủ hoặc trang đăng nhập
+    $("#logout-button").click(function() {
+
         $.ajax({
-            url: 'http://localhost:8080/api/auth/signout', //  ➡️ ✅ URL API logout của bạn
+            url: 'http://localhost:8080/api/auth/signout',
             type: 'POST',
             dataType: 'json',
             success: function(response) {
                 console.log("Logout successful:", response);
 
-                // ✅ XÓA TOKEN và userName khỏi localStorage khi đăng xuất thành công
-                localStorage.removeItem('token'); // ➡️ Xóa token
-                localStorage.removeItem('userName'); // ➡️ Xóa userName (nếu bạn lưu)
+                localStorage.removeItem('token');
+                localStorage.removeItem('userName');
 
-                // Redirect về trang chủ hoặc trang đăng nhập sau khi logout
-                window.location.href = "./home-page.html"; //  ➡️ ✅ Điều chỉnh URL trang chủ/đăng nhập nếu cần
+                window.location.href = "./home-page.html";
             },
             error: function(xhr, status, error) {
                 console.error("Logout error:", error);
-                alert("Logout failed. Please try again."); // Hiển thị thông báo lỗi nếu logout thất bại
+                alert("Logout failed. Please try again.");
             }
         });
     });
