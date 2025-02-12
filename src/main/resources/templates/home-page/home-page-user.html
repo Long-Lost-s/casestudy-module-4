@@ -206,7 +206,18 @@
     </style>
 </head>
 <body>
-
+<script>
+    // ✅ Kiểm tra đăng nhập khi trang homepage-user.html được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token'); // Kiểm tra token
+        if (!token) {
+            // Nếu không có token, chuyển hướng về trang chủ (homepage.html) hoặc trang đăng nhập (sign-in.html)
+            // Ở đây mình chọn chuyển hướng về trang chủ mặc định (homepage.html)
+            window.location.href = 'home-page.html'; // ➡️ Chuyển hướng về trang chủ mặc định
+            alert('Bạn cần đăng nhập để truy cập trang này.'); // Thông báo cho người dùng (tùy chọn)
+        }
+    });
+</script>
 <div class="header">
     <div class="header-logo">SFFOOD</div>
     <div class="header-auth">

@@ -126,37 +126,44 @@ $(document).ready(function() {
     // ✅ Khởi tạo giỏ hàng từ localStorage hoặc mảng rỗng nếu chưa có
     var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
 
-    // ✅ Event listener cho nút "Thêm vào giỏ hàng"
-    $(document).on('click', '.offer-item-add-cart-button', function() {
-        var foodId = $(this).data('food-id');
-        var foodName = $(this).data('food-name');
-        var foodPrice = $(this).data('food-price');
+    // ✅ Event listener cho nút "Thêm vào giỏ hàng" (delegate event)
+    $(document).on('click', '.offer-item-add-cart-button', function(event) {
+        // ✅ Kiểm tra xem có nút logout-button (chỉ có ở homepage-user.html) hay không
+        if ($('#logout-button').length) {
+            // ✅ Nếu có logout-button (trang homepage-user.html), thực hiện chức năng thêm vào giỏ hàng bình thường
+            var foodId = $(this).data('food-id');
+            var foodName = $(this).data('food-name');
+            var foodPrice = $(this).data('food-price');
 
-        var quantity = 1; // Mặc định số lượng là 1 khi thêm từ trang chủ, bạn có thể tùy chỉnh sau
+            var quantity = 1; // Mặc định số lượng là 1 khi thêm từ trang chủ
 
-        // ✅ Kiểm tra xem món ăn đã có trong giỏ hàng chưa
-        var existingItemIndex = cart.findIndex(item => item.id === foodId);
+            // ✅ Kiểm tra món ăn đã có trong giỏ hàng chưa
+            var existingItemIndex = cart.findIndex(item => item.id === foodId);
 
-        if (existingItemIndex > -1) {
-            // ✅ Nếu đã có, tăng số lượng
-            cart[existingItemIndex].quantity += quantity;
+            if (existingItemIndex > -1) {
+                // ✅ Nếu đã có, tăng số lượng
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                // ✅ Nếu chưa có, thêm mới vào giỏ hàng
+                cart.push({
+                    id: foodId,
+                    name: foodName,
+                    price: foodPrice,
+                    quantity: quantity
+                });
+            }
+
+            // ✅ Lưu giỏ hàng cập nhật vào localStorage
+            localStorage.setItem('sffood-cart', JSON.stringify(cart));
+
+            console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
+            alert("Đã thêm '" + foodName + "' vào giỏ hàng!"); // Thông báo cho người dùng
         } else {
-            // ✅ Nếu chưa có, thêm mới vào giỏ hàng
-            cart.push({
-                id: foodId,
-                name: foodName,
-                price: foodPrice,
-                quantity: quantity
-            });
+            // ✅ Nếu không có logout-button (trang homepage.html), chuyển hướng đến trang sign-in.html
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của nút (nếu có)
+            window.location.href = "../sign-in/sign-in.html"; // ➡️ Đường dẫn đến trang đăng nhập
         }
-
-        // ✅ Lưu giỏ hàng cập nhật vào localStorage
-        localStorage.setItem('sffood-cart', JSON.stringify(cart));
-
-        console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
-        alert("Đã thêm '" + foodName + "' vào giỏ hàng!"); // Thông báo cho người dùng
     });
-
 
     // ✅ Hàm format tiền tệ (ví dụ: Việt Nam Đồng - VND)
     function formatCurrency(amount) {

@@ -20,8 +20,13 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 console.log("Logout successful:", response);
+
+                // ✅ XÓA TOKEN và userName khỏi localStorage khi đăng xuất thành công
+                localStorage.removeItem('token'); // ➡️ Xóa token
+                localStorage.removeItem('userName'); // ➡️ Xóa userName (nếu bạn lưu)
+
                 // Redirect về trang chủ hoặc trang đăng nhập sau khi logout
-                window.location.href = "../home-page/home-page.html"; //  ➡️ ✅ Điều chỉnh URL trang chủ/đăng nhập nếu cần
+                window.location.href = "./home-page.html"; //  ➡️ ✅ Điều chỉnh URL trang chủ/đăng nhập nếu cần
             },
             error: function(xhr, status, error) {
                 console.error("Logout error:", error);
