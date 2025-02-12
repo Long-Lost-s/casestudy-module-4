@@ -57,11 +57,4 @@ public class FoodController {
         return foodService.updateFoodPrices(id, priceUpdateRequest);
     }
 
-    @GetMapping("/homepage-offers") // ✅ Endpoint mới cho trang chủ, tên endpoint có thể tùy chỉnh
-    @ResponseBody // ✅ Quan trọng: Thêm @ResponseBody để trả về dữ liệu trực tiếp
-    public List<Food> getHomepageOffers() {
-        // Logic để lấy 9 món ăn ưu đãi (featured, special offer, hoặc logic ưu đãi khác)
-        // Ví dụ: Lấy 9 món ăn featured
-        return foodService.findTop9FeaturedFoods(); // Giả sử bạn có method này trong FoodService
-    }
 }
