@@ -180,14 +180,56 @@
             color: #777; /* Màu xám nhạt cho giá gốc */
             font-size: 0.9em; /* Giá gốc nhỏ hơn một chút */
         }
+        .header-cart-link { /* Style cho link giỏ hàng */
+            display: flex; /* Để icon và text trên cùng một hàng */
+            align-items: center; /* Căn chỉnh dọc icon và text */
+            margin-left: 15px; /* Khoảng cách với các phần tử header khác */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none; /* Loại bỏ gạch chân mặc định của link */
+        }
+
+        .header-cart-link:hover { /* Hiệu ứng hover cho link giỏ hàng */
+            background-color: #e0e0e0;
+        }
+
+        .header-cart-icon { /* Style cho icon giỏ hàng */
+            width: 25px; /* Điều chỉnh kích thước icon */
+            height: 25px;
+            margin-right: 5px; /* Khoảng cách giữa icon và text "Giỏ hàng" */
+            vertical-align: middle; /* Căn chỉnh dọc icon với text */
+        }
     </style>
 </head>
 <body>
-
+<script>
+    // ✅ Kiểm tra đăng nhập khi trang homepage-user.html được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token'); // Kiểm tra token
+        if (!token) {
+            // Nếu không có token, chuyển hướng về trang chủ (homepage.html) hoặc trang đăng nhập (sign-in.html)
+            // Ở đây mình chọn chuyển hướng về trang chủ mặc định (homepage.html)
+            window.location.href = 'home-page.html'; // ➡️ Chuyển hướng về trang chủ mặc định
+            alert('Bạn cần đăng nhập để truy cập trang này.'); // Thông báo cho người dùng (tùy chọn)
+        }
+    });
+</script>
 <div class="header">
     <div class="header-logo">SFFOOD</div>
     <div class="header-auth">
+        <a href="../order/order-history.html">Xem đơn hàng</a>
+        <a href="../order/order.html" class="header-cart-link">  <img src="https://png.pngtree.com/png-clipart/20191120/original/pngtree-delete-product-cart-icon-png-image_5056154.jpg" alt="Giỏ hàng" class="header-cart-icon">
+            Giỏ hàng
+        </a>
         <button id="logout-button">Đăng xuất</button>  </div>
+</div>
+
+<div class="category-link-section">
+    <a href="/case-study-module-4/case-study-module-4.main/templates/category/category.html?_ijt=3j2nafne6k59h4tksu542c9fa6&_ij_reload=RELOAD_ON_SAVE" class="category-link-button">Các loại món ăn</a>
 </div>
 
 <div class="hero-section">
@@ -199,11 +241,27 @@
 </div>
 
 <div class="offers-section">
-    <h2 class="offers-title">Món ăn ở gần bạn</h2> <div class="offers-list">
-    <div class="offer-item">
-        Loading offers...
+    <h2 class="offers-title">Món ăn ở gần bạn</h2>
+    <div class="offers-list">
+        <div class="offer-item">
+            Loading offers...
+        </div>
     </div>
-</div>
+    <div class="offers-section offers-categories-section">
+        <h2 class="offers-title offers-categories-title">Món ăn ưu đãi</h2>
+        <div class="offers-list offers-categories-list">
+            <div class="offer-item">
+                Loading categories... </div>
+        </div>
+    </div>
+    <div class="offers-section bestselling-section">
+        <h2 class="offers-title bestselling-title">Món ăn bán chạy nhất</h2>
+        <div class="offers-list bestselling-list">
+            <div class="offer-item">
+                Loading best selling items...
+            </div>
+        </div>
+    </div>
 </div>
 <script src="homepage.js"></script>
 <script src="homepage-user.js"></script>  </body>

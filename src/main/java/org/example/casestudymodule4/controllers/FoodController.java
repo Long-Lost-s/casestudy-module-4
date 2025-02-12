@@ -57,9 +57,4 @@ public class FoodController {
         return foodService.updateFoodPrices(id, priceUpdateRequest);
     }
 
-    @GetMapping("/homepage-offers")
-    @ResponseBody
-    public List<Food> getHomepageOffers() {
-        return foodService.findTop9FeaturedFoods();
-    }
 }

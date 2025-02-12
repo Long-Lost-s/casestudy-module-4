@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token'); // Kiểm tra token đăng nhập
+            if (token) {
+                // Nếu có token, người dùng đã đăng nhập, chuyển hướng đến trang chủ người dùng
+                window.location.href = '../home-page/home-page-user.html';
+            } else {
+                // Nếu không có token, người dùng chưa đăng nhập, chuyển hướng đến trang chủ mặc định
+                window.location.href = '../home-page/home-page.html';
+            }
+        });
+    </script>
+</head>
+<body>
+<p>Đang chuyển hướng...</p>
+</body>
+</html>

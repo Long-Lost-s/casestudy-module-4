@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt hàng SFFOOD</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    /* ✅ CSS cơ bản cho trang đặt hàng - đã chỉnh sửa thêm cho nút chỉnh sửa số lượng và xóa */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .food-list {
+      flex: 2;
+      padding-right: 20px;
+      border-right: 1px solid #eee;
+      display: none;
+    }
+
+    .order-summary {
+      flex: 1;
+      padding-left: 20px;
+    }
+
+    .food-item {
+      display: flex;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .food-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+
+    .food-item-details {
+      flex-grow: 1;
+    }
+
+    .food-item-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .food-item-price {
+      color: #dc3545;
+      margin-bottom: 10px;
+    }
+
+    .food-item-quantity {
+      display: flex;
+      align-items: center;
+    }
+
+    .food-item-quantity label {
+      margin-right: 10px;
+    }
+
+    .food-item-quantity input {
+      width: 60px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .food-item-add-button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      margin-left: 10px;
+      display: none;
+    }
+
+    .order-summary-title {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    .cart-items {
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex; /* Cần thiết để căn chỉnh các phần tử trong cart item */
+      justify-content: space-between;
+      align-items: center; /* Căn chỉnh các phần tử theo chiều dọc */
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed #ccc;
+    }
+
+    .cart-item-name {
+      font-weight: bold;
+      margin-right: 10px; /* Để tạo khoảng cách với nút chỉnh số lượng */
+    }
+
+    .cart-item-price {
+      color: #777;
+      margin-left: auto; /* Đẩy giá về phía bên phải */
+      margin-right: 10px; /* Khoảng cách với nút xóa */
+    }
+
+    .order-total {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .place-order-button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      font-size: 1.1em;
+      width: 100%;
+    }
+    .place-order-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* ✅ CSS cho nút chỉnh số lượng và xóa trong giỏ hàng */
+    .cart-item-quantity-controls {
+      display: flex;
+      align-items: center;
+      margin-right: 10px; /* Khoảng cách với giá */
+    }
+
+    .quantity-button {
+      padding: 5px 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      cursor: pointer;
+      margin: 0 5px; /* Khoảng cách giữa các nút +/- và số lượng */
+    }
+
+    .quantity-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .cart-item-quantity-display {
+      width: 30px;
+      text-align: center;
+      margin: 0 5px; /* Khoảng cách với nút +/- */
+    }
+
+    .remove-item-button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #dc3545; /* Màu đỏ */
+      color: white;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .remove-item-button:hover {
+      background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="food-list">
+    <h2>Chọn món ăn</h2>
+    <div class="food-item">
+      <img src="path-to-food-image1.jpg" alt="Món ăn 1">
+      <div class="food-item-details">
+        <h3 class="food-item-name">Món ăn 1</h3>
+        <p class="food-item-price">Giá: 50.000 VNĐ</p>
+        <div class="food-item-quantity">
+          <label for="quantity-1">Số lượng:</label>
+          <input type="number" id="quantity-1" name="quantity-1" value="1" min="1">
+          <button class="food-item-add-button" data-food-id="1" data-food-name="Món ăn 1" data-food-price="50000">Thêm vào đơn hàng</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-item">
+      <img src="path-to-food-image2.jpg" alt="Món ăn 2">
+      <div class="food-item-details">
+        <h3 class="food-item-name">Món ăn 2</h3>
+        <p class="food-item-price">Giá: 75.000 VNĐ</p>
+        <div class="food-item-quantity">
+          <label for="quantity-2">Số lượng:</label>
+          <input type="number" id="quantity-2" name="quantity-2" value="1" min="1">
+          <button class="food-item-add-button" data-food-id="2" data-food-name="Món ăn 2" data-food-price="75000">Thêm vào đơn hàng</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="food-item">
+      <img src="path-to-food-image3.jpg" alt="Món ăn 3">
+      <div class="food-item-details">
+        <h3 class="food-item-name">Món ăn 3</h3>
+        <p class="food-item-price">Giá: 60.000 VNĐ</p>
+        <div class="food-item-quantity">
+          <label for="quantity-3">Số lượng:</label>
+          <input type="number" id="quantity-3" name="quantity-3" value="1" min="1">
+          <button class="food-item-add-button" data-food-id="3" data-food-name="Món ăn 3" data-food-price="60000">Thêm vào đơn hàng</button>
+        </div>
+      </div>
+    </div>
+    <div class="food-item">
+      <img src="path-to-food-image4.jpg" alt="Món ăn 4">
+      <div class="food-item-details">
+        <h3 class="food-item-name">Món ăn 4</h3>
+        <p class="food-item-price">Giá: 80.000 VNĐ</p>
+        <div class="food-item-quantity">
+          <label for="quantity-4">Số lượng:</label>
+          <input type="number" id="quantity-4" name="quantity-4" value="1" min="1">
+          <button class="food-item-add-button" data-food-id="4" data-food-name="Món ăn 4" data-food-price="80000">Thêm vào đơn hàng</button>
+        </div>
+      </div>
+    </div>
+    <div class="food-item">
+      <img src="path-to-food-image5.jpg" alt="Món ăn 5">
+      <div class="food-item-details">
+        <h3 class="food-item-name">Món ăn 5</h3>
+        <p class="food-item-price">Giá: 55.000 VNĐ</p>
+        <div class="food-item-quantity">
+          <label for="quantity-5">Số lượng:</label>
+          <input type="number" id="quantity-5" name="quantity-5" value="1" min="1">
+          <button class="food-item-add-button" data-food-id="5" data-food-name="Món ăn 5" data-food-price="55000">Thêm vào đơn hàng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <h2 class="order-summary-title">Tóm tắt đơn hàng</h2>
+    <div class="cart-items">
+      <p id="empty-cart-message">Giỏ hàng trống.</p>
+    </div>
+    <div class="order-total">
+      Tổng cộng: <span id="total-price">0 VNĐ</span>
+    </div>
+    <a href="../payment/payment.html" id="place-order-button" class="place-order-button" role="button" disabled>Đặt hàng</a>
+  </div>
+</div>
+
+<script src="order.js"></script>
+
+</body>
+</html>
