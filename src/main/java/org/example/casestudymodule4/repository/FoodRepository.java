@@ -8,5 +8,4 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food, Long> {
     List<Food> findByNameContaining(String name);
 
-    List<Food> findTop9ByFeaturedTrueOrderByIdDesc();
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán đơn hàng SFFOOD</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="payment.css">  </head>
+<body>
+<div class="container">
+    <h2 class="payment-title">Thông tin thanh toán và giao hàng</h2>
+
+    <div class="order-info">
+        <h3 class="order-info-title">Đơn hàng của bạn</h3>
+        <div class="order-item-list">
+        </div>
+        <div class="order-total">
+            Tổng cộng: <span id="payment-total-price"></span>
+        </div>
+    </div>
+
+    <form class="payment-form">
+        <div>
+            <label for="name">Họ và tên:</label>
+            <input type="text" id="name" name="name" placeholder="Ví dụ: Nguyễn Văn A" required>
+            <p id="name-error" class="error-message"></p>
+        </div>
+
+        <div>
+            <label for="phone">Số điện thoại:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0901234567" required>
+            <p id="phone-error" class="error-message"></p>
+        </div>
+
+        <div>
+            <label for="address">Địa chỉ giao hàng:</label>
+            <textarea id="address" name="address" placeholder="Ví dụ: Số 123, Đường ABC, Phường XYZ, Quận ..." required></textarea>
+            <p id="address-error" class="error-message"></p>
+        </div>
+
+        <div class="payment-methods">
+            <label>Phương thức thanh toán:</label><br>
+            <input type="radio" id="cash" name="paymentMethod" value="CASH" checked> <label for="cash">Tiền mặt khi giao hàng</label><br>
+            <input type="radio" id="momo" name="paymentMethod" value="MOMO"> <label for="momo">Ví điện tử MoMo</label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="payment-button" id="payment-button-confirm">Xác nhận đặt hàng</button>
+        </div>
+    </form>
+</div>
+
+<script src="payment.js"></script>
+</body>
+</html>
