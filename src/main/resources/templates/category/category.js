@@ -2,8 +2,27 @@ $(document).ready(function() {
     loadCategories();
 });
 
+function getToken() {
+    // Try to get the token from localStorage
+    let token = localStorage.getItem("jwtToken");
+
+    // If not found in localStorage, try to get it from cookies
+    if (!token) {
+        const cookies = document.cookie.split("; ");
+        for (let cookie of cookies) {
+            const [name, value] = cookie.split("=");
+            if (name === "jwtToken") {
+                token = value;
+                break;
+            }
+        }
+    }
+
+    return token;
+}
+
 function loadCategories() {
-    const token = localStorage.getItem("authToken"); // Đồng nhất key token
+    const token = getToken();
 
     if (!token) {
         alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
@@ -15,7 +34,7 @@ function loadCategories() {
         url: "http://localhost:8080/api/categories",
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${token}`, // ✅ Sửa lỗi cú pháp
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
         },
         success: function(categories) {
@@ -48,7 +67,7 @@ function loadCategories() {
 }
 
 function loadFoods(categoryId) {
-    const token = localStorage.getItem("authToken"); // Dùng đúng key token
+    const token = getToken();
 
     if (!token) {
         alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
@@ -57,10 +76,10 @@ function loadFoods(categoryId) {
     }
 
     $.ajax({
-        url: `http://localhost:8080/api/categories/${categoryId}/foods`, // ✅ Sửa lỗi thiếu dấu backtick
+        url: `http://localhost:8080/api/categories/${categoryId}/foods`,
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${token}`, // ✅ Sửa lỗi cú pháp
+            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
         },
         success: function(foods) {
@@ -89,11 +108,11 @@ function loadFoods(categoryId) {
     });
 }
 
-/* ✅ Xử lý lỗi API */
 function handleApiError(xhr) {
     if (xhr.status === 401) {
         alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("jwtToken");
+        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location.href = "../sign-in/sign-in.html";
     } else if (xhr.status === 403) {
         alert("Bạn không có quyền truy cập vào tài nguyên này.");
