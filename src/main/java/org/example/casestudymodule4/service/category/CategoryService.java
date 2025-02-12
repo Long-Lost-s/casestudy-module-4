@@ -1,6 +1,8 @@
 package org.example.casestudymodule4.service.category;
 
 import org.example.casestudymodule4.model.Category;
+import org.example.casestudymodule4.model.Food;
+import org.example.casestudymodule4.repository.FoodRepository;
 import org.example.casestudymodule4.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,9 @@ import java.util.Optional;
 public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
+
+    @Autowired
+    private FoodRepository foodRepository;
 
     @Override
     public List<Category> findAll() {
@@ -49,6 +54,10 @@ public class CategoryService implements ICategoryService {
             return categoryRepository.save(updatedCategory);
         }
         return null;
+    }
+
+    public List<Food> getFoodsByCategoryId(Long categoryId) {
+        return foodRepository.findByCategoryId(categoryId);
     }
 
     public void deleteCategoryById(Long id) {
