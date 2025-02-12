@@ -5,141 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thanh toán đơn hàng SFFOOD</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        /* ✅ CSS cơ bản cho trang thanh toán - đã thêm CSS cho phần tóm tắt đơn hàng */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        .payment-title {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        /* ✅ CSS cho phần tóm tắt đơn hàng */
-        .order-info {
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .order-info-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .order-item-summary {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #ccc;
-        }
-
-        .order-item-summary:last-child {
-            border-bottom: none; /* Loại bỏ border-bottom ở item cuối cùng */
-        }
-
-
-        .payment-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .payment-form input[type="text"],
-        .payment-form input[type="tel"],
-        .payment-form textarea,
-        .payment-form select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 1em;
-        }
-
-        .payment-form textarea {
-            resize: vertical;
-            height: 100px;
-        }
-
-        .payment-form select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position-x: 100%;
-            background-position-y: 5px;
-            padding-right: 30px;
-        }
-
-        .payment-form select::-ms-expand {
-            display: none;
-        }
-
-
-        .payment-methods {
-            margin-bottom: 20px;
-        }
-
-        .payment-methods label {
-            font-weight: normal;
-            margin-left: 5px;
-        }
-
-        .payment-methods input[type="radio"] {
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-
-        .form-actions {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .payment-button {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 8px;
-            background-color: #28a745;
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .payment-button:hover {
-            background-color: #218838;
-        }
-
-        .error-message {
-            color: #dc3545;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="payment.css">  </head>
 <body>
 <div class="container">
     <h2 class="payment-title">Thông tin thanh toán và giao hàng</h2>
@@ -174,10 +40,8 @@
 
         <div class="payment-methods">
             <label>Phương thức thanh toán:</label><br>
-            <input type="radio" id="cash" name="paymentMethod" value="cash" checked>
-            <label for="cash">Tiền mặt khi giao hàng</label><br>
-            <input type="radio" id="momo" name="paymentMethod" value="momo">
-            <label for="momo">Ví điện tử MoMo</label>
+            <input type="radio" id="cash" name="paymentMethod" value="CASH" checked> <label for="cash">Tiền mặt khi giao hàng</label><br>
+            <input type="radio" id="momo" name="paymentMethod" value="MOMO"> <label for="momo">Ví điện tử MoMo</label>
         </div>
 
         <div class="form-actions">

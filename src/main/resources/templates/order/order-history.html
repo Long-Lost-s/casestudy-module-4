@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lịch sử đơn hàng SFFOOD</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
     /* ✅ CSS cơ bản cho trang lịch sử đơn hàng - bạn có thể tùy chỉnh thêm */
     body {
@@ -96,173 +97,12 @@
   <h2 class="order-history-title">Lịch sử đơn hàng</h2>
   <ul class="order-list" id="order-history-list">
     <li>
-      <div class="order-item">
-        <div class="order-header">
-          <h3 class="order-number">Đơn hàng #12345</h3>
-          <span class="order-date">Ngày đặt: 20/11/2023</span>
-        </div>
-        <ul class="order-details-list">
-          <li class="order-detail-item">
-            <span class="item-name">Món ăn 1</span>
-            <span class="item-quantity">x 2</span>
-            <span class="item-price">100.000 VNĐ</span>
-          </li>
-          <li class="order-detail-item">
-            <span class="item-name">Món ăn 2</span>
-            <span class="item-quantity">x 1</span>
-            <span class="item-price">75.000 VNĐ</span>
-          </li>
-        </ul>
-        <div class="order-total-price">
-          Tổng cộng: 175.000 VNĐ
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="order-item">
-        <div class="order-header">
-          <h3 class="order-number">Đơn hàng #12346</h3>
-          <span class="order-date">Ngày đặt: 25/11/2023</span>
-        </div>
-        <ul class="order-details-list">
-          <li class="order-detail-item">
-            <span class="item-name">Món ăn 3</span>
-            <span class="item-quantity">x 3</span>
-            <span class="item-price">180.000 VNĐ</span>
-          </li>
-        </ul>
-        <div class="order-total-price">
-          Tổng cộng: 180.000 VNĐ
-        </div>
-      </div>
-    </li>
-    <li>
-      <div class="order-item">
-        <div class="order-header">
-          <h3 class="order-number">Đơn hàng #12347</h3>
-          <span class="order-date">Ngày đặt: 30/11/2023</span>
-        </div>
-        <ul class="order-details-list">
-          <li class="order-detail-item">
-            <span class="item-name">Món ăn 4</span>
-            <span class="item-quantity">x 1</span>
-            <span class="item-price">80.000 VNĐ</span>
-          </li>
-          <li class="order-detail-item">
-            <span class="item-name">Món ăn 5</span>
-            <span class="item-quantity">x 2</span>
-            <span class="item-price">110.000 VNĐ</span>
-          </li>
-        </ul>
-        <div class="order-total-price">
-          Tổng cộng: 190.000 VNĐ
-        </div>
-      </div>
+      <p>Đang tải lịch sử đơn hàng...</p>
     </li>
   </ul>
 </div>
 
-<script>
-  // ✅ JavaScript (ví dụ) - Tải dữ liệu đơn hàng và hiển thị
-  $(document).ready(function() {
-    // Hàm giả định để lấy dữ liệu đơn hàng từ API (thay bằng API thật của bạn)
-    function getOrderHistory() {
-      // Đoạn code AJAX để gọi API backend để lấy dữ liệu đơn hàng
-      // Ví dụ (cần thay thế URL API thật của bạn):
-      /*
-      $.ajax({
-          url: 'http://localhost:8080/api/order-history', // ➡️  Thay URL API thật của bạn
-          type: 'GET',
-          dataType: 'json',
-          success: function(response) {
-              if (response && response.length > 0) {
-                  displayOrderHistory(response); // Gọi hàm hiển thị đơn hàng
-              } else {
-                  $('#order-history-list').html('<p>Không có đơn hàng nào.</p>'); // Hiển thị nếu không có đơn hàng
-              }
-          },
-          error: function(xhr, status, error) {
-              console.error('Lỗi khi tải lịch sử đơn hàng:', error);
-              $('#order-history-list').html('<p>Lỗi khi tải lịch sử đơn hàng. Vui lòng thử lại sau.</p>'); // Hiển thị thông báo lỗi
-          }
-      });
-      */
-
-      // ✅ Dữ liệu đơn hàng giả định (thay bằng API thật) - Ví dụ dữ liệu tĩnh
-      const fakeOrderData = [
-        {
-          orderId: '12345',
-          orderDate: '20/11/2023',
-          items: [
-            { name: 'Món ăn 1', quantity: 2, price: 100000 },
-            { name: 'Món ăn 2', quantity: 1, price: 75000 }
-          ],
-          totalPrice: 175000
-        },
-        {
-          orderId: '12346',
-          orderDate: '25/11/2023',
-          items: [
-            { name: 'Món ăn 3', quantity: 3, price: 180000 }
-          ],
-          totalPrice: 180000
-        },
-        {
-          orderId: '12347',
-          orderDate: '30/11/2023',
-          items: [
-            { name: 'Món ăn 4', quantity: 1, price: 80000 },
-            { name: 'Món ăn 5', quantity: 2, price: 110000 }
-          ],
-          totalPrice: 190000
-        }
-      ];
-      displayOrderHistory(fakeOrderData); // Gọi hàm hiển thị với dữ liệu giả
-    }
-
-    // Hàm hiển thị lịch sử đơn hàng lên trang
-    function displayOrderHistory(orders) {
-      const orderList = $('#order-history-list');
-      orderList.empty(); // Xóa nội dung "loading..." hoặc mặc định
-
-      if (orders.length === 0) {
-        orderList.html('<p>Không có đơn hàng nào trong lịch sử.</p>');
-        return;
-      }
-
-      orders.forEach(order => {
-        const orderItemHTML = `
-                        <div class="order-item">
-                            <div class="order-header">
-                                <h3 class="order-number">Đơn hàng #${order.orderId}</h3>
-                                <span class="order-date">Ngày đặt: ${order.orderDate}</span>
-                            </div>
-                            <ul class="order-details-list">
-                                ${order.items.map(item => `
-                                    <li class="order-detail-item">
-                                        <span class="item-name">${item.name}</span>
-                                        <span class="item-quantity">x ${item.quantity}</span>
-                                        <span class="item-price">${formatCurrency(item.price)}</span>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                            <div class="order-total-price">
-                                Tổng cộng: ${formatCurrency(order.totalPrice)}
-                            </div>
-                        </div>
-                    `;
-        orderList.append(orderItemHTML);
-      });
-    }
-
-    // Hàm format tiền tệ (giữ nguyên)
-    function formatCurrency(amount) {
-      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-
-    // Gọi hàm lấy và hiển thị lịch sử đơn hàng khi trang load
-    getOrderHistory();
-  });
+<script src="order-history.js">
 </script>
 </body>
 </html>
