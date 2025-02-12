@@ -2,7 +2,7 @@ package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Food;
 import org.example.casestudymodule4.payload.request.FoodPriceUpdateRequest;
-import org.example.casestudymodule4.service.FoodService;
+import org.example.casestudymodule4.service.food.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +55,11 @@ public class FoodController {
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
     public Food updateFoodPrices(@PathVariable Long id, @RequestBody FoodPriceUpdateRequest priceUpdateRequest) {
         return foodService.updateFoodPrices(id, priceUpdateRequest);
+    }
+
+    @GetMapping("/homepage-offers")
+    @ResponseBody
+    public List<Food> getHomepageOffers() {
+        return foodService.findTop9FeaturedFoods();
     }
 }

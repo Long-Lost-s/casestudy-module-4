@@ -1,4 +1,4 @@
-package org.example.casestudymodule4.service;
+package org.example.casestudymodule4.service.food;
 
 import org.example.casestudymodule4.model.Food;
 import org.example.casestudymodule4.model.ServiceFee;
@@ -78,4 +78,33 @@ public class FoodService {
     public Food getFoodById(Long id) {
         return foodRepository.findById(id).orElseThrow(() -> new RuntimeException("Food not found with id " + id));
     }
+
+    public List<Food> findTop9FeaturedFoods() { // ✅ Thêm method findTop9FeaturedFoods vào FoodService (ServiceImpl)
+        // Logic để lấy 9 món ăn featured (ví dụ: sử dụng method có sẵn của foodRepository nếu có)
+        // Trong trường hợp FoodRepository của bạn chưa có method này, bạn cần tự custom query.
+
+        // **Ví dụ 1: Giả sử FoodRepository có method findTop9ByFeaturedTrueOrderByIdDesc()**
+        return foodRepository.findTop9ByFeaturedTrueOrderByIdDesc();
+
+        // **Ví dụ 2: Nếu FoodRepository chưa có method, bạn có thể custom query trực tiếp ở đây (KHÔNG KHUYẾN KHÍCH)**
+        // (Cách này kém linh hoạt và nên đưa logic query xuống Repository)
+        // return foodRepository.findAll().stream()
+        //        .filter(Food::isFeatured)
+        //        .limit(9)
+        //        .toList();
+
+        // **Ví dụ 3: Gọi method findAll() từ repository và filter, sort tại Service (KHÔNG KHUYẾN KHÍCH, kém hiệu năng)**
+        // List<Food> allFoods = foodRepository.findAll();
+        // return allFoods.stream()
+        //        .filter(Food::isFeatured)
+        //        .sorted((f1, f2) -> f2.getId().compareTo(f1.getId())) // Sắp xếp theo ID giảm dần (ví dụ)
+        //        .limit(9)
+        //        .toList();
+
+        // **LƯU Ý QUAN TRỌNG:**
+        // Cách tốt nhất và hiệu quả nhất là tạo custom query method trong FoodRepository interface
+        // (ví dụ: findTop9ByFeaturedTrueOrderByIdDesc() như Ví dụ 1)
+        // để logic truy vấn được thực hiện trực tiếp tại tầng Data Access (Repository).
+    }
 }
+
