@@ -1,0 +1,65 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: #007bff;
+}
+
+#login-section{
+    margin: auto;
+}
+
+#user-section {
+    margin: auto;
+}
+
+.container {
+    width: 500px;
+    height: 345px;
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    padding: 55px 0;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#signin-form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+input {
+    width: 85%;
+    height: 40px;
+    margin: 5px auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.submit-button {
+    width: 85%;
+    height: 40px;
+    margin: 10px auto;
+    background-color: #007bff;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.no-account {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
