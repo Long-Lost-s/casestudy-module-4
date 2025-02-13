@@ -1,0 +1,54 @@
+.footer {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.footer-container {
+    display: flex;
+    width: 1200px;
+    margin: 30px auto;
+    justify-content: space-around;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.footer-links {
+    padding: 0;
+}
+
+.footer-links > li {
+    list-style: none;
+    padding: 5px 0;
+}
+
+.footer-links > li > a {
+    color: #fff;
+}
+
+.footer-links > li > a:hover {
+    opacity: 0.8;
+}
+
+.app-downloads {
+    display: flex;
+    flex-direction: column;
+}
+
+a > img {
+    height: 60px;
+}
+
+.copyright {
+    color: #fff;
+}
+
+.line {
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-top: 30px ;
+}
