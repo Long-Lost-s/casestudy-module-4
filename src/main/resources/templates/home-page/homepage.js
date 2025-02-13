@@ -10,7 +10,7 @@ $(document).ready(function() {
 
                 $.each(response, function(index, food) {
                     if (index < 9) {
-                        var link = $('<a class="link-infor" href="#">');
+                        var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                         var offerItem = $('<div class="offer-item">');
                         var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
                         var content = $('<div class="offer-item-content">');
@@ -69,7 +69,7 @@ $(document).ready(function() {
                 if (discountedFoods.length > 0) {
                     $.each(discountedFoods, function(index, food) {
                         if (index < 7) {
-                            var link = $('<a class="link-infor" href="#">');
+                            var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                             var offerItem = $('<div class="offer-item offer-category-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
                             var content = $('<div class="offer-item-content">');
