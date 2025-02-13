@@ -1,47 +1,67 @@
 package org.example.casestudymodule4.service.order;
 
 import org.example.casestudymodule4.model.Order;
-import org.example.casestudymodule4.repository.OrderRepository;
+import org.example.casestudymodule4.model.OrderItem;
+import org.example.casestudymodule4.repository.OrderItemRepo;
+import org.example.casestudymodule4.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
+
+    private final OrderRepo orderRepo;
+    private final OrderItemRepo orderItemRepo;
+
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderService(OrderRepo orderRepo, OrderItemRepo orderItemRepo) {
+        this.orderRepo = orderRepo;
+        this.orderItemRepo = orderItemRepo;
+    }
 
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return orderRepo.findAll();
     }
 
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with id " + id));
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepo.findById(id);
     }
 
-    public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+    public Order createOrder(Order order) {
+        // Thực hiện logic nghiệp vụ trước khi lưu (ví dụ: tính tổng tiền, kiểm tra tồn kho,...)
+        return orderRepo.save(order);
     }
 
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+    public Order updateOrder(Long id, Order updatedOrder) {
+        return orderRepo.findById(id)
+                .map(existingOrder -> {
+                    // Cập nhật các trường cần thiết của existingOrder bằng updatedOrder
+                    if (updatedOrder.getUser() != null) {
+                        existingOrder.setUser(updatedOrder.getUser());
+                    }
+                    if (updatedOrder.getQuantity() > 0) {
+                        existingOrder.setQuantity(updatedOrder.getQuantity());
+                    }
+                    if (updatedOrder.getTotalPrice() > 0) {
+                        existingOrder.setTotalPrice(updatedOrder.getTotalPrice());
+                    }
+                    if (updatedOrder.getOrderStatus() != null) {
+                        existingOrder.setOrderStatus(updatedOrder.getOrderStatus());
+                    }
+                    // Không cập nhật createdAt vì nó là trường updatable = false
+                    return orderRepo.save(existingOrder);
+                })
+                .orElse(null); // Hoặc throw exception nếu muốn
     }
 
-    public Order updateOrder(Long id, Order orderDetails) {
-        Optional<Order> optionalOrder = orderRepository.findById(id);
-        if (optionalOrder.isPresent()) {
-            Order order = optionalOrder.get();
-            // Cập nhật các trường có thể chỉnh sửa của Order
-            order.setUser(orderDetails.getUser()); // Cần xem xét logic cập nhật user
-            order.setQuantity(orderDetails.getQuantity());
-            order.setTotalPrice(orderDetails.getTotalPrice());
-            order.setOrderStatus(orderDetails.getOrderStatus());
-            // Không cập nhật createdAt vì nó không được phép updatable
-            return orderRepository.save(order);
-        } else {
-            throw new RuntimeException("Order not found with id " + id);
-        }
+    public boolean deleteOrder(Long id) {
+        return orderRepo.findById(id)
+                .map(order -> {
+                    orderRepo.delete(order);
+                    return true;
+                })
+                .orElse(false); // Hoặc throw exception nếu muốn
     }
 }
