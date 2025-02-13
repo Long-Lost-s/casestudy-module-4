@@ -76,7 +76,7 @@ body {
 }
 
 i {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     margin: 0 20px;
 }
 
@@ -94,11 +94,13 @@ i {
 
 .logo-tag-infor > #food-category {
     position: absolute;
-    top: 45%;
-    left: 37px;
+    top: 42%;
+    left: 25px;
     color: #fff;
     transform: rotate(-9deg);
     font-size: 20px;
+    min-width: 145px;
+    text-align: center;;
 }
 
 .pay-to-cart {
