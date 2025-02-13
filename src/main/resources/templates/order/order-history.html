@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch sử đơn hàng SFFOOD</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    /* ✅ CSS cơ bản cho trang lịch sử đơn hàng - bạn có thể tùy chỉnh thêm */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-history-title {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .order-list {
+      list-style: none; /* Loại bỏ dấu chấm mặc định của list */
+      padding: 0;
+    }
+
+    .order-item {
+      background-color: #fff;
+      border: 1px solid #eee;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 10px;
+    }
+
+    .order-number {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .order-date {
+      color: #777;
+      font-size: 0.9em;
+    }
+
+    .order-details-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .order-detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .item-name {
+      font-weight: normal;
+    }
+
+    .item-quantity {
+      color: #555;
+    }
+
+    .item-price {
+      font-weight: bold;
+      color: #dc3545;
+    }
+
+    .order-total-price {
+      text-align: right;
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2 class="order-history-title">Lịch sử đơn hàng</h2>
+  <ul class="order-list" id="order-history-list">
+    <li>
+      <p>Đang tải lịch sử đơn hàng...</p>
+    </li>
+  </ul>
+</div>
+
+<script src="order-history.js">
+</script>
+</body>
+</html>

@@ -15,10 +15,10 @@ public class ServiceFee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     public ServiceFee() {

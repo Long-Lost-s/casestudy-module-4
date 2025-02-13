@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="signin.css">
+    <link rel="stylesheet" href="../layout.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+<main>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="left-section">
+                <a href="#" class="logo">
+                    <img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt="logo">
+                </a>
+            </div>
+            <a href="../sign-up/sign-up.html"><button class="login-button">Đăng ký</button></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Sign In</h2>
+        <form id="signin-form" action="#" method="post">
+            <input type="text" id="username" name="username" placeholder="Username or Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <button class="submit-button" type="submit">Sign In</button>
+        </form>
+        <div class="no-account">  Don't have an account? <a href="../sign-up/sign-up.html">Sign up</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Công ty</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Trung tâm Trợ giúp</a></li>
+                    <li><a href="#">Quy chế</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Bảo mật thông tin</a></li>
+                    <li><a href="#">Giải quyết khiếu nại</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Ứng dụng ShopeeFood</h3>
+                <div class="app-downloads">
+                    <a href="https://apps.apple.com/us/app/deliverynow/id1137866760"><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="img"></a>
+                    <a href="https://play.google.com/store/apps/details?id=com.deliverynow&pli=1"><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="img"></a>
+                    <a href="https://appgallery.huawei.com/#/app/C102401853"><img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" alt="img"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2025 ShopeeFood
+        </div>
+    </footer>
+</main>
+
+
+<script src="signin.js"></script>
+</body>
+</html>
