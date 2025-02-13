@@ -7,11 +7,11 @@ INSERT INTO categories (name, image_url) VALUES
 ('Món Cơm', 'image4.jpg');
 
 -- Thêm một số món ăn
-INSERT INTO foods (name, address, image_url, open_time, close_time, price, discount_price, preparation_time, category_id)
+INSERT INTO foods (name, address, image_url, open_time, close_time, price, discount_price, discount_usage_count, preparation_time, category_id, featured,  order_count, special_offer, views)
 VALUES 
-('Bún Bò Huế', '123 Lê Lợi, Huế', 'bunbohue.jpg', '07:00:00', '20:00:00', 50000, 40000, 10, 1),
-('Phở Bò', '456 Nguyễn Trãi, Hà Nội', 'phobo.jpg', '06:30:00', '21:30:00', 60000, 50000, 15, 2),
-('Cơm Gà', '789 Lý Tự Trọng, Đà Nẵng', 'comga.jpg', '08:00:00', '22:00:00', 70000,50000, 20, 3);
+('Bún Bò Huế', '123 Lê Lợi, Huế', 'bunbohue.jpg', '07:00:00', '20:00:00', 50000, 40000,1 ,10, 2, 1, 1,1,1),
+('Phở Bò', '456 Nguyễn Trãi, Hà Nội', 'phobo.jpg', '06:30:00', '21:30:00', 60000, 50000,1 ,15, 2,1, 2,1,1),
+('Cơm Gà', '789 Lý Tự Trọng, Đà Nẵng', 'comga.jpg', '08:00:00', '22:00:00', 70000,50000,1 ,20, 2,1, 3,1,1);
 
 -- Thêm tags
 INSERT INTO tags (name, slug) VALUES 
