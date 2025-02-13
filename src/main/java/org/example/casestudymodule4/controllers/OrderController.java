@@ -2,52 +2,61 @@ package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Order;
 import org.example.casestudymodule4.service.order.OrderService;
+import org.example.casestudymodule4.payload.request.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
+
+    private final OrderService orderService;
+
     @Autowired
-    private OrderService orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('SELLER') or hasRole('ADMIN')")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Order order = orderService.getOrderById(id);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+    public ResponseEntity<Order> getOrderById(@PathVariable("id") Long id) {
+        Optional<Order> order = orderService.getOrderById(id);
+        return order.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") // Cho phép USER và ADMIN tạo Order
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.saveOrder(order);
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        Order createdOrder = orderService.createOrderFromRequest(createOrderRequest);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // Chỉ ADMIN mới có thể update Order
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
-        Order updatedOrder = orderService.updateOrder(id, orderDetails);
-        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Long id, @RequestBody Order updatedOrder) {
+        Order order = orderService.updateOrder(id, updatedOrder);
+        if (order != null) {
+            return new ResponseEntity<>(order, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // Chỉ ADMIN mới có thể delete Order
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable("id") Long id) {
+        if (orderService.deleteOrder(id)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

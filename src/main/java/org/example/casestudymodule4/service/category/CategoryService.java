@@ -2,7 +2,7 @@ package org.example.casestudymodule4.service.category;
 
 import org.example.casestudymodule4.model.Category;
 import org.example.casestudymodule4.model.Food;
-import org.example.casestudymodule4.repository.FoodRepository;
+import org.example.casestudymodule4.repository.FoodRepo;
 import org.example.casestudymodule4.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ public class CategoryService implements ICategoryService {
     private ICategoryRepository categoryRepository;
 
     @Autowired
-    private FoodRepository foodRepository;
+    private FoodRepo foodRepo;
 
     @Override
     public List<Category> findAll() {
@@ -57,7 +57,7 @@ public class CategoryService implements ICategoryService {
     }
 
     public List<Food> getFoodsByCategoryId(Long categoryId) {
-        return foodRepository.findByCategoryId(categoryId);
+        return foodRepo.findByCategoryId(categoryId);
     }
 
     public void deleteCategoryById(Long id) {

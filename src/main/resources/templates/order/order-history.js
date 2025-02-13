@@ -5,10 +5,6 @@ $(document).ready(function() {
             url: 'http://localhost:8080/api/orders', // ➡️  URL API backend của bạn
             type: 'GET',
             dataType: 'json',
-            // ✅  Thêm header Authorization nếu API backend yêu cầu xác thực (ví dụ JWT)
-            // headers: {
-            //     "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
-            // },
             success: function(response) {
                 if (response && response.length > 0) {
                     displayOrderHistory(response); // Gọi hàm hiển thị đơn hàng
@@ -33,21 +29,36 @@ $(document).ready(function() {
             return;
         }
 
+        // ✅ Sắp xếp đơn hàng theo thời gian tạo (mới nhất lên đầu) - giữ nguyên
+
         orders.forEach(order => {
-            // ✅  Giả định model Order trả về từ backend có các trường sau:
-            // orderId, orderDate, totalPrice, orderItems (mảng OrderItem)
+            let orderDetailsHTML = ''; // Khởi tạo chuỗi HTML cho order details
+
+            // ✅ Đọc thông tin món ăn trực tiếp từ order.foodNames và order.foodQuantities
+            const foodNames = order.foodNames ? order.foodNames.split(',') : []; // Tách chuỗi tên món ăn thành mảng
+            const foodQuantities = order.foodQuantities ? order.foodQuantities.split(',') : []; // Tách chuỗi số lượng thành mảng
+
+            if (foodNames.length > 0 && foodQuantities.length === foodNames.length) { // Đảm bảo số lượng tên và số lượng khớp nhau
+                orderDetailsHTML = foodNames.map((foodName, index) => `
+                    <li class="order-detail-item">
+                        <span class="item-name">${foodName.trim()}</span> <span class="item-quantity">x ${foodQuantities[index].trim()}</span>
+                        <span class="item-price"> </span>
+                    </li>
+                `).join('');
+            } else {
+                orderDetailsHTML = '<li class="order-detail-item">Không có thông tin món hàng.</li>'; // Hiển thị thông báo nếu không có thông tin món ăn
+                console.warn('Đơn hàng ID #' + order.id + ' không có thông tin món hàng chi tiết.'); // Log cảnh báo để debug
+            }
+
+
             const orderItemHTML = `
                         <div class="order-item">
                             <div class="order-header">
-                                <h3 class="order-number">Đơn hàng #${order.orderId}</h3>
-                                <span class="order-date">Ngày đặt: ${formatDate(order.orderDate)}</span>
+                                <h3 class="order-number">Đơn hàng #${order.id}</h3>
+                                <span class="order-date">Ngày đặt: ${formatDate(order.createdAt)}</span>
                             </div>
                             <ul class="order-details-list">
-                                ${order.orderItems.map(orderItem => `
-                                    <li class="order-detail-item">
-                                        <span class="item-name">${orderItem.food.name}</span> <span class="item-quantity">x ${orderItem.quantity}</span>
-                                        <span class="item-price">${formatCurrency(orderItem.price)}</span> </li>
-                                `).join('')}
+                                ${orderDetailsHTML}
                             </ul>
                             <div class="order-total-price">
                                 Tổng cộng: ${formatCurrency(order.totalPrice)}
