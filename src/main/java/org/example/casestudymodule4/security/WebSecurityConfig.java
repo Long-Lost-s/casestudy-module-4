@@ -56,9 +56,11 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/tags/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/tags").hasAnyRole("ADMIN", "SELLER")
                     .requestMatchers("/api/categories/**").permitAll()
-                    .requestMatchers("/api/categories").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/foods").permitAll()
-                    .requestMatchers("/api/foods/{id}").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/orders").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/order-items").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/order-items").permitAll()
                     .anyRequest().authenticated()
             );
 

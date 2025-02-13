@@ -1,93 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Food Details</title>
-    <link rel="stylesheet" href="food.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Page</title>
+<!--    <link rel="stylesheet" href="food.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="food-details">
-    <h1 id="food-name">Loading...</h1>
-    <img id="food-image" src="" alt="Food Image" style="display:none;">
-    <p id="food-description">Loading description...</p>
-    <p id="food-price">Loading price...</p>
-    <p id="food-address">Loading address...</p>
-    <p id="food-open-time">Loading open time...</p>
-    <p id="food-close-time">Loading close time...</p>
-    <p id="food-notes">Loading notes...</p>
-    <p id="food-discount-price">Loading discount price...</p>
-    <p id="food-service-fee">Loading service fee...</p>
-    <p id="food-service-fee-explanation">Loading service fee explanation...</p>
-    <p id="food-preparation-time">Loading preparation time...</p>
-    <p id="food-discount-code">Loading discount code...</p>
-    <p id="food-discount-usage-count">Loading discount usage count...</p>
-    <p id="food-views">Loading views...</p>
-    <p id="food-order-count">Loading order count...</p>
-    <p id="food-featured">Loading featured...</p>
-    <p id="food-special-offer">Loading special offer...</p>
-    <p id="food-created-at">Loading created at...</p>
-    <p id="food-updated-at">Loading updated at...</p>
-    <p id="food-restaurant-name">Loading restaurant name...</p>
-    <p id="food-category">Loading category...</p>
-</div>
-
-<script>
-    $(document).ready(function() {
-        const foodId = new URLSearchParams(window.location.search).get('id');
-        if (foodId) {
-            loadFoodDetails(foodId);
-        } else {
-            alert('No food ID provided.');
-        }
-    });
-
-    function loadFoodDetails(foodId) {
-        $.ajax({
-            url: `http://localhost:8080/api/foods/${foodId}`,
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer VALID_JWT_TOKEN" // Replace with your actual valid JWT token
-            },
-            success: function(food) {
-                $('#food-name').text(food.name);
-                $('#food-image').attr('src', food.imageUrl).show();
-                $('#food-description').text(food.description);
-                $('#food-price').text(`Price: ${formatCurrency(food.price)}`);
-                $('#food-address').text(food.address);
-                $('#food-open-time').text(food.openTime);
-                $('#food-close-time').text(food.closeTime);
-                $('#food-notes').text(food.notes);
-                $('#food-discount-price').text(`Discount Price: ${formatCurrency(food.discountPrice)}`);
-                $('#food-service-fee').text(food.serviceFee ? food.serviceFee.name : 'N/A');
-                $('#food-service-fee-explanation').text(food.serviceFeeExplanation);
-                $('#food-preparation-time').text(food.preparationTime);
-                $('#food-discount-code').text(food.discountCode);
-                $('#food-discount-usage-count').text(food.discountUsageCount);
-                $('#food-views').text(food.views);
-                $('#food-order-count').text(food.orderCount);
-                $('#food-featured').text(food.featured ? 'Yes' : 'No');
-                $('#food-special-offer').text(food.specialOffer ? 'Yes' : 'No');
-                $('#food-created-at').text(food.createdAt);
-                $('#food-updated-at').text(food.updatedAt);
-                $('#food-restaurant-name').text(food.restaurantName);
-                $('#food-category').text(food.category ? food.category.name : 'N/A');
-            },
-            error: function(xhr) {
-                console.error("Error loading food details:", xhr);
-                alert("Failed to load food details. Please try again later.");
-            }
-        });
-    }
-
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-</script>
+<div id="food-details"></div>
+<script src="food.js"></script>
 </body>
 </html>

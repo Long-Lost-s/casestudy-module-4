@@ -157,6 +157,7 @@ a {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     flex: 0 0 auto;
+    height: 250px;
 }
 
 .offer-item img {
@@ -187,6 +188,7 @@ a {
 .offer-item-price {
     margin-top: 5px;
     text-align: left;
+    position: relative;
 }
 
 .offer-item-discount-price {
@@ -225,7 +227,7 @@ a {
 
 .container {
     position: relative;
-    width: 1200px;
+    width: 1000px;
 }
 
 #categories-section {
@@ -303,6 +305,9 @@ a {
     color: #fff;
     cursor: pointer;
     margin-top: 5px;
+    position: absolute;
+    top: 20px;
+    left: 0;
 }
 
 .offers-section {
