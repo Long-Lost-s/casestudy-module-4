@@ -22,7 +22,9 @@ public class FoodTagService {
     }
 
     public List<FoodTag> getFoodByTag(String tagName) {
+
         Optional<Tag> tag = tagRepository.findByName(tagName);
+
         return tag.map(foodTagRepository::findByTag).orElse(List.of());
     }
 

@@ -12,5 +12,8 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     List<Food> findByPreparationTimeLessThan(int time);
 
+    List<Food> findTop6ByOrderByViewsDesc(); // ✅ Lấy 6 món ăn có lượt xem cao nhất
+
+
 
 }

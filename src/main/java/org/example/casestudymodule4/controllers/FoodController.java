@@ -80,4 +80,10 @@ public class FoodController {
     public List<Food> getFastDeliveryFoods() {
         return foodService.getFastDeliveryFoods();
     }
+    @GetMapping("/most-viewed")
+    @PreAuthorize("permitAll()") // ✅ Mở API cho tất cả người dùng
+    public List<Food> getMostViewedFoods() {
+        return foodService.getMostViewedFoods();
+    }
+
 }
