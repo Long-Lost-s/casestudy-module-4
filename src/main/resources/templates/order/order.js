@@ -8,7 +8,7 @@ $(document).ready(function() {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     }
 
-    // Hàm cập nhật hiển thị giỏ hàng và tổng tiền (giữ nguyên)
+    // Hàm cập nhật hiển thị giỏ hàng và tổng tiền
     function updateCartDisplay() {
         var cartItemsDiv = $('.cart-items');
         cartItemsDiv.empty();
@@ -16,7 +16,7 @@ $(document).ready(function() {
         if (cart.length === 0) {
             cartItemsDiv.html('<p id="empty-cart-message">Giỏ hàng trống.</p>');
             $('#total-price').text(formatCurrency(0));
-            $('#place-order-button').attr('disabled', true); // Sử dụng .attr('disabled', true) cho thẻ <a>
+            $('#place-order-button').attr('disabled', true);
             return;
         }
 
@@ -24,7 +24,16 @@ $(document).ready(function() {
         cart.forEach(function(item, index) {
             var cartItemDiv = $('<div class="cart-item">');
 
-            // ✅ Tạo phần tử điều chỉnh số lượng (giữ nguyên)
+            // ✅ Thêm hình ảnh món ăn
+            if (item.image) { // Kiểm tra xem item có thông tin hình ảnh không
+                var itemImage = $('<img class="cart-item-image">').attr('src', item.image).attr('alt', item.name);
+                cartItemDiv.append(itemImage);
+            }
+
+            var itemNameSpan = $('<span class="cart-item-name">').text(item.name);
+            cartItemDiv.append(itemNameSpan);
+
+            // ✅ Tạo phần tử điều chỉnh số lượng
             var quantityControls = $('<div class="cart-item-quantity-controls">');
             var decreaseButton = $('<button class="quantity-button">-</button>').click(function() {
                 updateQuantity(index, -1);
@@ -34,21 +43,25 @@ $(document).ready(function() {
                 updateQuantity(index, 1);
             });
             quantityControls.append(decreaseButton, quantityDisplay, increaseButton);
+            cartItemDiv.append(quantityControls);
 
-            var itemNameSpan = $('<span class="cart-item-name">').text(item.name);
+
             var itemPriceSpan = $('<span class="cart-item-price">').text(formatCurrency(item.price * item.quantity));
-            // ✅ Nút xóa sản phẩm (giữ nguyên)
+            cartItemDiv.append(itemPriceSpan);
+
+            // ✅ Nút xóa sản phẩm
             var removeItemButton = $('<button class="remove-item-button">').text("Xóa").click(function() {
                 removeItem(index);
             });
+            cartItemDiv.append(removeItemButton);
 
-            cartItemDiv.append(itemNameSpan, quantityControls, itemPriceSpan, removeItemButton);
+
             cartItemsDiv.append(cartItemDiv);
             totalPrice += item.price * item.quantity;
         });
 
         $('#total-price').text(formatCurrency(totalPrice));
-        $('#place-order-button').removeAttr('disabled'); // Sử dụng .removeAttr('disabled') cho thẻ <a>
+        $('#place-order-button').removeAttr('disabled');
     }
 
     // ✅ Hàm cập nhật số lượng sản phẩm trong giỏ hàng (giữ nguyên)
@@ -69,11 +82,6 @@ $(document).ready(function() {
         localStorage.setItem('sffood-cart', JSON.stringify(cart));
         updateCartDisplay();
     }
-
-
-    // ❌❌❌ ĐÃ XÓA TOÀN BỘ CODE XỬ LÝ SỰ KIỆN CLICK NÚT "ĐẶT HÀNG" ❌❌❌
-    // ❌❌❌ VÌ NÚT "ĐẶT HÀNG" Ở ORDER.HTML BÂY GIỜ CHỈ CHUYỂN HƯỚNG SANG PAYMENT.HTML ❌❌❌
-
 
     // Gọi updateCartDisplay ban đầu (giữ nguyên)
     updateCartDisplay();
