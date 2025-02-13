@@ -22,9 +22,18 @@ public class FoodController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('**')")
     public Food getFoodById(@PathVariable Long id) {
-        return foodService.getFoodById(id);
+        System.out.println("Fetching food with ID: " + id);
+        Food food = foodService.getFoodById(id);
+        if (food == null) {
+            System.out.println("Food not found with ID: " + id);
+        }
+        return food;
+    }
+
+    @GetMapping("/food")
+    public String getFoodPage() {
+        return "food/food";
     }
 
     @PostMapping

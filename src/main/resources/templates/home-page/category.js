@@ -3,10 +3,8 @@ $(document).ready(function() {
 });
 
 function getToken() {
-    // Try to get the token from localStorage
     let token = localStorage.getItem("jwtToken");
 
-    // If not found in localStorage, try to get it from cookies
     if (!token) {
         const cookies = document.cookie.split("; ");
         for (let cookie of cookies) {
@@ -52,10 +50,12 @@ function loadCategories() {
                     .css({ "cursor": "pointer", "padding": "10px", "border-radius": "5px" })
                     .hover(function() {
                         $(this).css("background-color", "#e0e0e0");
+                        loadFoods(category.id);
+                        $("#foods-section").show();
                     }, function() {
                         $(this).css("background-color", "transparent");
-                    })
-                    .click(() => loadFoods(category.id));
+                        $("#foods-section").hide();
+                    });
 
                 categoriesList.append(li);
             });
