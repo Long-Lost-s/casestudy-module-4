@@ -12,6 +12,9 @@ body {
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    margin-top: 100px;
 }
 
 .payment-title {
@@ -131,16 +134,32 @@ body {
     font-size: 0.9em;
 }
 .place-order-button {
-    padding: 12px 25px;
+    padding: 14px 30px;
     border: none;
     border-radius: 5px;
     background-color: #007bff;
     color: white;
     cursor: pointer;
     font-size: 1.1em;
-    width: 100%;
+    width: 250px;
+    margin: 10px 0;
 }
+
+.place-order-button:hover {
+    opacity: 0.8;
+}
+
 .place-order-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+.header.payment {
+    justify-content: unset;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

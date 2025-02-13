@@ -1,10 +1,35 @@
 $(document).ready(function() {
-    const foodId = new URLSearchParams(window.location.search).get('id');
-    if (foodId) {
-        loadFoodDetails(foodId);
-    } else {
-        alert('No food ID provided.');
-    }
+    var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
+
+    $('#add-to-cart-button').on('click', function() {
+        var foodId = new URLSearchParams(window.location.search).get('id');
+        var foodName = $('#food-name').text();
+        var foodPrice = $('#food-price').text();
+        var foodImage = $('#food-image').attr('src');
+
+        var quantity = 1;
+
+        var existingItemIndex = cart.findIndex(item => item.id === foodId);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push({
+                id: foodId,
+                name: foodName,
+                price: foodPrice,
+                image: foodImage,
+                quantity: quantity
+            });
+        }
+
+        localStorage.setItem('sffood-cart', JSON.stringify(cart));
+
+        console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
+        alert("Đã thêm '" + foodName + "' vào giỏ hàng!");
+    });
+
+    loadFoodDetails(new URLSearchParams(window.location.search).get('id'));
 });
 
 function loadFoodDetails(foodId) {
@@ -19,12 +44,12 @@ function loadFoodDetails(foodId) {
             $('#food-name').text(food.name);
             $('#food-image').attr('src', food.imageUrl).show();
             $('#food-description').text(food.description);
-            $('#food-price').text(`Price: ${formatCurrency(food.price)}`);
+            $('#food-price').text(food.price);
             $('#food-address').text(food.address);
             $('#food-open-time').text(food.openTime);
             $('#food-close-time').text(food.closeTime);
             $('#food-notes').text(food.notes);
-            $('#food-discount-price').text(`Discount Price: ${formatCurrency(food.discountPrice)}`);
+            $('#food-discount-price').text(food.discountPrice);
             $('#food-service-fee').text(food.serviceFee ? food.serviceFee.name : 'N/A');
             $('#food-service-fee-explanation').text(food.serviceFeeExplanation);
             $('#food-preparation-time').text(food.preparationTime);
@@ -44,10 +69,6 @@ function loadFoodDetails(foodId) {
             alert("Failed to load food details. Please try again later.");
         }
     });
-}
-
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 }
 
 function formatCurrency(amount) {
