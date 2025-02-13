@@ -299,7 +299,7 @@ a {
 
 .offer-item-add-cart-button {
     border: none;
-    height: 25px;
+    height: 35px;
     border-radius: 5px;
     background: #ee4d2d;
     color: #fff;
@@ -344,4 +344,19 @@ a {
     background-position: center center;
 }
 
+a.link-infor {
+    text-decoration: none;
+}
+
+button.offer-item-add-cart-button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+button.offer-item-add-cart-button:hover {
+    opacity: 0.8;
+}
 

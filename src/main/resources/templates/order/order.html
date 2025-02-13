@@ -6,27 +6,32 @@
   <title>Đặt hàng SFFOOD</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
-    /* ✅ CSS cơ bản cho trang đặt hàng - đã chỉnh sửa thêm cho nút chỉnh sửa số lượng và xóa */
+
+
+      /* ✅ CSS cơ bản cho trang đặt hàng - Phong cách Shopee */
     body {
-      font-family: sans-serif;
-      margin: 0;
-      background-color: #f8f9fa;
-    }
+                                                                                                                                     font-family: 'Roboto', sans-serif; /* Font chữ Roboto hoặc tương tự */
+                                                                                                                                     margin: 0;
+                                                                                                                                     background-color: #f0f2f5; /* Màu nền xám nhạt giống Shopee */
+                                                                                                                                     color: #333; /* Màu chữ chung */
+                                                                                                                                     -webkit-font-smoothing: antialiased;
+                                                                                                                                     -moz-osx-font-smoothing: grayscale;
+                                                                                                                                   }
 
     .container {
-      display: flex;
       max-width: 1200px;
       margin: 20px auto;
       padding: 20px;
       background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+      border-radius: 8px; /* Bo góc container */
     }
 
     .food-list {
       flex: 2;
       padding-right: 20px;
       border-right: 1px solid #eee;
-      display: none;
+      display: none; /* Ẩn food-list theo yêu cầu */
     }
 
     .order-summary {
@@ -54,13 +59,15 @@
     }
 
     .food-item-name {
-      font-weight: bold;
+      font-weight: 500;
       margin-bottom: 5px;
+      color: #222; /* Màu chữ đậm hơn cho tên món */
     }
 
     .food-item-price {
-      color: #dc3545;
+      color: #ee4d2d; /* Màu cam đặc trưng của Shopee */
       margin-bottom: 10px;
+      font-weight: bold;
     }
 
     .food-item-quantity {
@@ -70,6 +77,8 @@
 
     .food-item-quantity label {
       margin-right: 10px;
+      font-size: 0.9em;
+      color: #777;
     }
 
     .food-item-quantity input {
@@ -88,99 +97,176 @@
       color: white;
       cursor: pointer;
       margin-left: 10px;
-      display: none;
+      display: none; /* Ẩn nút thêm món ăn theo yêu cầu */
     }
 
     .order-summary-title {
-      font-size: 1.5em;
-      margin-bottom: 15px;
+      font-size: 1.6em; /* Kích thước tiêu đề */
+      margin-bottom: 20px;
+      color: #222; /* Màu chữ đậm cho tiêu đề */
+      text-align: left; /* Căn trái tiêu đề */
+      border-bottom: 2px solid #ee4d2d; /* Đường gạch chân cam */
+      padding-bottom: 10px;
+      font-weight: bold;
     }
 
     .cart-items {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff; /* Nền trắng cho giỏ hàng */
     }
 
     .cart-item {
-      display: flex; /* Cần thiết để căn chỉnh các phần tử trong cart item */
+      display: flex;
       justify-content: space-between;
-      align-items: center; /* Căn chỉnh các phần tử theo chiều dọc */
-      margin-bottom: 10px;
-      padding-bottom: 5px;
-      border-bottom: 1px dashed #ccc;
+      align-items: center;
+      padding: 10px 0;
+      margin-bottom: 15px;
+      border-bottom: 1px dashed #ddd; /* Đường dashed nhẹ nhàng hơn */
+    }
+
+    /* Loại bỏ border-bottom ở cart item cuối cùng */
+    .cart-items >.cart-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
     .cart-item-name {
-      font-weight: bold;
-      margin-right: 10px; /* Để tạo khoảng cách với nút chỉnh số lượng */
+      font-weight: 500;
+      color: #222; /* Màu chữ đậm hơn */
+      margin-right: 15px;
+      font-size: 1em;
     }
 
     .cart-item-price {
-      color: #777;
-      margin-left: auto; /* Đẩy giá về phía bên phải */
-      margin-right: 10px; /* Khoảng cách với nút xóa */
+      color: #ee4d2d; /* Màu cam giá Shopee */
+      margin-left: auto;
+      margin-right: 15px;
+      font-size: 1em;
+      font-weight: bold; /* Giá đậm hơn */
     }
 
     .order-total {
       font-weight: bold;
-      font-size: 1.2em;
+      font-size: 1.3em;
       text-align: right;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      color: #222; /* Màu chữ đậm cho tổng tiền */
+    }
+
+    #empty-cart-message {
+      text-align: center;
+      font-style: italic;
+      color: #999; /* Màu xám nhạt hơn cho thông báo trống */
+      padding: 20px 0;
+      font-size: 1em;
     }
 
     .place-order-button {
       padding: 12px 25px;
       border: none;
-      border-radius: 5px;
-      background-color: #007bff;
+      border-radius: 8px; /* Bo tròn nút đặt hàng */
+      background-color: #ee4d2d; /* Màu cam Shopee */
       color: white;
       cursor: pointer;
       font-size: 1.1em;
       width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Đổ bóng cho nút */
+      transition: background-color 0.3s ease;
+      font-weight: bold; /* Chữ đậm cho nút đặt hàng */
+      text-transform: uppercase; /* Chữ in hoa */
     }
+
+    .place-order-button:hover {
+      background-color: #f05d40; /* Màu cam đậm hơn khi hover */
+    }
+
     .place-order-button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
-    /* ✅ CSS cho nút chỉnh số lượng và xóa trong giỏ hàng */
+    /* ✅ CSS cho nút chỉnh số lượng và xóa trong giỏ hàng - Phong cách Shopee */
     .cart-item-quantity-controls {
       display: flex;
       align-items: center;
-      margin-right: 10px; /* Khoảng cách với giá */
+      margin-right: 15px;
     }
 
     .quantity-button {
-      padding: 5px 8px;
+      padding: 0; /* Loại bỏ padding mặc định */
       border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f8f9fa;
+      border-radius: 50%; /* Bo tròn thành hình tròn */
+      background-color: #fff; /* Nền trắng cho nút +/- */
       cursor: pointer;
-      margin: 0 5px; /* Khoảng cách giữa các nút +/- và số lượng */
+      margin: 0 8px; /* Khoảng cách nút +/- và số lượng */
+      font-weight: bold;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px; /* Kích thước nút nhỏ hơn */
+      height: 25px;
+      font-size: 1em;
+      color: #555;
+      transition: border-color 0.2s ease;
     }
 
     .quantity-button:hover {
-      background-color: #e0e0e0;
+      border-color: #ee4d2d; /* Viền cam khi hover */
+      color: #ee4d2d; /* Màu cam khi hover */
     }
+    .quantity-button:active {
+      border-color: #f05d40; /* Màu cam đậm hơn khi active */
+      color: #f05d40;
+    }
+
 
     .cart-item-quantity-display {
       width: 30px;
       text-align: center;
-      margin: 0 5px; /* Khoảng cách với nút +/- */
+      margin: 0; /* Loại bỏ margin */
+      padding: 5px;
+      border: none; /* Loại bỏ border */
+      font-size: 1em;
+      color: #333;
     }
 
     .remove-item-button {
-      padding: 5px 10px;
+      padding: 0; /* Loại bỏ padding */
       border: none;
-      border-radius: 5px;
-      background-color: #dc3545; /* Màu đỏ */
-      color: white;
+      border-radius: 50%; /* Bo tròn nút xóa */
+      background-color: #fff; /* Nền trắng cho nút xóa */
+      color: #777; /* Màu xám cho biểu tượng xóa */
       cursor: pointer;
-      font-size: 0.9em;
+      font-size: 1em;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      width: 20px; /* Kích thước nút nhỏ hơn */
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
     }
 
     .remove-item-button:hover {
-      background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+      background-color: #f8f8f8; /* Nền xám nhạt khi hover */
+      color: #ee4d2d; /* Màu cam khi hover */
     }
+    .remove-item-button:active {
+      color: #f05d40; /* Màu cam đậm hơn khi active */
+    }
+      .cart-item-image {
+        width: 80px; /* Điều chỉnh kích thước ảnh theo ý muốn */
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 15px; /* Khoảng cách với tên món */
+      }
   </style>
 </head>
 <body>
@@ -260,9 +346,11 @@
     <div class="order-total">
       Tổng cộng: <span id="total-price">0 VNĐ</span>
     </div>
+        <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại</a>
     <a href="../payment/payment.html" id="place-order-button" class="place-order-button" role="button" disabled>Đặt hàng</a>
   </div>
 </div>
+
 
 <script src="order.js"></script>
 
