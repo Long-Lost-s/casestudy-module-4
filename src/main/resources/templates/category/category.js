@@ -2,34 +2,13 @@ $(document).ready(function() {
     loadCategories();
 });
 
-function getToken() {
-    // Try to get the token from localStorage
-    let token = localStorage.getItem("jwtToken");
-
-    // If not found in localStorage, try to get it from cookies
-    if (!token) {
-        const cookies = document.cookie.split("; ");
-        for (let cookie of cookies) {
-            const [name, value] = cookie.split("=");
-            if (name === "jwtToken") {
-                token = value;
-                break;
-            }
-        }
-    }
-
-    return token;
-}
-
 function loadCategories() {
-    const token = getToken();
-
+    const token = localStorage.getItem('authToken');
     if (!token) {
         alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
-        window.location.href = "../sign-in/sign-in.html";
+        window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
         return;
     }
-
     $.ajax({
         url: "http://localhost:8080/api/categories",
         method: "GET",
@@ -40,41 +19,30 @@ function loadCategories() {
         success: function(categories) {
             const categoriesList = $("#categories-list");
             categoriesList.empty();
-
-            if (categories.length === 0) {
-                categoriesList.append("<li>Không có danh mục nào.</li>");
-                return;
-            }
-
             categories.forEach(category => {
-                let li = $("<li>")
-                    .text(category.name)
-                    .css({ "cursor": "pointer", "padding": "10px", "border-radius": "5px" })
-                    .hover(function() {
-                        $(this).css("background-color", "#e0e0e0");
-                    }, function() {
-                        $(this).css("background-color", "transparent");
-                    })
-                    .click(() => loadFoods(category.id));
-
+                let li = $("<li>").text(category.name).click(() => loadFoods(category.id));
                 categoriesList.append(li);
             });
         },
         error: function(xhr) {
-            handleApiError(xhr);
+            if (xhr.status === 401) {
+                alert("Session expired. Please log in again.");
+                window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
+            } else {
+                console.error("Error fetching categories:", xhr);
+                alert("An error occurred while loading categories. Check console for details.");
+            }
         }
     });
 }
 
 function loadFoods(categoryId) {
-    const token = getToken();
-
+    const token = localStorage.getItem('authToken');
     if (!token) {
         alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
-        window.location.href = "../sign-in/sign-in.html";
+        window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
         return;
     }
-
     $.ajax({
         url: `http://localhost:8080/api/categories/${categoryId}/foods`,
         method: "GET",
@@ -85,39 +53,114 @@ function loadFoods(categoryId) {
         success: function(foods) {
             const foodsList = $("#foods-list");
             foodsList.empty();
-
-            if (foods.length === 0) {
-                foodsList.append("<li>Không có món ăn nào trong danh mục này.</li>");
-                return;
-            }
-
             foods.forEach(food => {
-                let li = $("<li>")
-                    .text(food.name)
-                    .addClass("food-item")
-                    .css({ "margin-left": "1rem", "font-weight": "bold", "color": "#555" });
-
+                let li = $("<li>").text(food.name).addClass("food-item");
                 foodsList.append(li);
             });
-
             $("#foods-section").show();
         },
         error: function(xhr) {
-            handleApiError(xhr);
+            console.error("Error fetching foods:", xhr);
+            alert("An error occurred while loading foods. Check console for details.");
         }
     });
 }
 
-function handleApiError(xhr) {
-    if (xhr.status === 401) {
-        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-        localStorage.removeItem("jwtToken");
-        document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.href = "../sign-in/sign-in.html";
-    } else if (xhr.status === 403) {
-        alert("Bạn không có quyền truy cập vào tài nguyên này.");
-    } else {
-        console.error("Lỗi API:", xhr);
-        alert("Đã xảy ra lỗi khi tải dữ liệu. Kiểm tra console để biết thêm chi tiết.");
+function addCategory() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+        window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
+        return;
     }
+    const categoryName = $("#category-name").val();
+    if (!categoryName) {
+        alert("Please enter a category name.");
+        return;
+    }
+    $.ajax({
+        url: "http://localhost:8080/api/categories",
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({ name: categoryName }),
+        success: function() {
+            alert("Category added successfully.");
+            loadCategories();
+        },
+        error: function(xhr) {
+            console.error("Error adding category:", xhr);
+            alert("An error occurred while adding the category. Check console for details.");
+        }
+    });
+}
+
+function editCategory() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+        window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
+        return;
+    }
+    const categoryName = $("#category-name").val();
+    const selectedCategory = $("#categories-list li.selected");
+    if (!selectedCategory.length) {
+        alert("Please select a category to edit.");
+        return;
+    }
+    const categoryId = selectedCategory.data("id");
+    if (!categoryName) {
+        alert("Please enter a category name.");
+        return;
+    }
+    $.ajax({
+        url: `http://localhost:8080/api/categories/${categoryId}`,
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({ name: categoryName }),
+        success: function() {
+            alert("Category updated successfully.");
+            loadCategories();
+        },
+        error: function(xhr) {
+            console.error("Error updating category:", xhr);
+            alert("An error occurred while updating the category. Check console for details.");
+        }
+    });
+}
+
+function deleteCategory() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        alert("Không tìm thấy token. Vui lòng đăng nhập lại.");
+        window.location.href = "/case-study-module-4/case-study-module-4.main/templates/sign-in/sign-in.html";
+        return;
+    }
+    const selectedCategory = $("#categories-list li.selected");
+    if (!selectedCategory.length) {
+        alert("Please select a category to delete.");
+        return;
+    }
+    const categoryId = selectedCategory.data("id");
+    $.ajax({
+        url: `http://localhost:8080/api/categories/${categoryId}`,
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        success: function() {
+            alert("Category deleted successfully.");
+            loadCategories();
+        },
+        error: function(xhr) {
+            console.error("Error deleting category:", xhr);
+            alert("An error occurred while deleting the category. Check console for details.");
+        }
+    });
 }
