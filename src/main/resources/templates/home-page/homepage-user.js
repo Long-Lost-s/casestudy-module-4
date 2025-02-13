@@ -21,7 +21,7 @@ $(document).ready(function() {
                 localStorage.removeItem('token');
                 localStorage.removeItem('userName');
 
-                window.location.href = "./home-page.html";
+                window.location.href = "../home-page/home-page.html";
             },
             error: function(xhr, status, error) {
                 console.error("Logout error:", error);

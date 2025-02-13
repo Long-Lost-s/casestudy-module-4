@@ -4,90 +4,134 @@
     <meta charset="UTF-8">
     <title>Food Details</title>
     <link rel="stylesheet" href="food.css">
+    <link rel="stylesheet" href="../home-page/homepage-user.css">
+    <link rel="stylesheet" href="../layout1.css">
+    <link rel="stylesheet" href="../access/fontawesome-free-6.7.2-web/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="food-details">
-    <h1 id="food-name">Loading...</h1>
-    <img id="food-image" src="" alt="Food Image" style="display:none;">
-<!--    <p id="food-description">Loading description...</p>-->
-    <p id="food-price">Loading price...</p>
-    <p id="food-address">Loading address...</p>
-    <p id="food-open-time">Loading open time...</p>
-    <p id="food-close-time">Loading close time...</p>
-    <p id="food-notes">Loading notes...</p>
-    <p id="food-discount-price">Loading discount price...</p>
-<!--    <p id="food-service-fee">Loading service fee...</p>-->
-<!--    <p id="food-service-fee-explanation">Loading service fee explanation...</p>-->
-<!--    <p id="food-preparation-time">Loading preparation time...</p>-->
-<!--    <p id="food-discount-code">Loading discount code...</p>-->
-<!--    <p id="food-discount-usage-count">Loading discount usage count...</p>-->
-<!--    <p id="food-views">Loading views...</p>-->
-<!--    <p id="food-order-count">Loading order count...</p>-->
-<!--    <p id="food-featured">Loading featured...</p>-->
-<!--    <p id="food-special-offer">Loading special offer...</p>-->
-    <p id="food-created-at">Loading created at...</p>
-    <p id="food-updated-at">Loading updated at...</p>
-    <p id="food-restaurant-name">Loading restaurant name...</p>
-    <p id="food-category">Loading category...</p>
+<div class="header">
+    <div class="header-logo">
+        <a href="../home-page/home-page-user.html"><img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt=""></a>
+    </div>
+
+    <!--    categories-->
+    <div class="container">
+        <div class="section" id="categories-section">
+            <ul id="categories-list">
+
+            </ul>
+        </div>
+        <div class="section" id="foods-section" style="display: none;">
+            <ul id="foods-list">
+
+            </ul>
+        </div>
+    </div>
+
+    <!--    pay-->
+    <div class="header-auth">
+        <a href="../order/order-history.html">Xem đơn hàng</a>
+        <a href="../order/order.html" class="header-cart-link">  <img src="https://png.pngtree.com/png-clipart/20191120/original/pngtree-delete-product-cart-icon-png-image_5056154.jpg" alt="Giỏ hàng" class="header-cart-icon">
+            Giỏ hàng
+        </a>
+        <button id="logout-button">Đăng xuất</button> </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        const foodId = new URLSearchParams(window.location.search).get('id');
-        if (foodId) {
-            loadFoodDetails(foodId);
-        } else {
-            alert('No food ID provided.');
-        }
-    });
+<div class="food-details">
+    <div class="food-details-left">
+        <img id="food-image" src="" alt="Food Image" style="display:none;">
+    </div>
+    <div class="food-details-right">
+        <h1 id="food-name">Loading...</h1>
+        <!--    <p id="food-description">Loading description...</p>-->
+        <div class="item-infor-right">
+            <i class="fa-regular fa-money-bill-1"></i>
+            <p id="food-price">Loading price...</p>
 
-    function loadFoodDetails(foodId) {
-        $.ajax({
-            url: `http://localhost:8080/api/foods/${foodId}`,
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer VALID_JWT_TOKEN" // Replace with your actual valid JWT token
-            },
-            success: function(food) {
-                $('#food-name').text(food.name);
-                $('#food-image').attr('src', food.imageUrl).show();
-                $('#food-description').text(food.description);
-                $('#food-price').text(`Price: ${formatCurrency(food.price)}`);
-                $('#food-address').text(food.address);
-                $('#food-open-time').text(food.openTime);
-                $('#food-close-time').text(food.closeTime);
-                $('#food-notes').text(food.notes);
-                $('#food-discount-price').text(`Discount Price: ${formatCurrency(food.discountPrice)}`);
-                $('#food-service-fee').text(food.serviceFee ? food.serviceFee.name : 'N/A');
-                $('#food-service-fee-explanation').text(food.serviceFeeExplanation);
-                $('#food-preparation-time').text(food.preparationTime);
-                $('#food-discount-code').text(food.discountCode);
-                $('#food-discount-usage-count').text(food.discountUsageCount);
-                $('#food-views').text(food.views);
-                $('#food-order-count').text(food.orderCount);
-                $('#food-featured').text(food.featured ? 'Yes' : 'No');
-                $('#food-special-offer').text(food.specialOffer ? 'Yes' : 'No');
-                $('#food-created-at').text(food.createdAt);
-                $('#food-updated-at').text(food.updatedAt);
-                $('#food-restaurant-name').text(food.restaurantName);
-                $('#food-category').text(food.category ? food.category.name : 'N/A');
-            },
-            error: function(xhr) {
-                console.error("Error loading food details:", xhr);
-                alert("Failed to load food details. Please try again later.");
-            }
-        });
-    }
+        </div>
+        <div class="item-infor-right">
+            <i class="fa-solid fa-location-dot"></i>
+            <p id="food-address">Loading address...</p>
+        </div>
+        <div class="item-infor-right">
+            <i class="fa-regular fa-clock"></i>
+            <p id="food-open-time">Loading open time...</p>
 
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
+        </div>
+        <div class="item-infor-right">
+            <i class="fa-regular fa-clock"></i>
+            <p id="food-close-time">Loading close time...</p>
+        </div>
+        <div class="item-infor-right">
+            <i class="fa-solid fa-money-bill-1-wave"></i>
+            <p id="food-discount-price">Loading discount price...</p>
+        </div>
+        <!--    <p id="food-service-fee">Loading service fee...</p>-->
+        <!--    <p id="food-service-fee-explanation">Loading service fee explanation...</p>-->
+        <!--    <p id="food-preparation-time">Loading preparation time...</p>-->
+        <!--    <p id="food-discount-code">Loading discount code...</p>-->
+        <!--    <p id="food-discount-usage-count">Loading discount usage count...</p>-->
+        <!--    <p id="food-views">Loading views...</p>-->
+        <!--    <p id="food-order-count">Loading order count...</p>-->
+        <!--    <p id="food-featured">Loading featured...</p>-->
+        <!--    <p id="food-special-offer">Loading special offer...</p>-->
+        <div class="item-infor-right">
+            <i class="fa-solid fa-stopwatch"></i>
+            <p id="food-created-at">Loading created at...</p>
+        </div>
+        <div class="item-infor-right">
+            <i class="fa-solid fa-stopwatch"></i>
+            <p id="food-updated-at">Loading updated at...</p>
+        </div>
+        <div class="logo-tag-infor">
+            <img src="../access/icon/tag.png" alt="">
+            <p id="food-category">Loading category...</p>
+        </div>
+        <div class="pay-to-cart">
+            <button id="add-to-cart-button">Thêm vào giỏ hàng</button>
+        </div>
+    </div>
 
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-</script>
+</div>
+
+<div class="background-img"></div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="line"></div>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>Công ty</h3>
+            <ul class="footer-links">
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Trung tâm Trợ giúp</a></li>
+                <li><a href="#">Quy chế</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+                <li><a href="#">Bảo mật thông tin</a></li>
+                <li><a href="#">Giải quyết khiếu nại</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ứng dụng ShopeeFood</h3>
+            <div class="app-downloads">
+                <a href="https://apps.apple.com/us/app/deliverynow/id1137866760"><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="img"></a>
+                <a href="https://play.google.com/store/apps/details?id=com.deliverynow&pli=1"><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="img"></a>
+                <a href="https://appgallery.huawei.com/#/app/C102401853"><img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" alt="img"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+        © 2025 ShopeeFood
+    </div>
+</footer>
+
+<script src="food.js"></script>
+
+<script src="../home-page/homepage.js"></script>
+<script src="../home-page/homepage-user.js"></script>
 </body>
 </html>
