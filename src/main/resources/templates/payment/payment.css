@@ -130,3 +130,17 @@ body {
     margin-bottom: 15px;
     font-size: 0.9em;
 }
+.place-order-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+}
+.place-order-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
