@@ -1,0 +1,362 @@
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 999999;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
+    height: 70px;
+}
+
+.header-logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-auth {
+    display: flex;
+    align-items: center;
+}
+
+.header-auth button, .header-auth a {
+    margin-left: 15px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.header-auth button:hover, .header-auth a:hover {
+    background-color: #e0e0e0;
+}
+
+
+.hero-section {
+    background: transparent;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    margin-top: 100px;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+.hero-greeting {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.hero-question {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.hero-search-input {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    width: 300px;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    background-image: url('https://banner2.cleanpng.com/20180331/axq/kisspng-computer-icons-clip-art-adress-5ac03f5f846d80.8976032615225485755424.jpg');
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 20px;
+    opacity: 0.8;
+}
+
+.hero-search-input::placeholder {
+    color: #999;
+}
+
+
+.hero-search-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.offers-section {
+    padding-top: 20px;
+    background-color: #fff;
+    background: transparent;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.offers-title {
+    font-size: 1.8em;
+    color: #333;
+    padding-left: 15px;
+    background-color: #fff;
+    margin: 0;
+    padding-top: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.offers-list {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: max-content;
+    max-height: 1000px;
+    padding: 0 15px;
+    background-color: #fff;
+    padding: 20px 15px;
+    overflow-y: scroll;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.offer-item {
+    margin: 5px;
+    width: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    flex: 0 0 auto;
+    height: 250px;
+}
+
+.offer-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+}
+
+.offer-item-content {
+    padding: 15px;
+    text-align: center;
+}
+
+.offer-item-promo {
+    color: #dc3545;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.offer-item-name {
+    font-weight: bold;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.offer-item-price {
+    margin-top: 5px;
+    text-align: left;
+    position: relative;
+}
+
+.offer-item-discount-price {
+    color: #dc3545;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.offer-item-original-price {
+    color: #777;
+    font-size: 0.9em;
+}
+.header-cart-link {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.header-cart-link:hover {
+    background-color: #e0e0e0;
+}
+
+.header-cart-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.container {
+    position: relative;
+    width: 1000px;
+}
+
+#categories-section {
+
+
+}
+
+#categories-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+#categories-list > li {
+    list-style : none;
+    width: 145px;
+    align-items: center;
+    text-align: center;
+    margin: 0 10px;
+    position: relative;
+}
+
+#foods-list > li {
+    list-style: none;
+    min-width: max-content;
+    width: 145px;
+    text-align: center;
+    margin: 0;
+}
+
+#categories-list > li:hover  {
+    color: #ee4d2d;
+}
+
+
+#foods-list {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    margin: 0;
+}
+
+#foods-section {
+    position: absolute;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    margin: 0;
+    width: 91%;
+    z-index: 1000;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+#foods-section::before {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    content: "";
+}
+
+.offer-item-add-cart-button {
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    background: #ee4d2d;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 5px;
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+
+.offers-section {
+    width: 1200px;
+    margin: auto;
+}
+
+.offers-list {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: max-content;
+}
+
+#logout-button {
+    height: 40px;
+    font-size: 16px;
+}
+
+.header-cart-link {
+    height: 20px;
+    padding-top: 15px;
+}
+
+.background-img {
+    position: fixed;
+    z-index: 0;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-image: url("https://shopeefood.vn/app/assets/img/main-banner.jpg?45bff8c9ec408a5ba51f9fdef662324e");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+}
+
+a.link-infor {
+    text-decoration: none;
+}
+
+button.offer-item-add-cart-button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+button.offer-item-add-cart-button:hover {
+    opacity: 0.8;
+}
+

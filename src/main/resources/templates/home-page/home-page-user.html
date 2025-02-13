@@ -4,222 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFFOOD Home</title>
+    <link rel="stylesheet" href="./homepage-user.css">
+    <link rel="stylesheet" href="../layout1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        /* ✅ CSS cơ bản cho trang chủ - bạn có thể tùy chỉnh thêm trong file này hoặc tách ra file CSS riêng */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background-color: #f8f9fa; /* Màu nền trắng nhạt */
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .header-logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .header-auth {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-auth button, .header-auth a {
-            margin-left: 15px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #fff;
-            color: #007bff; /* Màu xanh dương, tùy chỉnh */
-            cursor: pointer;
-            text-decoration: none; /* Loại bỏ gạch chân mặc định của link */
-        }
-
-        .header-auth button:hover, .header-auth a:hover {
-            background-color: #e0e0e0; /* Màu xám nhạt khi hover */
-        }
-
-
-        .hero-section {
-            background-image: url('https://th.bing.com/th/id/OIP.VwluQ8g0Rw1XDd5YM65VcgHaEK?rs=1&pid=ImgDetMain'); /* ➡️ Thay bằng đường dẫn ảnh nền của bạn */
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px; /* Tăng padding để tạo không gian */
-            position: relative; /* Cần thiết cho lớp phủ */
-        }
-
-        .hero-section::before { /* Lớp phủ màu đen mờ */
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Màu đen trong suốt */
-            z-index: 1; /* Đảm bảo lớp phủ nằm dưới nội dung chữ */
-        }
-
-        .hero-content {
-            position: relative; /* Đặt vị trí tương đối cho nội dung */
-            z-index: 2; /* Đảm bảo nội dung chữ nằm trên lớp phủ */
-        }
-
-
-        .hero-greeting {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        .hero-question {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-        }
-
-        .hero-search-input {
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            width: 300px; /* Độ rộng ô input */
-            margin-bottom: 10px;
-            padding-left: 40px; /* Để chừa chỗ cho icon */
-            background-image: url('https://banner2.cleanpng.com/20180331/axq/kisspng-computer-icons-clip-art-adress-5ac03f5f846d80.8976032615225485755424.jpg'); /* ➡️ Thay bằng đường dẫn icon địa điểm của bạn */
-            background-repeat: no-repeat;
-            background-position: 10px center;
-            background-size: 20px;
-            opacity: 0.8; /* Để tạo hiệu ứng mờ nhạt */
-        }
-
-        .hero-search-input::placeholder {
-            color: #999; /* Màu placeholder nhạt hơn */
-        }
-
-
-        .hero-search-button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            background-color: #28a745; /* Màu xanh lá cây giống GrabFood, tùy chỉnh */
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .offers-section {
-            padding: 20px;
-            background-color: #fff;
-        }
-
-        .offers-title {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #333; /* Màu chữ đậm hơn */
-        }
-
-        .offers-list {
-            display: flex;
-            overflow-x: auto; /* Cho phép cuộn ngang */
-            padding-bottom: 15px; /* Để thấy rõ bóng đổ nếu có */
-        }
-
-        .offer-item {
-            margin-right: 15px;
-            width: 200px; /* Độ rộng mỗi item ưu đãi, tùy chỉnh */
-            border-radius: 8px;
-            overflow: hidden; /* Cắt bỏ phần hình ảnh tràn ra ngoài border-radius */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
-            background-color: #fff; /* Màu nền trắng cho item */
-            flex: 0 0 auto; /* Không co lại, không giãn ra, tự động tính toán kích thước */
-        }
-
-        .offer-item img {
-            width: 100%;
-            height: 120px; /* Chiều cao hình ảnh ưu đãi, tùy chỉnh */
-            object-fit: cover; /* Đảm bảo ảnh không bị méo mó */
-            display: block; /* Loại bỏ khoảng trắng thừa dưới ảnh */
-        }
-
-        .offer-item-content {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .offer-item-promo {
-            color: #dc3545; /* Màu đỏ cho chữ Promo, tùy chỉnh */
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .offer-item-name {
-            font-weight: bold;
-            color: #333; /* Màu chữ đậm hơn */
-            overflow: hidden; /* Ẩn phần chữ dài quá */
-            text-overflow: ellipsis; /* Hiển thị dấu "..." nếu chữ quá dài */
-            white-space: nowrap; /* Không xuống dòng */
-        }
-        .offer-item-price {
-            margin-top: 5px; /* Khoảng cách từ tên sản phẩm tới giá */
-            text-align: left; /* Giá căn trái */
-        }
-
-        .offer-item-discount-price {
-            color: #dc3545; /* Màu đỏ cho giá khuyến mãi */
-            font-weight: bold;
-            margin-right: 5px; /* Khoảng cách giữa giá khuyến mãi và giá gốc */
-        }
-
-        .offer-item-original-price {
-            color: #777; /* Màu xám nhạt cho giá gốc */
-            font-size: 0.9em; /* Giá gốc nhỏ hơn một chút */
-        }
-        .header-cart-link { /* Style cho link giỏ hàng */
-            display: flex; /* Để icon và text trên cùng một hàng */
-            align-items: center; /* Căn chỉnh dọc icon và text */
-            margin-left: 15px; /* Khoảng cách với các phần tử header khác */
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #fff;
-            color: #007bff;
-            cursor: pointer;
-            text-decoration: none; /* Loại bỏ gạch chân mặc định của link */
-        }
-
-        .header-cart-link:hover { /* Hiệu ứng hover cho link giỏ hàng */
-            background-color: #e0e0e0;
-        }
-
-        .header-cart-icon { /* Style cho icon giỏ hàng */
-            width: 25px; /* Điều chỉnh kích thước icon */
-            height: 25px;
-            margin-right: 5px; /* Khoảng cách giữa icon và text "Giỏ hàng" */
-            vertical-align: middle; /* Căn chỉnh dọc icon với text */
-        }
-    </style>
 </head>
 <body>
-<script>
-    // ✅ Kiểm tra đăng nhập khi trang homepage-user.html được tải
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('token'); // Kiểm tra token
-        if (!token) {
-            // Nếu không có token, chuyển hướng về trang chủ (homepage.html) hoặc trang đăng nhập (sign-in.html)
-            // Ở đây mình chọn chuyển hướng về trang chủ mặc định (homepage.html)
-            window.location.href = 'home-page.html'; // ➡️ Chuyển hướng về trang chủ mặc định
-            alert('Bạn cần đăng nhập để truy cập trang này.'); // Thông báo cho người dùng (tùy chọn)
-        }
-    });
-</script>
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        const token = localStorage.getItem('token');-->
+<!--        if (!token) {-->
+<!--            window.location.href = 'home-page.html';-->
+<!--            alert('Bạn cần đăng nhập để truy cập trang này.');-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+<!--html-->
 <div class="header">
-    <div class="header-logo">SFFOOD</div>
+    <div class="header-logo">
+        <img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt="">
+    </div>
+
+<!--    categories-->
+    <div class="container">
+        <div class="section" id="categories-section">
+            <ul id="categories-list">
+
+            </ul>
+        </div>
+        <div class="section" id="foods-section" style="display: none;">
+            <ul id="foods-list">
+
+            </ul>
+        </div>
+    </div>
+
+<!--    pay-->
     <div class="header-auth">
         <a href="../order/order-history.html">Xem đơn hàng</a>
         <a href="../order/order.html" class="header-cart-link">  <img src="https://png.pngtree.com/png-clipart/20191120/original/pngtree-delete-product-cart-icon-png-image_5056154.jpg" alt="Giỏ hàng" class="header-cart-icon">
@@ -228,41 +48,80 @@
         <button id="logout-button">Đăng xuất</button>  </div>
 </div>
 
-<div class="category-link-section">
-    <a href="/case-study-module-4/case-study-module-4.main/templates/category/category.html?_ijt=3j2nafne6k59h4tksu542c9fa6&_ij_reload=RELOAD_ON_SAVE" class="category-link-button">Các loại món ăn</a>
-</div>
-
 <div class="hero-section">
     <div class="hero-content">
-        <h1 class="hero-greeting">Hôm nay ăn gì ?</h1> <p class="hero-question">Bạn muốn tìm địa điểm quán ăn ? </p>
-        <input type="text" class="hero-search-input" placeholder="Nhập địa điểm muốn tìm">
-        <a class="hero-search-button" href="../sign-in/sign-in.html">Tìm kiếm</a>
+        <h1 class="hero-greeting">Hôm nay ăn gì ?</h1>
+<!--        <p class="hero-question">Bạn muốn tìm địa điểm quán ăn ? </p>-->
+<!--        <input type="text" class="hero-search-input" placeholder="Nhập địa điểm muốn tìm">-->
+<!--        <a class="hero-search-button" href="../sign-in/sign-in.html">Tìm kiếm</a>-->
     </div>
 </div>
 
 <div class="offers-section">
     <h2 class="offers-title">Món ăn ở gần bạn</h2>
     <div class="offers-list">
-        <div class="offer-item">
-            Loading offers...
-        </div>
+        <a href="#">
+            <div class="offer-item">
+                Loading best selling items...
+            </div>
+        </a>
     </div>
     <div class="offers-section offers-categories-section">
         <h2 class="offers-title offers-categories-title">Món ăn ưu đãi</h2>
         <div class="offers-list offers-categories-list">
-            <div class="offer-item">
-                Loading categories... </div>
+            <a href="#">
+                <div class="offer-item">
+                    Loading best selling items...
+                </div>
+            </a>
         </div>
     </div>
     <div class="offers-section bestselling-section">
         <h2 class="offers-title bestselling-title">Món ăn bán chạy nhất</h2>
         <div class="offers-list bestselling-list">
-            <div class="offer-item">
-                Loading best selling items...
-            </div>
+            <a href="#">
+                <div class="offer-item">
+                    Loading best selling items...
+                </div>
+            </a>
         </div>
     </div>
 </div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="line"></div>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>Công ty</h3>
+            <ul class="footer-links">
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Trung tâm Trợ giúp</a></li>
+                <li><a href="#">Quy chế</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+                <li><a href="#">Bảo mật thông tin</a></li>
+                <li><a href="#">Giải quyết khiếu nại</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Ứng dụng ShopeeFood</h3>
+            <div class="app-downloads">
+                <a href="https://apps.apple.com/us/app/deliverynow/id1137866760"><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="img"></a>
+                <a href="https://play.google.com/store/apps/details?id=com.deliverynow&pli=1"><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="img"></a>
+                <a href="https://appgallery.huawei.com/#/app/C102401853"><img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" alt="img"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+        © 2025 ShopeeFood
+    </div>
+</footer>
+<div class="background-img"></div>
 <script src="homepage.js"></script>
-<script src="homepage-user.js"></script>  </body>
+<script src="homepage-user.js"></script>
+<script src="category1.js"></script>
+</body>
 </html>

@@ -13,12 +13,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int locationCount = 0;
 }

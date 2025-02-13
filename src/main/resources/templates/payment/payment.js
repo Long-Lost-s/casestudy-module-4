@@ -71,16 +71,15 @@ $(document).ready(function() {
 
         // ✅ Chuẩn bị dữ liệu đơn hàng để gửi lên backend API (POST /api/orders)
         const orderData = {
-            customerName: nameInput.value.trim(),
-            customerPhone: phoneInput.value.trim(),
-            deliveryAddress: addressInput.value.trim(),
+            customerName: nameInput.value.trim(), // ✅ Thêm tên khách hàng
+            customerPhone: phoneInput.value.trim(), // ✅ Thêm số điện thoại
+            deliveryAddress: addressInput.value.trim(), // ✅ Thêm địa chỉ giao hàng
             paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
-            totalPrice: totalPriceForSummary, // Sử dụng totalPrice đã tính toán ở frontend
-            orderItems: cart.map(item => ({ // Chuyển đổi giỏ hàng thành mảng OrderItem
+            totalPrice: totalPriceForSummary, // Vẫn gửi totalPrice để backend có thể hiển thị lại (backend nên tính toán lại để đảm bảo tin cậy)
+            orderItems: cart.map(item => ({ // ✅ Gửi danh sách món ăn dưới dạng mảng các object { foodId, quantity }
                 foodId: item.id, // Giả định item trong giỏ hàng có trường 'id' là foodId
-                quantity: item.quantity,
-                price: item.price // Giả định item trong giỏ hàng có trường 'price' (giá đơn vị)
-                // ✅  Có thể cần điều chỉnh các trường này theo model OrderItem của backend
+                quantity: item.quantity
+                // Không cần gửi price ở đây, backend sẽ lấy giá từ Food entity
             }))
         };
 
@@ -101,7 +100,7 @@ $(document).ready(function() {
                 console.log('Đơn hàng đã tạo:', response);
                 localStorage.removeItem('sffood-cart'); // Xóa giỏ hàng sau khi đặt hàng thành công
                 // ✅  Có thể chuyển hướng người dùng đến trang "đặt hàng thành công" (ví dụ: order-success.html)
-                // window.location.href = 'order-success.html';
+                window.location.href = '../order/order-history.html'; // ✅ Đường dẫn tương đối đến history.html
             },
             error: function(xhr, status, error) {
                 // Xử lý khi tạo đơn hàng thất bại
