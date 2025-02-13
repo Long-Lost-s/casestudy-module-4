@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     $.ajax({
         url: 'http://localhost:8080/api/foods',
@@ -52,6 +53,55 @@ $(document).ready(function() {
             console.error('Lỗi khi tải ưu đãi:', error);
         }
     });
+
+
+    // --- Món giao nhanh
+    $(document).ready(function() {
+        $.ajax({
+            url: 'http://localhost:8080/api/foods/fast-delivery', // ✅ Chỉ lấy món ăn giao nhanh từ API
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var fastDeliveryList = $('.fast-delivery-list');
+                fastDeliveryList.empty(); // Xóa dữ liệu cũ trước khi thêm mới
+
+                console.log("Món ăn giao nhanh từ API:", response); // ✅ Debug API data
+
+                if (response && response.length > 0) {
+                    $.each(response, function(index, food) {
+                        var link = $('<a class="link-infor" href="#">');
+                        var offerItem = $('<div class="offer-item fast-delivery-item">');
+                        var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
+                        var content = $('<div class="offer-item-content">');
+                        var promoText = "Giao nhanh";
+                        var promo = $('<div class="offer-item-promo">').text(promoText);
+                        var name = $('<div class="offer-item-name">').text(food.name);
+
+                        var priceContainer = $('<div class="offer-item-price">');
+                        var discountPrice = $('<span class="offer-item-discount-price">').text(formatCurrency(food.price));
+                        var addToCartButton = $('<button class="offer-item-add-cart-button">').text("Thêm vào giỏ");
+
+                        addToCartButton.data('food-id', food.id);
+                        addToCartButton.data('food-name', food.name);
+                        addToCartButton.data('food-price', food.price);
+
+                        priceContainer.append(discountPrice, addToCartButton);
+                        content.append(promo, name, priceContainer);
+                        offerItem.append(image, content);
+                        link.append(offerItem);
+                        fastDeliveryList.append(link);
+                    });
+                } else {
+                    fastDeliveryList.html('<div class="offer-item">Không có món ăn giao nhanh nào.</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                $('.fast-delivery-list').html('<div class="offer-item">Lỗi tải món ăn giao nhanh. Vui lòng thử lại sau.</div>');
+                console.error('Lỗi khi tải món ăn giao nhanh:', error);
+            }
+        });
+    });
+
 
     $.ajax({
         url: 'http://localhost:8080/api/foods',
@@ -149,6 +199,8 @@ $(document).ready(function() {
             window.location.href = "../sign-in/sign-in.html";
         }
     });
+
+
 
     function formatCurrency(amount) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);

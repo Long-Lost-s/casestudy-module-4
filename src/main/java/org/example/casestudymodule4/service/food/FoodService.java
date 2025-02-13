@@ -24,6 +24,11 @@ public class FoodService {
         return foodRepository.save(food);
     }
 
+    public List<Food> getFastDeliveryFoods() {
+        return foodRepository.findByPreparationTimeLessThan(20);
+    }
+
+
     public Food updateFood(Long id, Food foodDetails) {
         Optional<Food> optionalFood = foodRepository.findById(id);
         if (optionalFood.isPresent()) {

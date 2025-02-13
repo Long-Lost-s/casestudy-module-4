@@ -10,4 +10,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     List<Food> findByCategoryId(Long categoryId);
 
+    List<Food> findByPreparationTimeLessThan(int time);
+
+
 }
