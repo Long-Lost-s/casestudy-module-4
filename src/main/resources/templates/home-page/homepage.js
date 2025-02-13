@@ -1,4 +1,34 @@
 $(document).ready(function() {
+    var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
+
+    $(document).off('click', '.offer-item-add-cart-button').on('click', '.offer-item-add-cart-button', function(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+
+        var foodId = $(this).data('food-id');
+        var foodName = $(this).data('food-name');
+        var foodPrice = $(this).data('food-price');
+
+        var quantity = 1;
+
+        var existingItemIndex = cart.findIndex(item => item.id === foodId);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push({
+                id: foodId,
+                name: foodName,
+                price: foodPrice,
+                quantity: quantity
+            });
+        }
+
+        localStorage.setItem('sffood-cart', JSON.stringify(cart));
+
+        console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
+        alert("Đã thêm '" + foodName + "' vào giỏ hàng!");
+    });
+
     $.ajax({
         url: 'http://localhost:8080/api/foods',
         type: 'GET',
@@ -9,7 +39,7 @@ $(document).ready(function() {
                 offersList.empty();
 
                 $.each(response, function(index, food) {
-                    if (index < 20) {
+                    if (index < 9) {
                         var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                         var offerItem = $('<div class="offer-item">');
                         var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -25,8 +55,6 @@ $(document).ready(function() {
                         addToCartButton.data('food-id', food.id);
                         addToCartButton.data('food-name', food.name);
                         addToCartButton.data('food-price', food.price);
-                        // ✅ Store food.imageUrl in the button's data
-                        addToCartButton.data('food-image', food.imageUrl);
 
                         if (food.discountPrice && food.discountPrice < food.price) {
                             originalPrice.text(formatCurrency(food.price));
@@ -70,7 +98,7 @@ $(document).ready(function() {
 
                 if (discountedFoods.length > 0) {
                     $.each(discountedFoods, function(index, food) {
-                        if (index < 20) {
+                        if (index < 7) {
                             var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                             var offerItem = $('<div class="offer-item offer-category-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -86,8 +114,6 @@ $(document).ready(function() {
                             addToCartButton.data('food-id', food.id);
                             addToCartButton.data('food-name', food.name);
                             addToCartButton.data('food-price', food.price);
-                            // ✅ Store food.imageUrl in the button's data
-                            addToCartButton.data('food-image', food.imageUrl);
 
                             if (food.discountPrice && food.discountPrice < food.price) {
                                 originalPrice.text(formatCurrency(food.price));
@@ -118,43 +144,6 @@ $(document).ready(function() {
         error: function(xhr, status, error) {
             $('.offers-categories-list').html('<div class="offer-item">Lỗi tải món ăn ưu đãi. Vui lòng thử lại sau.</div>');
             console.error('Lỗi khi tải món ăn ưu đãi:', error);
-        }
-    });
-
-    var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
-
-    $(document).on('click', '.offer-item-add-cart-button', function(event) {
-        if ($('#logout-button').length) {
-            var foodId = $(this).data('food-id');
-            var foodName = $(this).data('food-name');
-            var foodPrice = $(this).data('food-price');
-            // ✅ Retrieve food image from the button's data
-            var foodImage = $(this).data('food-image');
-
-            var quantity = 1;
-
-            var existingItemIndex = cart.findIndex(item => item.id === foodId);
-
-            if (existingItemIndex > -1) {
-                cart[existingItemIndex].quantity += quantity;
-            } else {
-                cart.push({
-                    id: foodId,
-                    name: foodName,
-                    price: foodPrice,
-                    quantity: quantity,
-                    // ✅ Store food image in cart item
-                    image: foodImage
-                });
-            }
-
-            localStorage.setItem('sffood-cart', JSON.stringify(cart));
-
-            console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
-            alert("Đã thêm '" + foodName + "' vào giỏ hàng!");
-        } else {
-            event.preventDefault();
-            window.location.href = "../sign-in/sign-in.html";
         }
     });
 
