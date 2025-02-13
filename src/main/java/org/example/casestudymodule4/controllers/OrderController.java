@@ -2,10 +2,12 @@ package org.example.casestudymodule4.controllers;
 
 import org.example.casestudymodule4.model.Order;
 import org.example.casestudymodule4.service.order.OrderService;
+import org.example.casestudymodule4.payload.request.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +36,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        Order createdOrder = orderService.createOrderFromRequest(createOrderRequest);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
