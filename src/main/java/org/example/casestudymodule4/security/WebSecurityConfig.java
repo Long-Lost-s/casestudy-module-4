@@ -61,6 +61,7 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/api/order-items").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/order-items").permitAll()
+                    .requestMatchers(HttpMethod.DELETE, "/api/orders/**").permitAll()
                     .anyRequest().authenticated()
             );
 

@@ -9,7 +9,7 @@ $(document).ready(function() {
                 offersList.empty();
 
                 $.each(response, function(index, food) {
-                    if (index < 9) {
+                    if (index < 20) {
                         var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                         var offerItem = $('<div class="offer-item">');
                         var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -25,6 +25,8 @@ $(document).ready(function() {
                         addToCartButton.data('food-id', food.id);
                         addToCartButton.data('food-name', food.name);
                         addToCartButton.data('food-price', food.price);
+                        // ✅ Store food.imageUrl in the button's data
+                        addToCartButton.data('food-image', food.imageUrl);
 
                         if (food.discountPrice && food.discountPrice < food.price) {
                             originalPrice.text(formatCurrency(food.price));
@@ -68,7 +70,7 @@ $(document).ready(function() {
 
                 if (discountedFoods.length > 0) {
                     $.each(discountedFoods, function(index, food) {
-                        if (index < 7) {
+                        if (index < 20) {
                             var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                             var offerItem = $('<div class="offer-item offer-category-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -84,6 +86,8 @@ $(document).ready(function() {
                             addToCartButton.data('food-id', food.id);
                             addToCartButton.data('food-name', food.name);
                             addToCartButton.data('food-price', food.price);
+                            // ✅ Store food.imageUrl in the button's data
+                            addToCartButton.data('food-image', food.imageUrl);
 
                             if (food.discountPrice && food.discountPrice < food.price) {
                                 originalPrice.text(formatCurrency(food.price));
@@ -124,6 +128,8 @@ $(document).ready(function() {
             var foodId = $(this).data('food-id');
             var foodName = $(this).data('food-name');
             var foodPrice = $(this).data('food-price');
+            // ✅ Retrieve food image from the button's data
+            var foodImage = $(this).data('food-image');
 
             var quantity = 1;
 
@@ -136,7 +142,9 @@ $(document).ready(function() {
                     id: foodId,
                     name: foodName,
                     price: foodPrice,
-                    quantity: quantity
+                    quantity: quantity,
+                    // ✅ Store food image in cart item
+                    image: foodImage
                 });
             }
 
