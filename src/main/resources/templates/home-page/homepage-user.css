@@ -104,7 +104,7 @@ a {
 .offers-list {
     display: flex;
     flex-wrap: wrap;
-    min-height: max-content;
+    height: 650px;
     background-color: #fff;
     padding: 20px 25px;
     overflow-y: scroll;
