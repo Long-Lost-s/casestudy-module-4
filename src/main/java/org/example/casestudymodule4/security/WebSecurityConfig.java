@@ -63,6 +63,8 @@ public class WebSecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/order-items").permitAll()
                     .requestMatchers(HttpMethod.DELETE, "/api/orders/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/foods/fast-delivery").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/foods/most-viewed").permitAll()
                     .anyRequest().authenticated()
             );
 

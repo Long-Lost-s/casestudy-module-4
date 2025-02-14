@@ -23,49 +23,41 @@
             return;
         }
 
-        $(".favorite-foods-list").empty(); // Chỉ xóa nếu có món ăn
+        $(".favorite-foods-list").empty();
 
-        // 📌 Gọi API lấy tất cả món ăn yêu thích trong một lần request
-        $.ajax({
-            url: `http://localhost:8080/api/foods/favorites`, // API hỗ trợ lấy nhiều ID cùng lúc
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({ foodIds: favoriteFoods }), // Gửi mảng ID lên server
-            success: function (foods) {
-                if (foods.length === 0) {
-                    $(".favorite-foods-list").html("<p>Chưa có món ăn nào trong danh sách yêu thích.</p>");
-                    return;
-                }
-
-                foods.forEach(food => {
+        favoriteFoods.forEach(foodId => {
+            $.ajax({
+                url: `http://localhost:8080/api/foods/${foodId}`,
+                type: "GET",
+                dataType: "json",
+                success: function (food) {
                     let foodItem = `
-                        <div class="food-item" data-id="${food.id}">
-                            <img src="${food.imageUrl}" alt="${food.name}">
-                            <h2>${food.name}</h2>
-                            <p>Giá: ${formatCurrency(food.price)}</p>
-                            <button class="remove-favorite" data-id="${food.id}">❌ Xóa</button>
-                        </div>
-                    `;
+                            <div class="food-item">
+                                <img src="${food.imageUrl}" alt="${food.name}">
+                                <h2>${food.name}</h2>
+                                <p>Giá: ${formatCurrency(food.price)}</p>
+                                <button class="remove-favorite" data-id="${foodId}">❌ Xóa</button>
+                            </div>
+                        `;
                     $(".favorite-foods-list").append(foodItem);
-                });
-            },
-            error: function () {
-                console.error("Lỗi khi tải danh sách món ăn yêu thích");
-            }
+                },
+                error: function () {
+                    console.error("Lỗi khi tải thông tin món ăn:", foodId);
+                }
+            });
+        });
+
+        $(document).on("click", ".remove-favorite", function () {
+            let foodId = $(this).data("id");
+            removeFromFavorites(foodId);
         });
     }
-
-    // 🛠 Xử lý xóa món khỏi danh sách yêu thích
-    $(document).off("click", ".remove-favorite").on("click", ".remove-favorite", function () {
-        let foodId = $(this).data("id");
-        removeFromFavorites(foodId);
-    });
 
     function removeFromFavorites(foodId) {
         let favoriteFoods = JSON.parse(localStorage.getItem("favoriteFoods")) || [];
         favoriteFoods = favoriteFoods.filter(id => id !== foodId);
         localStorage.setItem("favoriteFoods", JSON.stringify(favoriteFoods));
-        loadFavoriteFoods(); // Reload danh sách
+        loadFavoriteFoods();
     }
 
     function formatCurrency(amount) {
