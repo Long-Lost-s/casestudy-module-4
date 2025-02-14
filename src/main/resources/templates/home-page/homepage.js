@@ -162,7 +162,7 @@ $(document).ready(function() {
             fastDeliveryList.empty();
 
             if (response && response.length > 0) {
-                $.each(response.slice(0, 6), function(index, food) {
+                $.each(response.slice(0, 9), function(index, food) {
                     var link = $('<a class="link-infor" href="food.html?id=' + food.id + '">'); // ✅ Chuyển đến food.html khi click
                     var offerItem = $('<div class="offer-item fast-delivery-item">');
                     var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -219,7 +219,7 @@ $(document).ready(function() {
                     console.log("🚀 Dữ liệu món ăn giao nhanh:", response);
 
                     if (response && response.length > 0) {
-                        $.each(response.slice(0, 6), function(index, food) {
+                        $.each(response.slice(0, 9), function(index, food) {
                             var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">'); // ✅ Sửa lại đường dẫn
                             var offerItem = $('<div class="offer-item fast-delivery-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -271,7 +271,7 @@ $(document).ready(function() {
                     console.log("🚀 Dữ liệu món ăn quan tâm nhất:", response);
 
                     if (response && response.length > 0) {
-                        $.each(response.slice(0, 6), function(index, food) {
+                        $.each(response.slice(0, 9), function(index, food) {
                             var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">'); // ✅ Sửa lại đường dẫn
                             var offerItem = $('<div class="offer-item most-viewed-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);

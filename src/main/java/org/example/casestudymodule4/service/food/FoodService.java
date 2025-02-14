@@ -29,7 +29,7 @@ public class FoodService {
     }
 
     public List<Food> getMostViewedFoods() {
-        return foodRepo.findTop6ByOrderByViewsDesc();
+        return foodRepo.findTop9ByOrderByViewsDesc();
     }
 
 
