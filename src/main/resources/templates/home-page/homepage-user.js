@@ -171,7 +171,7 @@ function loadFastDeliveryFoods() {
                 console.log("Món ăn giao nhanh từ API:", response); // ✅ Debug API data
 
                 if (response && response.length > 0) {
-                    $.each(response.slice(0, 6), function(index, food) { // ✅ Chỉ hiển thị 6 món
+                    $.each(response.slice(0, 9), function(index, food) { // ✅ Chỉ hiển thị 6 món
                         var link = $('<a class="link-infor" href="food.html?id=' + food.id + '">');
                         var offerItem = $('<div class="offer-item fast-delivery-item">');
                         var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
@@ -225,7 +225,7 @@ function loadMostViewedFoods() {
                 console.log("Món ăn quan tâm nhất từ API:", response); // ✅ Debug API data
 
                 if (response && response.length > 0) {
-                    $.each(response.slice(0, 6), function(index, food) { // ✅ Giới hạn 6 món
+                    $.each(response.slice(0, 9), function(index, food) { // ✅ Giới hạn 6 món
                         var link = $('<a class="link-infor" href="food.html?id=' + food.id + '">');
                         var offerItem = $('<div class="offer-item most-viewed-item">');
                         var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
