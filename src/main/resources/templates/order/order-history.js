@@ -31,7 +31,11 @@ $(document).ready(function() {
 
         orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+        let totalRevenue = 0; // Khởi tạo biến tính tổng doanh thu
+
         orders.forEach(order => {
+            totalRevenue += order.totalPrice; // Cộng dồn vào tổng doanh thu
+
             let orderDetailsHTML = '';
             const foodNames = order.foodNames ? order.foodNames.split(',') : [];
             const foodQuantities = order.foodQuantities ? order.foodQuantities.split(',') : [];
@@ -48,26 +52,42 @@ $(document).ready(function() {
                 console.warn('Đơn hàng ID #' + order.id + ' không có thông tin món hàng chi tiết.');
             }
 
-            // ✅ Thêm nút "Hủy đơn hàng" vào HTML của mỗi order item
+            // ✅ Thêm nút "Hủy đơn hàng" và phần thông tin chi tiết đơn hàng vào HTML của mỗi order item
             const orderItemHTML = `
                 <div class="order-item">
                     <div class="order-header">
                         <h3 class="order-number">Đơn hàng #${order.id}</h3>
                         <span class="order-date">Ngày đặt: ${formatDate(order.createdAt)}</span>
                     </div>
-                    <ul class="order-details-list">
-                        ${orderDetailsHTML}
-                    </ul>
+                    <div class="order-details-expanded" style="display: none;">
+                        <ul class="order-details-list">
+                            ${orderDetailsHTML}
+                        </ul>
+                        <p><strong>Tên khách hàng:</strong> ${order.customerName || 'N/A'}</p>
+                        <p><strong>Số điện thoại:</strong> ${order.customerPhone || 'N/A'}</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> ${order.deliveryAddress || 'N/A'}</p>
+                        <p><strong>Hình thức thanh toán:</strong> ${order.paymentMethod || 'N/A'}</p>
+                    </div>
                     <div class="order-total-price">
                         Tổng cộng: ${formatCurrency(order.totalPrice)}
-                        <button class="cancel-order-button" data-order-id="${order.id}">Hủy đơn hàng</button>  </div>
+                        <button class="cancel-order-button" data-order-id="${order.id}">Hủy đơn hàng</button>
+                    </div>
                 </div>
             `;
             orderList.append(orderItemHTML);
         });
 
+        // Hiển thị tổng doanh thu
+        $('#total-revenue-value').text(formatCurrency(totalRevenue));
+
+        // ✅ Thêm event listener cho header của mỗi đơn hàng để toggle hiển thị chi tiết
+        $('.order-header').on('click', function() {
+            $(this).next('.order-details-expanded').slideToggle(); // slideToggle để tạo hiệu ứngượt mà
+        });
+
         // ✅ Thêm event listener cho nút "Hủy đơn hàng" sau khi đã render danh sách đơn hàng
-        $('.cancel-order-button').on('click', function() {
+        $('.cancel-order-button').on('click', function(event) {
+            event.stopPropagation(); // Ngăn chặn sự kiện click lan rộng lên header khi click nút hủy
             const orderId = $(this).data('order-id');
             deleteOrder(orderId); // Gọi hàm xóa đơn hàng khi nút được click
         });
