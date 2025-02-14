@@ -7,6 +7,7 @@ $(document).ready(function() {
         var foodId = $(this).data('food-id');
         var foodName = $(this).data('food-name');
         var foodPrice = $(this).data('food-price');
+        var foodImage = $(this).data('food-image');
 
         var quantity = 1;
 
@@ -19,6 +20,7 @@ $(document).ready(function() {
                 id: foodId,
                 name: foodName,
                 price: foodPrice,
+                image: foodImage,
                 quantity: quantity
             });
         }
@@ -55,6 +57,7 @@ $(document).ready(function() {
                         addToCartButton.data('food-id', food.id);
                         addToCartButton.data('food-name', food.name);
                         addToCartButton.data('food-price', food.price);
+                        addToCartButton.data('food-image', food.imageUrl);
 
                         if (food.discountPrice && food.discountPrice < food.price) {
                             originalPrice.text(formatCurrency(food.price));
