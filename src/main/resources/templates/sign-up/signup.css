@@ -14,7 +14,10 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 50px auto;
+    margin: 150px auto 10px;
+    position: relative;
+    z-index: 1;
+
 }
 
 h2 {
@@ -70,4 +73,18 @@ button[type="submit"]:hover {
 .already-account a {
     color: #007bff; /* Màu xanh cho link */
     text-decoration: none;
+}
+
+.background-img {
+    position: fixed;
+    z-index: 0;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-image: url("https://shopeefood.vn/app/assets/img/main-banner.jpg?45bff8c9ec408a5ba51f9fdef662324e");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    background-color: transparent;
 }
