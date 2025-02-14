@@ -46,10 +46,11 @@ h3 {
 .app-downloads {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 a > img {
-    height: 40px;
+    height: 90px;
 }
 
 .copyright {
@@ -60,4 +61,8 @@ a > img {
     border: 1px solid #ccc;
     width: 100%;
     margin-top: 30px ;
+}
+
+.app-downloads > a > img {
+    height: 40px;
 }
