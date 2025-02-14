@@ -5,30 +5,30 @@ $(document).ready(function() {
         let question = "";
 
         if (hours >= 6 && hours < 9) {
-            greeting = "☀️ Good morning";
-            question = "Did you have breakfast?";
+            greeting = "☀️ Chào buổi sáng";
+            question = "Bạn đã ăn sáng chưa?";
         } else if (hours >= 9 && hours < 12) {
-            greeting = "🌞 Hope you're having a great morning";
-            question = "Need a coffee break?";
+            greeting = "🌞 Chúc bạn một buổi sáng vui vẻ";
+            question = "Bạn có muốn uống một ly cà phê không?";
         } else if (hours >= 12 && hours < 15) {
-            greeting = "🌤️ Good afternoon";
-            question = "Ready for lunch?";
+            greeting = "🌤️ Chào buổi trưa";
+            question = "Đã đến giờ ăn trưa rồi!";
         } else if (hours >= 15 && hours < 18) {
-            greeting = "🌅 Good evening";
-            question = "How’s your afternoon going?";
+            greeting = "🌅 Chào buổi chiều";
+            question = "Buổi chiều của bạn thế nào rồi?";
         } else if (hours >= 18 && hours < 22) {
-            greeting = "🌙 Hope you had a great day";
-            question = "Dinner time? What’s on your menu?";
+            greeting = "🌙 Chúc bạn một buổi tối tốt lành";
+            question = "Đến giờ ăn tối rồi, bạn muốn ăn gì?";
         } else {
-            greeting = "🌃 Late night, huh?";
-            question = "Don’t forget to rest!";
+            greeting = "🌃 Khuya rồi đó!";
+            question = "Đừng quên nghỉ ngơi nhé!";
         }
 
         return { greeting, question };
     }
 
     function getWeather() {
-        const apiKey = "YOUR_WEATHERAPI_KEY"; // 🔥 Thay bằng API Key mới của bạn
+        const apiKey = "4aec20675fad4205a4833449251402"; // 🔥 Thay bằng API Key mới của bạn
         let city = "Hanoi"; // Mặc định Hà Nội nếu không lấy được vị trí
 
         if ("geolocation" in navigator) {
@@ -78,7 +78,7 @@ $(document).ready(function() {
         const city = data.location.name;
         const mealSuggestion = suggestMeal(temperature, weather);
 
-        $(".weather-info").html(`🌡️ ${temperature}°C, ${weather} in ${city} <br> 🍽️ <strong>${mealSuggestion}</strong>`);
+        $(".weather-info").html(`🌡️ ${temperature}°C, ${weather} tại ${city} <br> 🍽️ <strong>Gợi ý cho bạn mến: ${mealSuggestion}</strong>`);
     }
 
     function suggestMeal(temp, weather) {
