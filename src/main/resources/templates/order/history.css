@@ -127,3 +127,9 @@ body {
 .header.history {
     justify-content: unset;
 }
+#total-revenue-display {
+    position: absolute;
+    top: 55px;
+    right: 20px; /* Góc phải trên, cách lề phải 20px */
+    font-weight: bold;
+}

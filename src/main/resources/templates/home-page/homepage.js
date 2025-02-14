@@ -101,7 +101,7 @@ $(document).ready(function() {
 
                 if (discountedFoods.length > 0) {
                     $.each(discountedFoods, function(index, food) {
-                        if (index < 7) {
+                        if (index < 50) {
                             var link = $('<a class="link-infor" href="../food/food.html?id=' + food.id + '">');
                             var offerItem = $('<div class="offer-item offer-category-item">');
                             var image = $('<img>').attr('src', food.imageUrl).attr('alt', food.name);
