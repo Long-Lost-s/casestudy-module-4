@@ -46,6 +46,7 @@ h3 {
 .app-downloads {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 a > img {
