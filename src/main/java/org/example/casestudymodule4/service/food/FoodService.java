@@ -3,7 +3,7 @@ package org.example.casestudymodule4.service.food;
 import org.example.casestudymodule4.model.Food;
 import org.example.casestudymodule4.model.ServiceFee;
 import org.example.casestudymodule4.payload.request.FoodPriceUpdateRequest;
-import org.example.casestudymodule4.repository.FoodRepository;
+import org.example.casestudymodule4.repository.FoodRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,22 +14,22 @@ import java.util.Optional;
 @Service
 public class FoodService {
     @Autowired
-    private FoodRepository foodRepository;
+    private FoodRepo foodRepo;
 
     public List<Food> getAllFoods() {
-        return foodRepository.findAll();
+        return foodRepo.findAll();
     }
 
     public Food saveFood(Food food) {
-        return foodRepository.save(food);
+        return foodRepo.save(food);
     }
 
     public List<Food> getFastDeliveryFoods() {
-        return foodRepository.findByPreparationTimeLessThan(20);
+        return foodRepo.findByPreparationTimeLessThan(20);
     }
 
     public List<Food> getMostViewedFoods() {
-        return foodRepository.findTop6ByOrderByViewsDesc();
+        return foodRepo.findTop6ByOrderByViewsDesc();
     }
 
 
@@ -37,7 +37,7 @@ public class FoodService {
 
 
     public Food updateFood(Long id, Food foodDetails) {
-        Optional<Food> optionalFood = foodRepository.findById(id);
+        Optional<Food> optionalFood = foodRepo.findById(id);
         if (optionalFood.isPresent()) {
             Food food = optionalFood.get();
             food.setName(foodDetails.getName());
@@ -58,22 +58,22 @@ public class FoodService {
             food.setSpecialOffer(foodDetails.isSpecialOffer());
             food.setRestaurantName(foodDetails.getRestaurantName());
             food.setCategory(foodDetails.getCategory());
-            return foodRepository.save(food);
+            return foodRepo.save(food);
         } else {
             throw new RuntimeException("Food not found with id " + id);
         }
     }
 
     public void deleteFood(Long id) {
-        foodRepository.deleteById(id);
+        foodRepo.deleteById(id);
     }
 
     public List<Food> searchFoodsByName(String name) {
-        return foodRepository.findByNameContaining(name);
+        return foodRepo.findByNameContaining(name);
     }
 
     public Food updateFoodPrices(Long id, FoodPriceUpdateRequest priceUpdateRequest) {
-        Optional<Food> optionalFood = foodRepository.findById(id);
+        Optional<Food> optionalFood = foodRepo.findById(id);
         if (optionalFood.isPresent()) {
             Food food = optionalFood.get();
             food.setDiscountPrice(BigDecimal.valueOf(priceUpdateRequest.getDiscountPrice()));
@@ -81,14 +81,14 @@ public class FoodService {
             food.setServiceFee(new ServiceFee());
             food.getServiceFee().setAmount(BigDecimal.valueOf(priceUpdateRequest.getServiceFee()));
             food.setServiceFeeExplanation(priceUpdateRequest.getServiceFeeExplanation());
-            return foodRepository.save(food);
+            return foodRepo.save(food);
         } else {
             throw new RuntimeException("Food not found with id " + id);
         }
     }
 
     public Food getFoodById(Long id) {
-        return foodRepository.findById(id).orElseThrow(() -> new RuntimeException("Food not found with id " + id));
+        return foodRepo.findById(id).orElseThrow(() -> new RuntimeException("Food not found with id " + id));
     }
 
 }

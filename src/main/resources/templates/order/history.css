@@ -1,0 +1,125 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 960px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
+    min-height: 250px;
+    border-radius: 5px;
+}
+
+.order-history-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-list {
+    list-style: none; /* Loại bỏ dấu chấm mặc định của list */
+    padding: 0;
+}
+
+.order-item {
+    background-color: #fff;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.order-number {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.order-date {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.order-details-list {
+    list-style: none;
+    padding: 0;
+}
+
+.order-detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.item-name {
+    font-weight: normal;
+}
+
+.item-quantity {
+    color: #555;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #dc3545;
+}
+
+.order-total-price {
+    text-align: right;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: flex;  /* Để nút và tổng tiền trên cùng dòng */
+    justify-content: flex-end; /* Đẩy nút về bên phải */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.cancel-order-button {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 15px; /* Tạo khoảng cách với tổng tiền */
+}
+
+.cancel-order-button:hover {
+    background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+}
+.place-order-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    position: absolute;
+    left: 40px;
+    bottom: 20px;
+}
+.place-order-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.header.history {
+    justify-content: unset;
+}

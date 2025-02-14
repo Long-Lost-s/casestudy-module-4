@@ -43,7 +43,6 @@ function loadCategories() {
 }
 
 function loadFoods(categoryId) {
-
     $.ajax({
         url: `http://localhost:8080/api/categories/${categoryId}/foods`,
         method: "GET",
@@ -62,10 +61,16 @@ function loadFoods(categoryId) {
 
             foods.forEach(food => {
                 let li = $("<li>")
-                    .text(food.name)
                     .addClass("food-item")
-                    .css({ "margin-left": "1rem", "font-weight": "bold", "color": "#555" });
+                    .css({ "display": "flex", "flex-direction": "column", "align-items": "center", "margin-bottom": "10px" });
 
+                let img = $("<img>")
+                    .attr("src", food.imageUrl)
+                    .css({ "width": "100px", "height": "100px", "margin-bottom": "10px", "border-radius": "5px" });
+
+                let span = $("<span>").text(food.name).css({ "font-weight": "bold", "color": "#555" });
+
+                li.append(img).append(span);
                 foodsList.append(li);
             });
 

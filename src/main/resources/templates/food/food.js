@@ -1,68 +1,76 @@
 $(document).ready(function() {
-    const foodId = new URLSearchParams(window.location.search).get('id');
-    const token = localStorage.getItem('token'); // Kiểm tra đăng nhập
+    var cart = JSON.parse(localStorage.getItem('sffood-cart')) || [];
 
-    if (foodId) {
-        loadFoodDetails(foodId);
-        checkFavoriteStatus(foodId); // ✅ Kiểm tra trạng thái yêu thích
-    } else {
-        alert('Không có ID món ăn.');
-    }
+    $('#add-to-cart-button').on('click', function() {
+        var foodId = new URLSearchParams(window.location.search).get('id');
+        var foodName = $('#food-name').text();
+        var foodPrice = $('#food-price').text();
+        var foodImage = $('#food-image').attr('src');
 
-    // 🛠 Xử lý khi click vào nút "Yêu thích"
-    $(document).on("click", "#favorite-button", function() {
-        if (!token) {
-            alert("Bạn cần đăng nhập để sử dụng tính năng này!");
-            window.location.href = "../sign-in/sign-in.html"; // Chuyển hướng đến trang đăng nhập
-            return;
+        var quantity = 1;
+
+        var existingItemIndex = cart.findIndex(item => item.id === foodId);
+
+        if (existingItemIndex > -1) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push({
+                id: foodId,
+                name: foodName,
+                price: foodPrice,
+                image: foodImage,
+                quantity: quantity
+            });
         }
-        toggleFavorite(foodId);
+
+        localStorage.setItem('sffood-cart', JSON.stringify(cart));
+
+        console.log("Đã thêm '" + foodName + "' vào giỏ hàng. Giỏ hàng hiện tại:", cart);
+        alert("Đã thêm '" + foodName + "' vào giỏ hàng!");
     });
+
+    loadFoodDetails(new URLSearchParams(window.location.search).get('id'));
 });
 
-// 🛠 Kiểm tra xem món đã được yêu thích chưa
-function checkFavoriteStatus(foodId) {
-    let favoriteFoods = JSON.parse(localStorage.getItem("favoriteFoods")) || [];
-
-    console.log("🔍 Danh sách yêu thích:", favoriteFoods); // ✅ Kiểm tra danh sách lưu
-    if (favoriteFoods.includes(foodId)) {
-        $("#favorite-button").addClass("favorited").text("💖 Đã yêu thích");
-    } else {
-        $("#favorite-button").removeClass("favorited").text("💖 Yêu thích");
-    }
+function loadFoodDetails(foodId) {
+    $.ajax({
+        url: `http://localhost:8080/api/foods/${foodId}`,
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer VALID_JWT_TOKEN" // Replace with your actual valid JWT token
+        },
+        success: function(food) {
+            $('#food-name').text(food.name);
+            $('#food-image').attr('src', food.imageUrl).show();
+            $('#food-description').text(food.description);
+            $('#food-price').text(food.price);
+            $('#food-address').text(food.address);
+            $('#food-open-time').text(food.openTime);
+            $('#food-close-time').text(food.closeTime);
+            $('#food-notes').text(food.notes);
+            $('#food-discount-price').text(food.discountPrice);
+            $('#food-service-fee').text(food.serviceFee ? food.serviceFee.name : 'N/A');
+            $('#food-service-fee-explanation').text(food.serviceFeeExplanation);
+            $('#food-preparation-time').text(food.preparationTime);
+            $('#food-discount-code').text(food.discountCode);
+            $('#food-discount-usage-count').text(food.discountUsageCount);
+            $('#food-views').text(food.views);
+            $('#food-order-count').text(food.orderCount);
+            $('#food-featured').text(food.featured ? 'Yes' : 'No');
+            $('#food-special-offer').text(food.specialOffer ? 'Yes' : 'No');
+            $('#food-created-at').text(food.createdAt);
+            $('#food-updated-at').text(food.updatedAt);
+            $('#food-restaurant-name').text(food.restaurantName);
+            $('#food-category').text(food.category ? food.category.name : 'N/A');
+        },
+        error: function(xhr) {
+            console.error("Error loading food details:", xhr);
+            alert("Failed to load food details. Please try again later.");
+        }
+    });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    let favoriteFoods = JSON.parse(localStorage.getItem("favoriteFoods")) || [];
-    let listContainer = document.getElementById("favorite-list");
-
-    if (favoriteFoods.length === 0) {
-        listContainer.innerHTML = "<li>Chưa có món yêu thích nào.</li>";
-    } else {
-        listContainer.innerHTML = "";
-        favoriteFoods.forEach(foodId => {
-            let listItem = document.createElement("li");
-            listItem.textContent = `Món ăn ID: ${foodId}`;  // Cập nhật để hiển thị đúng tên món ăn
-            listContainer.appendChild(listItem);
-        });
-    }
-});
-
-
-// 🔥 Thêm/xóa món ăn khỏi danh sách yêu thích
-function toggleFavorite(foodId) {
-    let favoriteFoods = JSON.parse(localStorage.getItem("favoriteFoods")) || [];
-    let index = favoriteFoods.indexOf(foodId);
-
-    if (index > -1) {
-        favoriteFoods.splice(index, 1);
-        $("#favorite-button").removeClass("favorited").text("💖 Yêu thích");
-        console.log("❌ Đã xóa khỏi danh sách yêu thích:", foodId);
-    } else {
-        favoriteFoods.push(foodId);
-        $("#favorite-button").addClass("favorited").text("💖 Đã yêu thích");
-        console.log("✅ Đã thêm vào danh sách yêu thích:", foodId);
-    }
-
-    localStorage.setItem("favoriteFoods", JSON.stringify(favoriteFoods));
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 }

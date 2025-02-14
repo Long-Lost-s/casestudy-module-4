@@ -1,11 +1,15 @@
 package org.example.casestudymodule4.service.order;
 
+import org.example.casestudymodule4.model.Food;
 import org.example.casestudymodule4.model.Order;
-import org.example.casestudymodule4.model.OrderItem;
-import org.example.casestudymodule4.repository.OrderItemRepo;
+import org.example.casestudymodule4.repository.FoodRepo;
 import org.example.casestudymodule4.repository.OrderRepo;
+import org.example.casestudymodule4.payload.request.CreateOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal; // ✅ Import BigDecimal
+import java.math.RoundingMode; // ✅ Import RoundingMode (nếu bạn muốn làm tròn)
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +17,12 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepo orderRepo;
-    private final OrderItemRepo orderItemRepo;
+    private final FoodRepo foodRepo; // Cần FoodRepo để lấy thông tin giá món ăn
 
     @Autowired
-    public OrderService(OrderRepo orderRepo, OrderItemRepo orderItemRepo) {
+    public OrderService(OrderRepo orderRepo, FoodRepo foodRepo) {
         this.orderRepo = orderRepo;
-        this.orderItemRepo = orderItemRepo;
+        this.foodRepo = foodRepo;
     }
 
     public List<Order> getAllOrders() {
@@ -29,15 +33,60 @@ public class OrderService {
         return orderRepo.findById(id);
     }
 
+    public Order createOrderFromRequest(CreateOrderRequest createOrderRequest) {
+        Order order = new Order();
+        // Set các trường từ CreateOrderRequest sang Order entity
+        order.setCustomerName(createOrderRequest.getCustomerName());
+        order.setCustomerPhone(createOrderRequest.getCustomerPhone());
+        order.setDeliveryAddress(createOrderRequest.getDeliveryAddress());
+
+        // ✅ Khởi tạo totalPrice là BigDecimal.ZERO
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        StringBuilder foodNamesBuilder = new StringBuilder();
+        StringBuilder foodQuantitiesBuilder = new StringBuilder();
+
+        if (createOrderRequest.getOrderItems() != null) {
+            for (CreateOrderRequest.OrderItemRequest itemRequest : createOrderRequest.getOrderItems()) {
+                Optional<Food> foodOptional = foodRepo.findById(itemRequest.getFoodId());
+                if (foodOptional.isPresent()) {
+                    Food food = foodOptional.get();
+                    int quantity = itemRequest.getQuantity();
+
+                    // ✅ Chuyển đổi quantity (int) sang BigDecimal
+                    BigDecimal quantityBigDecimal = BigDecimal.valueOf(quantity);
+                    // ✅ Thực hiện phép nhân BigDecimal bằng phương thức multiply()
+                    BigDecimal itemPriceBigDecimal = food.getPrice().multiply(quantityBigDecimal);
+
+                    foodNamesBuilder.append(food.getName()).append(",");
+                    foodQuantitiesBuilder.append(quantity).append(",");
+                    // ✅ Cộng dồn totalPrice (BigDecimal) bằng phương thức add()
+                    totalPrice = totalPrice.add(itemPriceBigDecimal);
+                }
+            }
+        }
+
+        // Loại bỏ dấu phẩy cuối cùng nếu có món ăn nào được thêm
+        if (foodNamesBuilder.length() > 0) {
+            foodNamesBuilder.deleteCharAt(foodNamesBuilder.length() - 1);
+            foodQuantitiesBuilder.deleteCharAt(foodQuantitiesBuilder.length() - 1);
+        }
+
+        order.setFoodNames(foodNamesBuilder.toString());
+        order.setFoodQuantities(foodQuantitiesBuilder.toString());
+
+        // ✅  Set totalPrice vào order. Cần chuyển đổi BigDecimal sang double (nếu trường totalPrice trong Order là double)
+        order.setTotalPrice(totalPrice.doubleValue()); // ⚠️ Cần xem xét kiểu dữ liệu totalPrice trong entity Order. Tốt nhất nên để BigDecimal
+
+        return orderRepo.save(order);
+    }
+
     public Order createOrder(Order order) {
-        // Thực hiện logic nghiệp vụ trước khi lưu (ví dụ: tính tổng tiền, kiểm tra tồn kho,...)
         return orderRepo.save(order);
     }
 
     public Order updateOrder(Long id, Order updatedOrder) {
         return orderRepo.findById(id)
                 .map(existingOrder -> {
-                    // Cập nhật các trường cần thiết của existingOrder bằng updatedOrder
                     if (updatedOrder.getUser() != null) {
                         existingOrder.setUser(updatedOrder.getUser());
                     }
@@ -50,18 +99,18 @@ public class OrderService {
                     if (updatedOrder.getOrderStatus() != null) {
                         existingOrder.setOrderStatus(updatedOrder.getOrderStatus());
                     }
-                    // Không cập nhật createdAt vì nó là trường updatable = false
                     return orderRepo.save(existingOrder);
                 })
-                .orElse(null); // Hoặc throw exception nếu muốn
+                .orElse(null);
     }
 
     public boolean deleteOrder(Long id) {
-        return orderRepo.findById(id)
-                .map(order -> {
-                    orderRepo.delete(order);
-                    return true;
-                })
-                .orElse(false); // Hoặc throw exception nếu muốn
+        try {
+            orderRepo.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Lỗi khi xóa đơn hàng ID " + id + ": " + e.getMessage());
+            return false;
+        }
     }
 }

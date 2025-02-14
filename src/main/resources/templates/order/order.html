@@ -4,186 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đặt hàng SFFOOD</title>
+  <link rel="stylesheet" href="../layout1.css">
+  <link rel="stylesheet" href="order.css">
+  <link rel="stylesheet" href="../home-page/homepage-user.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <style>
-    /* ✅ CSS cơ bản cho trang đặt hàng - đã chỉnh sửa thêm cho nút chỉnh sửa số lượng và xóa */
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      background-color: #f8f9fa;
-    }
-
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .food-list {
-      flex: 2;
-      padding-right: 20px;
-      border-right: 1px solid #eee;
-      display: none;
-    }
-
-    .order-summary {
-      flex: 1;
-      padding-left: 20px;
-    }
-
-    .food-item {
-      display: flex;
-      margin-bottom: 15px;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .food-item img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-right: 15px;
-    }
-
-    .food-item-details {
-      flex-grow: 1;
-    }
-
-    .food-item-name {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .food-item-price {
-      color: #dc3545;
-      margin-bottom: 10px;
-    }
-
-    .food-item-quantity {
-      display: flex;
-      align-items: center;
-    }
-
-    .food-item-quantity label {
-      margin-right: 10px;
-    }
-
-    .food-item-quantity input {
-      width: 60px;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-
-    .food-item-add-button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      background-color: #28a745;
-      color: white;
-      cursor: pointer;
-      margin-left: 10px;
-      display: none;
-    }
-
-    .order-summary-title {
-      font-size: 1.5em;
-      margin-bottom: 15px;
-    }
-
-    .cart-items {
-      margin-bottom: 20px;
-    }
-
-    .cart-item {
-      display: flex; /* Cần thiết để căn chỉnh các phần tử trong cart item */
-      justify-content: space-between;
-      align-items: center; /* Căn chỉnh các phần tử theo chiều dọc */
-      margin-bottom: 10px;
-      padding-bottom: 5px;
-      border-bottom: 1px dashed #ccc;
-    }
-
-    .cart-item-name {
-      font-weight: bold;
-      margin-right: 10px; /* Để tạo khoảng cách với nút chỉnh số lượng */
-    }
-
-    .cart-item-price {
-      color: #777;
-      margin-left: auto; /* Đẩy giá về phía bên phải */
-      margin-right: 10px; /* Khoảng cách với nút xóa */
-    }
-
-    .order-total {
-      font-weight: bold;
-      font-size: 1.2em;
-      text-align: right;
-      margin-bottom: 20px;
-    }
-
-    .place-order-button {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      font-size: 1.1em;
-      width: 100%;
-    }
-    .place-order-button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    /* ✅ CSS cho nút chỉnh số lượng và xóa trong giỏ hàng */
-    .cart-item-quantity-controls {
-      display: flex;
-      align-items: center;
-      margin-right: 10px; /* Khoảng cách với giá */
-    }
-
-    .quantity-button {
-      padding: 5px 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f8f9fa;
-      cursor: pointer;
-      margin: 0 5px; /* Khoảng cách giữa các nút +/- và số lượng */
-    }
-
-    .quantity-button:hover {
-      background-color: #e0e0e0;
-    }
-
-    .cart-item-quantity-display {
-      width: 30px;
-      text-align: center;
-      margin: 0 5px; /* Khoảng cách với nút +/- */
-    }
-
-    .remove-item-button {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #dc3545; /* Màu đỏ */
-      color: white;
-      cursor: pointer;
-      font-size: 0.9em;
-    }
-
-    .remove-item-button:hover {
-      background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
-    }
-  </style>
 </head>
 <body>
+
+<div class="header order">
+  <div class="header-logo">
+    <a href="../home-page/home-page-user.html"><img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt=""></a>
+  </div>
+  <!--    <a href="../sign-in/sign-in.html" style="font-size: 20px; text-decoration: none">-->
+  <!--        >>> Hãy đăng nhập để xem đầy đủ các món ăn <<<-->
+  <!--    </a>-->
+  <!--    categories-->
+<!--  <div class="container">-->
+<!--    <div class="section" id="categories-section">-->
+<!--      <ul id="categories-list">-->
+
+<!--      </ul>-->
+<!--    </div>-->
+<!--    <div class="section" id="foods-section" style="display: none;">-->
+<!--      <ul id="foods-list">-->
+
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="header-auth">
+<!--    <a href="../sign-in/sign-in.html">Đăng nhập</a>-->
+<!--    <a href="../sign-up/sign-up.html">Đăng ký</a>-->
+  </div>
+</div>
 
 <div class="container">
   <div class="food-list">
@@ -260,10 +112,44 @@
     <div class="order-total">
       Tổng cộng: <span id="total-price">0 VNĐ</span>
     </div>
+        <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại</a>
     <a href="../payment/payment.html" id="place-order-button" class="place-order-button" role="button" disabled>Đặt hàng</a>
   </div>
 </div>
 
+<!-- Footer -->
+<footer class="footer">
+  <div class="line"></div>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>Công ty</h3>
+      <ul class="footer-links">
+        <li><a href="#">Giới thiệu</a></li>
+        <li><a href="#">Trung tâm Trợ giúp</a></li>
+        <li><a href="#">Quy chế</a></li>
+        <li><a href="#">Điều khoản sử dụng</a></li>
+        <li><a href="#">Bảo mật thông tin</a></li>
+        <li><a href="#">Giải quyết khiếu nại</a></li>
+        <li><a href="#">Liên hệ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Ứng dụng ShopeeFood</h3>
+      <div class="app-downloads">
+        <a href="https://apps.apple.com/us/app/deliverynow/id1137866760"><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="img"></a>
+        <a href="https://play.google.com/store/apps/details?id=com.deliverynow&pli=1"><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="img"></a>
+        <a href="https://appgallery.huawei.com/#/app/C102401853"><img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" alt="img"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright">
+    © 2025 ShopeeFood
+  </div>
+</footer>
+
+<div class="background-img"></div>
 <script src="order.js"></script>
 
 </body>
