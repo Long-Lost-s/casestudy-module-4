@@ -32,6 +32,7 @@ a {
 .header-auth {
     display: flex;
     align-items: center;
+    width: 30%;
 }
 
 .header-auth button, .header-auth a {
@@ -195,7 +196,7 @@ a {
 
 .container {
     position: relative;
-    width: 1000px;
+    width: 900px;
 }
 
 #categories-section {
