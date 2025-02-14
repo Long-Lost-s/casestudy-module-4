@@ -1,4 +1,3 @@
-
 body {
     font-family: sans-serif;
     margin: 0;
@@ -50,13 +49,14 @@ a {
     background-color: #e0e0e0;
 }
 
-
 .hero-section {
     background: transparent;
     color: white;
     text-align: center;
     padding: 50px 20px;
     margin-top: 100px;
+    position: relative;
+    margin-bottom: 30px;
 }
 
 .hero-section::before {
@@ -75,54 +75,18 @@ a {
     z-index: 2;
 }
 
-
 .hero-greeting {
     font-size: 2em;
     margin-bottom: 10px;
 }
 
-.hero-question {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-.hero-search-input {
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    width: 300px;
-    margin-bottom: 10px;
-    padding-left: 40px;
-    background-image: url('https://banner2.cleanpng.com/20180331/axq/kisspng-computer-icons-clip-art-adress-5ac03f5f846d80.8976032615225485755424.jpg');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    background-size: 20px;
-    opacity: 0.8;
-}
-
-.hero-search-input::placeholder {
-    color: #999;
-}
-
-
-.hero-search-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: bold;
-}
-
 .offers-section {
     padding-top: 20px;
-    background-color: #fff;
-    background: transparent;
     border-radius: 5px;
     position: relative;
     z-index: 1;
+    width: 1200px;
+    margin: auto;
 }
 
 .offers-title {
@@ -140,13 +104,15 @@ a {
     display: flex;
     flex-wrap: wrap;
     min-height: max-content;
-    max-height: 1000px;
-    padding: 0 15px;
     background-color: #fff;
-    padding: 20px 15px;
+    padding: 20px 25px;
     overflow-y: scroll;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.offers-list::-webkit-scrollbar {
+    display: none;
 }
 
 .offer-item {
@@ -157,7 +123,7 @@ a {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     flex: 0 0 auto;
-    height: 250px;
+    min-height: 250px;
 }
 
 .offer-item img {
@@ -185,6 +151,7 @@ a {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .offer-item-price {
     margin-top: 5px;
     text-align: left;
@@ -201,6 +168,7 @@ a {
     color: #777;
     font-size: 0.9em;
 }
+
 .header-cart-link {
     display: flex;
     align-items: center;
@@ -231,8 +199,6 @@ a {
 }
 
 #categories-section {
-
-
 }
 
 #categories-list {
@@ -243,7 +209,7 @@ a {
 }
 
 #categories-list > li {
-    list-style : none;
+    list-style: none;
     width: 145px;
     align-items: center;
     text-align: center;
@@ -259,10 +225,9 @@ a {
     margin: 0;
 }
 
-#categories-list > li:hover  {
+#categories-list > li:hover {
     color: #ee4d2d;
 }
-
 
 #foods-list {
     display: flex;
@@ -285,7 +250,6 @@ a {
     flex-wrap: wrap;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
 }
 
 #foods-section::before {
@@ -310,24 +274,12 @@ a {
     left: 0;
 }
 
-.offers-section {
-    width: 1200px;
-    margin: auto;
-}
-
-.offers-list {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: max-content;
-}
-
 #logout-button {
     height: 40px;
     font-size: 16px;
 }
 
 .header-cart-link {
-    /*height: 40px;*/
     padding-top: 15px;
 }
 
@@ -342,6 +294,7 @@ a {
     background-size: cover;
     background-attachment: fixed;
     background-position: center center;
+    background-color: transparent;
 }
 
 a.link-infor {
@@ -359,4 +312,3 @@ button.offer-item-add-cart-button {
 button.offer-item-add-cart-button:hover {
     opacity: 0.8;
 }
-
