@@ -3,74 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lịch sử đơn hàng SFFOOD</title>
+  <title>Lịch sử đơn hàng tùy duyên</title>
+  <link rel="stylesheet" href="history.css">
+  <link rel="stylesheet" href="../home-page/homepage-user.css">
+  <link rel="stylesheet" href="../layout1.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
-    /* ✅ CSS đồng bộ cho trang lịch sử đơn hàng - Phong cách Shopee */
+    /* ✅ CSS cơ bản cho trang lịch sử đơn hàng - bạn có thể tùy chỉnh thêm */
     body {
-      font-family: 'Roboto', sans-serif; /* Font chữ Roboto */
+      font-family: sans-serif;
       margin: 0;
-      background-color: #f0f2f5; /* Màu nền Shopee */
-      color: #333;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8f9fa;
     }
 
     .container {
-      max-width: 960px; /* Tăng max-width để rộng hơn */
-      margin: 30px auto; /* Căn giữa và margin trên dưới */
-      padding: 30px; /* Padding lớn hơn */
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 20px;
       background-color: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow Shopee */
-      border-radius: 8px; /* Bo tròn góc */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .order-history-title {
-      font-size: 28px; /* Font chữ lớn hơn */
-      margin-bottom: 25px; /* Margin bottom lớn hơn */
+      font-size: 2em;
+      margin-bottom: 20px;
       text-align: center;
-      color: #222; /* Màu tiêu đề đậm hơn */
-      font-weight: bold; /* In đậm tiêu đề */
     }
 
     .order-list {
-      list-style: none;
+      list-style: none; /* Loại bỏ dấu chấm mặc định của list */
       padding: 0;
     }
 
     .order-item {
       background-color: #fff;
-      border: 1px solid #ddd; /* Viền nhẹ nhàng hơn */
-      margin-bottom: 20px; /* Margin bottom lớn hơn */
-      padding: 20px; /* Padding lớn hơn */
+      border: 1px solid #eee;
+      margin-bottom: 15px;
+      padding: 15px;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Box shadow nhẹ hơn */
-      transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
-    }
-
-    .order-item:hover {
-      transform: translateY(-2px); /* Nâng lên 1 chút khi hover */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow đậm hơn khi hover */
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
     }
 
     .order-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px; /* Margin bottom lớn hơn */
+      margin-bottom: 10px;
       border-bottom: 1px dashed #ccc;
-      padding-bottom: 15px; /* Padding bottom lớn hơn */
+      padding-bottom: 10px;
     }
 
     .order-number {
       font-weight: bold;
-      font-size: 1.2em; /* Font size lớn hơn */
-      color: #222; /* Màu đậm hơn */
+      font-size: 1.1em;
     }
 
     .order-date {
       color: #777;
-      font-size: 1em; /* Font size lớn hơn */
+      font-size: 0.9em;
     }
 
     .order-details-list {
@@ -81,86 +71,89 @@
     .order-detail-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px; /* Margin bottom nhỏ hơn */
-      padding-bottom: 8px;
-      border-bottom: 1px dashed #eee; /* Đường gạch chân nhạt hơn */
+      margin-bottom: 5px;
     }
-    .order-detail-item:last-child {
-      border-bottom: none; /* Loại bỏ border ở item cuối cùng */
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-
 
     .item-name {
-      font-weight: 500; /* Font weight trung bình */
-      color: #333;
+      font-weight: normal;
     }
 
     .item-quantity {
       color: #555;
-      font-size: 0.95em; /* Font size nhỏ hơn 1 chút */
     }
 
     .item-price {
       font-weight: bold;
-      color: #ee4d2d; /* Màu cam Shopee */
-      font-size: 1em; /* Font size lớn hơn */
+      color: #dc3545;
     }
 
     .order-total-price {
       text-align: right;
-      margin-top: 20px; /* Margin top lớn hơn */
+      margin-top: 15px;
       font-weight: bold;
-      font-size: 1.4em; /* Font size lớn hơn */
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      color: #222; /* Màu đậm hơn */
+      font-size: 1.2em;
+      display: flex;  /* Để nút và tổng tiền trên cùng dòng */
+      justify-content: flex-end; /* Đẩy nút về bên phải */
+      align-items: center; /* Căn giữa theo chiều dọc */
     }
 
     .cancel-order-button {
-      background-color: #fff; /* Nền trắng */
-      color: #ee4d2d; /* Màu chữ cam Shopee */
-      border: 1px solid #ee4d2d; /* Viền cam Shopee */
-      padding: 10px 20px; /* Padding lớn hơn */
-      border-radius: 8px;
+      background-color: #dc3545; /* Màu đỏ */
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 1em; /* Font size lớn hơn */
-      margin-left: 20px; /* Margin left lớn hơn */
-      transition: all 0.3s ease; /* Hiệu ứng transition */
-      font-weight: bold; /* In đậm chữ */
+      font-size: 0.9em;
+      margin-left: 15px; /* Tạo khoảng cách với tổng tiền */
     }
 
     .cancel-order-button:hover {
-      background-color: #ee4d2d; /* Màu nền cam Shopee khi hover */
-      color: white; /* Chữ trắng khi hover */
+      background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
     }
-
     .place-order-button {
       padding: 12px 25px;
       border: none;
-      border-radius: 8px;
+      border-radius: 5px;
       background-color: #007bff;
       color: white;
       cursor: pointer;
       font-size: 1.1em;
-      width: auto; /* Để vừa đủ nội dung */
-      margin-top: 20px; /* Margin top lớn hơn */
-      display: block; /* Hiển thị trên dòng mới */
-      margin-left: auto;  /* Căn phải */
-      margin-right: auto; /* Căn phải */
-      max-width: 200px; /* Giới hạn chiều rộng */
-      text-align: center; /* Căn giữa chữ */
+      width: 100%;
     }
     .place-order-button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
-      box-shadow: none;
     }
   </style>
 </head>
 <body>
+<div class="header history">
+  <div class="header-logo">
+    <a href="../home-page/home-page-user.html"><img src="https://shopeefood.vn/app/assets/img/shopeefoodvn.png?4aa1a38e8da801f4029b80734905f3f7" alt=""></a>
+  </div>
+  <!--    <a href="../sign-in/sign-in.html" style="font-size: 20px; text-decoration: none">-->
+  <!--        >>> Hãy đăng nhập để xem đầy đủ các món ăn <<<-->
+  <!--    </a>-->
+  <!--    categories-->
+  <!--  <div class="container">-->
+  <!--    <div class="section" id="categories-section">-->
+  <!--      <ul id="categories-list">-->
+
+  <!--      </ul>-->
+  <!--    </div>-->
+  <!--    <div class="section" id="foods-section" style="display: none;">-->
+  <!--      <ul id="foods-list">-->
+
+  <!--      </ul>-->
+  <!--    </div>-->
+  <!--  </div>-->
+<!--  <div class="header-auth">-->
+<!--    &lt;!&ndash;    <a href="../sign-in/sign-in.html">Đăng nhập</a>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <a href="../sign-up/sign-up.html">Đăng ký</a>&ndash;&gt;-->
+<!--  </div>-->
+</div>
+
 <div class="container">
   <h2 class="order-history-title">Lịch sử đơn hàng</h2>
   <ul class="order-list" id="order-history-list">
@@ -171,6 +164,39 @@
   <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại Trang chủ</a>
 </div>
 
+<!-- Footer -->
+<footer class="footer">
+  <div class="line"></div>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>Công ty</h3>
+      <ul class="footer-links">
+        <li><a href="#">Giới thiệu</a></li>
+        <li><a href="#">Trung tâm Trợ giúp</a></li>
+        <li><a href="#">Quy chế</a></li>
+        <li><a href="#">Điều khoản sử dụng</a></li>
+        <li><a href="#">Bảo mật thông tin</a></li>
+        <li><a href="#">Giải quyết khiếu nại</a></li>
+        <li><a href="#">Liên hệ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Ứng dụng ShopeeFood</h3>
+      <div class="app-downloads">
+        <a href="https://apps.apple.com/us/app/deliverynow/id1137866760"><img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="img"></a>
+        <a href="https://play.google.com/store/apps/details?id=com.deliverynow&pli=1"><img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="img"></a>
+        <a href="https://appgallery.huawei.com/#/app/C102401853"><img src="https://shopeefood.vn/app/assets/img/Huawei-gallery-vn.png?a17f5e9f3500255a52ec23de20dc115a" alt="img"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright">
+    © 2025 ShopeeFood
+  </div>
+</footer>
+
+<div class="background-img"></div>
 <script src="order-history.js"></script>
 </body>
 </html>

@@ -23,11 +23,13 @@ h2 {
     height: 345px;
     display: flex;
     flex-direction: column;
-    margin: 50px auto;
+    margin: 150px auto 50px;
     border: 1px solid #ccc;
     padding: 55px 0;
     border-radius: 5px;
     background-color: #fff;
+    position: relative;
+    z-index: 1;
 }
 
 #signin-form {
@@ -62,4 +64,18 @@ input {
 
 a {
     text-decoration: none;
+}
+
+.background-img {
+    position: fixed;
+    z-index: 0;
+    top: 70px;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-image: url("https://shopeefood.vn/app/assets/img/main-banner.jpg?45bff8c9ec408a5ba51f9fdef662324e");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    background-color: transparent;
 }
