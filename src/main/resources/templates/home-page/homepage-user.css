@@ -211,7 +211,7 @@ a {
 
 #categories-list > li {
     list-style: none;
-    width: 145px;
+    min-width: max-content;
     align-items: center;
     text-align: center;
     margin: 0 10px;
@@ -226,6 +226,11 @@ a {
     margin: 0;
 }
 
+#foods-list > li:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
 #categories-list > li:hover {
     color: #ee4d2d;
 }
@@ -235,6 +240,7 @@ a {
     align-items: center;
     padding: 10px 0;
     margin: 0;
+    flex-wrap: wrap;
 }
 
 #foods-section {
@@ -255,10 +261,10 @@ a {
 
 #foods-section::before {
     position: absolute;
-    top: -10px;
+    top: -30px;
     left: 0;
     right: 0;
-    height: 20px;
+    height: 35px;
     content: "";
 }
 
