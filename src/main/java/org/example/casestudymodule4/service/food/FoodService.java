@@ -24,6 +24,18 @@ public class FoodService {
         return foodRepo.save(food);
     }
 
+    public List<Food> getFastDeliveryFoods() {
+        return foodRepo.findByPreparationTimeLessThan(20);
+    }
+
+    public List<Food> getMostViewedFoods() {
+        return foodRepo.findTop6ByOrderByViewsDesc();
+    }
+
+
+
+
+
     public Food updateFood(Long id, Food foodDetails) {
         Optional<Food> optionalFood = foodRepo.findById(id);
         if (optionalFood.isPresent()) {

@@ -10,4 +10,10 @@ public interface FoodRepo extends JpaRepository<Food, Long> {
 
     List<Food> findByCategoryId(Long categoryId);
 
+    List<Food> findByPreparationTimeLessThan(int time);
+
+    List<Food> findTop6ByOrderByViewsDesc(); // ✅ Lấy 6 món ăn có lượt xem cao nhất
+
+
+
 }
