@@ -1,0 +1,6 @@
+.favorite-btn.favorited {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    font-weight: bold;
+}

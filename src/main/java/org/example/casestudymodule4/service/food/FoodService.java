@@ -27,9 +27,12 @@ public class FoodService {
     public List<Food> getFastDeliveryFoods() {
         return foodRepository.findByPreparationTimeLessThan(20);
     }
+
     public List<Food> getMostViewedFoods() {
         return foodRepository.findTop6ByOrderByViewsDesc();
     }
+
+
 
 
 
