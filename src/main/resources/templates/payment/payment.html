@@ -5,50 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thanh toán đơn hàng SFFOOD</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="payment.css">  </head>
+    <link rel="stylesheet" href="payment.css">
+</head>
 <body>
 <div class="container">
     <h2 class="payment-title">Thông tin thanh toán và giao hàng</h2>
 
     <div class="order-info">
         <h3 class="order-info-title">Đơn hàng của bạn</h3>
-        <div class="order-item-list">
-        </div>
+        <div class="order-item-list"></div>
         <div class="order-total">
-            Tổng cộng: <span id="payment-total-price"></span>
+            <strong>Tổng cộng:</strong> <span id="payment-total-price"></span>
         </div>
     </div>
 
     <form class="payment-form">
-        <div>
-            <label for="name">Họ và tên:</label>
-            <input type="text" id="name" name="name" placeholder="Ví dụ: Nguyễn Văn A" required>
-            <p id="name-error" class="error-message"></p>
-        </div>
+        <label for="name">Họ và tên:</label>
+        <input type="text" id="name" name="name" placeholder="Ví dụ: Nguyễn Văn A" required>
+        <p id="name-error" class="error-message"></p>
 
-        <div>
-            <label for="phone">Số điện thoại:</label>
-            <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0901234567" required>
-            <p id="phone-error" class="error-message"></p>
-        </div>
+        <label for="phone">Số điện thoại:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0901234567" required>
+        <p id="phone-error" class="error-message"></p>
 
-        <div>
-            <label for="address">Địa chỉ giao hàng:</label>
-            <textarea id="address" name="address" placeholder="Ví dụ: Số 123, Đường ABC, Phường XYZ, Quận ..." required></textarea>
-            <p id="address-error" class="error-message"></p>
-        </div>
+        <label for="address">Địa chỉ giao hàng:</label>
+        <textarea id="address" name="address" placeholder="Ví dụ: Số 123, Đường ABC, Phường XYZ, Quận ..." required></textarea>
+        <p id="address-error" class="error-message"></p>
 
         <div class="payment-methods">
-            <label>Phương thức thanh toán:</label><br>
-            <input type="radio" id="cash" name="paymentMethod" value="CASH" checked> <label for="cash">Tiền mặt khi giao hàng</label><br>
-            <input type="radio" id="momo" name="paymentMethod" value="MOMO"> <label for="momo">Ví điện tử MoMo</label>
+            <strong class="payment-methods-title">Hình thức thanh toán</strong> <br>
+            <label class="payment-method-item">
+                <input type="radio" name="paymentMethod" value="CASH" checked>
+                <span class="payment-method-icon"></span>
+                Thanh toán tiền mặt khi nhận hàng
+            </label>
+            <label class="payment-method-item">
+                <input type="radio" name="paymentMethod" value="BANK_TRANSFER">
+                <span class="payment-method-icon"></span>
+                Chuyển khoản ngân hàng
+            </label>
         </div>
 
-        <div class="form-actions">
-            <button type="submit" class="payment-button" id="payment-button-confirm">Xác nhận đặt hàng</button>
+        <div class="payment-buttons">
+            <a href="../home-page/home-page-user.html" class="back-button">Quay lại</a>
+            <button type="submit" class="payment-button">Xác nhận đặt hàng</button>
         </div>
     </form>
-    <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại</a>
 </div>
 
 <script src="payment.js"></script>

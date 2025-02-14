@@ -6,58 +6,71 @@
   <title>Lịch sử đơn hàng SFFOOD</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
-    /* ✅ CSS cơ bản cho trang lịch sử đơn hàng - bạn có thể tùy chỉnh thêm */
+    /* ✅ CSS đồng bộ cho trang lịch sử đơn hàng - Phong cách Shopee */
     body {
-      font-family: sans-serif;
+      font-family: 'Roboto', sans-serif; /* Font chữ Roboto */
       margin: 0;
-      background-color: #f8f9fa;
+      background-color: #f0f2f5; /* Màu nền Shopee */
+      color: #333;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
-      max-width: 960px;
-      margin: 20px auto;
-      padding: 20px;
+      max-width: 960px; /* Tăng max-width để rộng hơn */
+      margin: 30px auto; /* Căn giữa và margin trên dưới */
+      padding: 30px; /* Padding lớn hơn */
       background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow Shopee */
+      border-radius: 8px; /* Bo tròn góc */
     }
 
     .order-history-title {
-      font-size: 2em;
-      margin-bottom: 20px;
+      font-size: 28px; /* Font chữ lớn hơn */
+      margin-bottom: 25px; /* Margin bottom lớn hơn */
       text-align: center;
+      color: #222; /* Màu tiêu đề đậm hơn */
+      font-weight: bold; /* In đậm tiêu đề */
     }
 
     .order-list {
-      list-style: none; /* Loại bỏ dấu chấm mặc định của list */
+      list-style: none;
       padding: 0;
     }
 
     .order-item {
       background-color: #fff;
-      border: 1px solid #eee;
-      margin-bottom: 15px;
-      padding: 15px;
+      border: 1px solid #ddd; /* Viền nhẹ nhàng hơn */
+      margin-bottom: 20px; /* Margin bottom lớn hơn */
+      padding: 20px; /* Padding lớn hơn */
       border-radius: 8px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Box shadow nhẹ hơn */
+      transition: transform 0.2s ease-in-out; /* Hiệu ứng hover */
+    }
+
+    .order-item:hover {
+      transform: translateY(-2px); /* Nâng lên 1 chút khi hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow đậm hơn khi hover */
     }
 
     .order-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px; /* Margin bottom lớn hơn */
       border-bottom: 1px dashed #ccc;
-      padding-bottom: 10px;
+      padding-bottom: 15px; /* Padding bottom lớn hơn */
     }
 
     .order-number {
       font-weight: bold;
-      font-size: 1.1em;
+      font-size: 1.2em; /* Font size lớn hơn */
+      color: #222; /* Màu đậm hơn */
     }
 
     .order-date {
       color: #777;
-      font-size: 0.9em;
+      font-size: 1em; /* Font size lớn hơn */
     }
 
     .order-details-list {
@@ -68,59 +81,82 @@
     .order-detail-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 5px;
+      margin-bottom: 8px; /* Margin bottom nhỏ hơn */
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #eee; /* Đường gạch chân nhạt hơn */
+    }
+    .order-detail-item:last-child {
+      border-bottom: none; /* Loại bỏ border ở item cuối cùng */
+      padding-bottom: 0;
+      margin-bottom: 0;
     }
 
+
     .item-name {
-      font-weight: normal;
+      font-weight: 500; /* Font weight trung bình */
+      color: #333;
     }
 
     .item-quantity {
       color: #555;
+      font-size: 0.95em; /* Font size nhỏ hơn 1 chút */
     }
 
     .item-price {
       font-weight: bold;
-      color: #dc3545;
+      color: #ee4d2d; /* Màu cam Shopee */
+      font-size: 1em; /* Font size lớn hơn */
     }
 
     .order-total-price {
       text-align: right;
-      margin-top: 15px;
+      margin-top: 20px; /* Margin top lớn hơn */
       font-weight: bold;
-      font-size: 1.2em;
-      display: flex;  /* Để nút và tổng tiền trên cùng dòng */
-      justify-content: flex-end; /* Đẩy nút về bên phải */
-      align-items: center; /* Căn giữa theo chiều dọc */
+      font-size: 1.4em; /* Font size lớn hơn */
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      color: #222; /* Màu đậm hơn */
     }
 
     .cancel-order-button {
-      background-color: #dc3545; /* Màu đỏ */
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      background-color: #fff; /* Nền trắng */
+      color: #ee4d2d; /* Màu chữ cam Shopee */
+      border: 1px solid #ee4d2d; /* Viền cam Shopee */
+      padding: 10px 20px; /* Padding lớn hơn */
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.9em;
-      margin-left: 15px; /* Tạo khoảng cách với tổng tiền */
+      font-size: 1em; /* Font size lớn hơn */
+      margin-left: 20px; /* Margin left lớn hơn */
+      transition: all 0.3s ease; /* Hiệu ứng transition */
+      font-weight: bold; /* In đậm chữ */
     }
 
     .cancel-order-button:hover {
-      background-color: #c82333; /* Màu đỏ đậm hơn khi hover */
+      background-color: #ee4d2d; /* Màu nền cam Shopee khi hover */
+      color: white; /* Chữ trắng khi hover */
     }
+
     .place-order-button {
       padding: 12px 25px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       background-color: #007bff;
       color: white;
       cursor: pointer;
       font-size: 1.1em;
-      width: 100%;
+      width: auto; /* Để vừa đủ nội dung */
+      margin-top: 20px; /* Margin top lớn hơn */
+      display: block; /* Hiển thị trên dòng mới */
+      margin-left: auto;  /* Căn phải */
+      margin-right: auto; /* Căn phải */
+      max-width: 200px; /* Giới hạn chiều rộng */
+      text-align: center; /* Căn giữa chữ */
     }
     .place-order-button:disabled {
       background-color: #ccc;
       cursor: not-allowed;
+      box-shadow: none;
     }
   </style>
 </head>
@@ -132,10 +168,9 @@
       <p>Đang tải lịch sử đơn hàng...</p>
     </li>
   </ul>
-  <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại</a>
+  <a href="../home-page/home-page-user.html" class="place-order-button">Quay lại Trang chủ</a>
 </div>
 
-<script src="order-history.js">
-</script>
+<script src="order-history.js"></script>
 </body>
 </html>

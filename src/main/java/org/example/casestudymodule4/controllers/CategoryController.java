@@ -25,6 +25,18 @@ public class CategoryController {
         return ResponseEntity.ok(foods);
     }
 
+    // THÊM ENDPOINT NÀY ĐỂ LẤY THÔNG TIN CATEGORY THEO ID
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long categoryId) {
+        Category category = categoryService.findById(categoryId); // Giả sử bạn có method findById trong CategoryService
+        if (category != null) {
+            return ResponseEntity.ok(category);
+        } else {
+            return ResponseEntity.notFound().build(); // Trả về 404 Not Found nếu không tìm thấy category
+        }
+    }
+
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
