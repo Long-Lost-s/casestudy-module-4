@@ -5,29 +5,89 @@ $(document).ready(function() {
         let question = "";
 
         if (hours >= 6 && hours < 9) {
-            greeting = "☀️ Good morning!";
-            question = "Did you have breakfast? 🍳";
-        } else if (hours >= 9 && hours < 11) {
-            greeting = "🌞 Hope you're having a great morning 🌈";
-            question = "Need a coffee break?☕";
-        } else if (hours >= 11 && hours < 14) {
-            greeting = "🌤️ It's Lunch time!🍽️";
-            question = "Have anything in mind? 🍔";
-        } else if (hours >= 14 && hours < 17) {
-            greeting = "🌅 Good afternoon!";
-            question = "Boba milk tea time? 🥤";
-        } else if (hours >= 17 && hours < 20) {
-            greeting = "🌅 Good evening!";
-            question = "Dinner time? What’s on your menu? 🍕";
-        } else if (hours >= 20 && hours < 23) {
-            greeting = "🌙 Hope you had a great day!";
-            question = "Don't skip the meal, your belly need it 👀";
+            greeting = "☀️ Chào buổi sáng";
+            question = "Bạn đã ăn sáng chưa?";
+        } else if (hours >= 9 && hours < 12) {
+            greeting = "🌞 Chúc bạn một buổi sáng vui vẻ";
+            question = "Bạn có muốn uống một ly cà phê không?";
+        } else if (hours >= 12 && hours < 15) {
+            greeting = "🌤️ Chào buổi trưa";
+            question = "Đã đến giờ ăn trưa rồi!";
+        } else if (hours >= 15 && hours < 18) {
+            greeting = "🌅 Chào buổi chiều";
+            question = "Buổi chiều của bạn thế nào rồi?";
+        } else if (hours >= 18 && hours < 22) {
+            greeting = "🌙 Chúc bạn một buổi tối tốt lành";
+            question = "Đến giờ ăn tối rồi, bạn muốn ăn gì?";
         } else {
-            greeting = "🌃 Late night, huh?";
-            question = "Don’t forget to rest! 😴";
+            greeting = "🌃 Khuya rồi đó!";
+            question = "Đừng quên nghỉ ngơi nhé!";
         }
 
         return { greeting, question };
+    }
+
+    function getWeather() {
+        const apiKey = "4aec20675fad4205a4833449251402"; // 🔥 Thay bằng API Key mới của bạn
+        let city = "Hanoi"; // Mặc định Hà Nội nếu không lấy được vị trí
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}&aqi=no`;
+
+                    $.getJSON(apiUrl)
+                        .done(function(data) {
+                            displayWeather(data);
+                        })
+                        .fail(function() {
+                            console.error("Lỗi lấy dữ liệu từ API, sử dụng vị trí mặc định.");
+                            fetchDefaultWeather(city);
+                        });
+                },
+                function() {
+                    console.warn("Không thể lấy vị trí, sử dụng Hà Nội mặc định.");
+                    fetchDefaultWeather(city);
+                }
+            );
+        } else {
+            console.warn("Trình duyệt không hỗ trợ geolocation, sử dụng vị trí mặc định.");
+            fetchDefaultWeather(city);
+        }
+    }
+
+    function fetchDefaultWeather(city) {
+        const apiKey = "4aec20675fad4205a4833449251402";
+        const defaultApiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+
+        $.getJSON(defaultApiUrl)
+            .done(function(data) {
+                displayWeather(data);
+            })
+            .fail(function() {
+                console.error("Lỗi lấy dữ liệu thời tiết mặc định.");
+                $(".weather-info").text("Không thể lấy thông tin thời tiết.");
+            });
+    }
+
+    function displayWeather(data) {
+        const temperature = data.current.temp_c;
+        const weather = data.current.condition.text;
+        const city = data.location.name;
+        const mealSuggestion = suggestMeal(temperature, weather);
+
+        $(".weather-info").html(`🌡️ ${temperature}°C, ${weather} tại ${city} <br> 🍽️ <strong>Gợi ý cho bạn mến: ${mealSuggestion}</strong>`);
+    }
+
+    function suggestMeal(temp, weather) {
+        if (temp > 30) return "🥤 Trà đào, 🍦 Kem dừa, 🥗 Gỏi cuốn, 🍹 Nước mía";
+        if (weather.includes("Rain") || weather.includes("Drizzle")) return "🍜 Phở bò, ☕ Cà phê sữa, 🥖 Bánh mì thịt nướng";
+        if (temp < 20) return "🍲 Lẩu bò, 🍜 Bún riêu, 🌶️ gì đó cay cay";
+        if (weather.includes("Cloudy") || weather.includes("Mist")) return "🍲 Cháo gà, 🥟 Bánh bột lọc, 🍘 Bánh cuốn nóng";
+        if (weather.includes("Storm") || weather.includes("Wind")) return "🍛 Cơm tấm, 🍚 Cơm chiên dương châu, 🍜 Mì Quảng";
+        return "🍛 Hủ tiếu Nam Vang, 🥢 Bún thịt nướng, 🍲 Bò kho";
     }
 
     var userName = localStorage.getItem('userName');
@@ -39,6 +99,8 @@ $(document).ready(function() {
         $(".hero-greeting").text(`${greeting} ${question}`);
         console.warn("Không tìm thấy tên người dùng trong localStorage.");
     }
+
+    getWeather(); // Gọi hàm lấy thời tiết
 
     $("#logout-button").click(function() {
         $.ajax({
