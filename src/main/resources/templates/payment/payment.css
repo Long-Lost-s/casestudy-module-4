@@ -1,165 +1,175 @@
-/* ✅ CSS cơ bản cho trang thanh toán - đã thêm CSS cho phần tóm tắt đơn hàng */
+/* ✅ CSS cơ bản cho trang thanh toán - Phong cách Shopee - Cập nhật Phương thức thanh toán */
 body {
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
-    background-color: #f8f9fa;
+    background-color: #f0f2f5;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
     max-width: 800px;
-    margin: 30px auto;
+    margin: 40px auto;
     padding: 30px;
     background-color: #fff;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     position: relative;
-    z-index: 1;
-    margin-top: 100px;
 }
 
 .payment-title {
     text-align: center;
-    font-size: 2em;
-    margin-bottom: 25px;
-    color: #333;
+    font-size: 24px;
+    color: #222;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-/* ✅ CSS cho phần tóm tắt đơn hàng */
 .order-info {
-    background-color: #f0f0f0;
+    background-color: #f8f8f8;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
+    border: 1px solid #ddd;
 }
 
 .order-info-title {
-    font-size: 1.2em;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+    border-bottom: 2px solid #ee4d2d;
+    padding-bottom: 8px;
 }
 
-.order-item-summary {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px dashed #ccc;
+.order-total {
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: right;
+    color: #222;
+    margin-top: 10px;
 }
-
-.order-item-summary:last-child {
-    border-bottom: none; /* Loại bỏ border-bottom ở item cuối cùng */
-}
-
 
 .payment-form label {
-    display: block;
-    margin-bottom: 8px;
     font-weight: bold;
+    display: block;
+    margin-top: 10px;
     color: #555;
 }
 
-.payment-form input[type="text"],
-.payment-form input[type="tel"],
-.payment-form textarea,
-.payment-form select {
+.payment-form input,
+.payment-form textarea {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 14px;
     box-sizing: border-box;
-    font-size: 1em;
 }
-
-.payment-form textarea {
-    resize: vertical;
-    height: 100px;
-}
-
-.payment-form select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    background-repeat: no-repeat;
-    background-position-x: 100%;
-    background-position-y: 5px;
-    padding-right: 30px;
-}
-
-.payment-form select::-ms-expand {
-    display: none;
-}
-
 
 .payment-methods {
-    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
 }
 
-.payment-methods label {
-    font-weight: normal;
-    margin-left: 5px;
+/* ✅ CSS cho tiêu đề "Hình thức thanh toán" */
+.payment-methods-title {
+    display: block; /* Hiển thị trên dòng riêng */
+    font-size: 1em;
+    color: #222;
+    font-weight: bold;
+    margin-bottom: 10px; /* Khoảng cách với các phương thức bên dưới */
 }
 
-.payment-methods input[type="radio"] {
+/* ✅ CSS cho mỗi item phương thức thanh toán (label) */
+.payment-method-item {
+    display: flex; /* Flexbox để căn chỉnh icon và text */
+    align-items: center; /* Căn chỉnh dọc các item */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px; /* Khoảng cách giữa các item */
+    cursor: pointer; /* Hiển thị con trỏ tay khi hover */
+    background-color: #fff; /* Nền trắng cho item */
+    transition: background-color 0.2s ease; /* Hiệu ứng hover nhẹ */
+}
+
+.payment-method-item:hover {
+    background-color: #f0f0f0; /* Màu nền nhạt hơn khi hover */
+}
+
+.payment-method-item input {
     margin-right: 10px;
-    vertical-align: middle;
+}
+
+/* ✅ CSS cho icon (có thể dùng span để tạo khoảng trắng nếu không có icon) */
+.payment-method-icon {
+    display: inline-block;
+    width: 20px; /* Kích thước icon */
+    height: 20px;
+    margin-right: 10px;
+    /* Có thể thêm background-image hoặc các kiểu dáng khác cho icon ở đây */
+    /* Ví dụ: background-image: url('path/to/icon.png'); background-size: contain; */
 }
 
 
-.form-actions {
+.payment-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.payment-button, .back-button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
     text-align: center;
-    margin-top: 20px;
 }
 
 .payment-button {
-    padding: 14px 30px;
-    border: none;
-    border-radius: 8px;
-    background-color: #28a745;
+    background-color: #ee4d2d;
     color: white;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-left: 10px;
 }
 
 .payment-button:hover {
-    background-color: #218838;
+    background-color: #f05d40;
+}
+
+.payment-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.back-button {
+    background-color: #6c757d;
+    color: white;
+    margin-right: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
 }
 
 .error-message {
     color: #dc3545;
-    margin-top: -15px;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-}
-.place-order-button {
-    padding: 14px 30px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    font-size: 1.1em;
-    width: 250px;
-    margin: 10px 0;
-}
-
-.place-order-button:hover {
-    opacity: 0.8;
-}
-
-.place-order-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.header.payment {
-    justify-content: unset;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
 }
